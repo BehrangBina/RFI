@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RFI.API.Models;
 
 namespace RFI.API.Data;
@@ -20,11 +21,18 @@ namespace RFI.API.Data;
             base.OnModelCreating(modelBuilder);
 
             // Configure ImageUrls as JSON column
-            modelBuilder.Entity<Event>()
-                .Property(e => e.ImageUrls)
-                .HasConversion(
-                    v => JsonSerializer.Serialize(v, _jsonOptions),
-                    v => JsonSerializer.Deserialize<List<string>>(v, _jsonOptions) ?? new List<string>());
+            modelBuilder.Entity<Event>(entity =>
+{
+    entity.Property(e => e.ImageUrls)
+        .HasConversion(
+            v => JsonSerializer.Serialize(v, _jsonOptions),
+            v => JsonSerializer.Deserialize<List<string>>(v, _jsonOptions) ?? new List<string>())
+        .Metadata.SetValueComparer(new ValueComparer<List<string>>(
+            (c1, c2) => c1!.SequenceEqual(c2!),
+            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+
+            c => c.ToList()));
+});
 
 
             // Seed some sample data
