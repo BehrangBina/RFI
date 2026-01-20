@@ -1,0 +1,160 @@
+---
+config:
+  theme: forest
+---
+classDiagram
+    class Event {
+        +int Id
+        +string Title
+        +string Description
+        +DateTime EventDate
+        +string Location
+        +string ImageUrl
+        +string DetailedContent
+        +DateTime CreatedAt
+        +bool IsActive
+    }
+    
+    class Poster {
+        +int Id
+        +int EventId
+        +string Title
+        +string FileUrl
+        +string ThumbnailUrl
+        +long FileSize
+        +int DownloadCount
+        +DateTime UploadedAt
+    }
+    
+    class Donation {
+        +int Id
+        +string DonorName
+        +decimal Amount
+        +string PayPalTransactionId
+        +DateTime DonatedAt
+        +string Message
+    }
+    
+    class Visitor {
+        +int Id
+        +string IpAddress
+        +DateTime VisitedAt
+        +string PageUrl
+        +string UserAgent
+    }
+    class EventsDbContext {
+        +DbSet~Event~ Events
+        +DbSet~Poster~ Posters
+        +DbSet~Donation~ Donations
+        +DbSet~Visitor~ Visitors
+        +OnModelCreating()
+    }
+    class IEventRepository {
+        <<interface>>
+        +GetAllEventsAsync()
+        +GetEventByIdAsync(id)
+        +GetActiveEventsAsync()
+        +CreateEventAsync(event)
+        +UpdateEventAsync(event)
+    }
+    
+    class EventRepository {
+        -EventsDbContext _context
+        +GetAllEventsAsync()
+        +GetEventByIdAsync(id)
+        +GetActiveEventsAsync()
+        +CreateEventAsync(event)
+        +UpdateEventAsync(event)
+    }
+    
+    class IPosterRepository {
+        <<interface>>
+        +GetPostersByEventIdAsync(eventId)
+        +IncrementDownloadCountAsync(posterId)
+    }
+    
+    class PosterRepository {
+        -EventsDbContext _context
+        +GetPostersByEventIdAsync(eventId)
+        +IncrementDownloadCountAsync(posterId)
+    }
+    
+    class IVisitorRepository {
+        <<interface>>
+        +LogVisitAsync(visitor)
+        +GetVisitorCountAsync()
+        +GetVisitorStatsAsync()
+    }
+    
+    class VisitorRepository {
+        -EventsDbContext _context
+        +LogVisitAsync(visitor)
+        +GetVisitorCountAsync()
+        +GetVisitorStatsAsync()
+    }
+    class EventsController {
+        -IEventRepository _eventRepo
+        -IPosterRepository _posterRepo
+        +GetEvents()
+        +GetEvent(id)
+        +GetEventPosters(id)
+    }
+    
+    class DonationsController {
+        -EventsDbContext _context
+        +RecordDonation(donation)
+        +GetDonationStats()
+    }
+    
+    class AnalyticsController {
+        -IVisitorRepository _visitorRepo
+        +GetVisitorCount()
+        +GetVisitorStats()
+    }
+    class EventDto {
+        +int Id
+        +string Title
+        +string Description
+        +DateTime EventDate
+        +string Location
+        +string ImageUrl
+    }
+    
+    class EventDetailDto {
+        +int Id
+        +string Title
+        +string Description
+        +DateTime EventDate
+        +string Location
+        +string ImageUrl
+        +string DetailedContent
+        +List~PosterDto~ Posters
+    }
+    
+    class PosterDto {
+        +int Id
+        +string Title
+        +string FileUrl
+        +string ThumbnailUrl
+    }
+    Event "1" --> "0..*" Poster : has
+    EventsDbContext --> Event : manages
+    EventsDbContext --> Poster : manages
+    EventsDbContext --> Donation : manages
+    EventsDbContext --> Visitor : manages
+    
+    EventRepository ..|> IEventRepository : implements
+    PosterRepository ..|> IPosterRepository : implements
+    VisitorRepository ..|> IVisitorRepository : implements
+    
+    EventRepository --> EventsDbContext : uses
+    PosterRepository --> EventsDbContext : uses
+    VisitorRepository --> EventsDbContext : uses
+    
+    EventsController --> IEventRepository : uses
+    EventsController --> IPosterRepository : uses
+    EventsController --> EventDto : returns
+    EventsController --> EventDetailDto : returns
+    
+    DonationsController --> EventsDbContext : uses
+    AnalyticsController --> IVisitorRepository : uses
