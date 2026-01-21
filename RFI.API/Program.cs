@@ -1,6 +1,4 @@
 using Scalar.AspNetCore;
-using Microsoft.EntityFrameworkCore;
-using RFI.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
