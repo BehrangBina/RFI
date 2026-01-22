@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using RFI.API.Responses;
+using System.Text.Json;
 
 namespace RFI.API.Services
 {
@@ -39,7 +40,7 @@ namespace RFI.API.Services
                 var json = await response.Content.ReadAsStringAsync();
                 var data = JsonSerializer.Deserialize<GeoLocationResponse>(json);
 
-                return (data?.country_name ?? "Unknown", data?.city ?? "Unknown");
+                return (data?.CountryName ?? "Unknown", data?.City ?? "Unknown");
             }
             catch (Exception ex)
             {

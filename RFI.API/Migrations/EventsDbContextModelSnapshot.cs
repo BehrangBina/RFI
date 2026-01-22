@@ -60,7 +60,7 @@ namespace RFI.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 22, 11, 58, 9, 360, DateTimeKind.Utc).AddTicks(5638),
+                            CreatedAt = new DateTime(2026, 1, 22, 12, 10, 14, 109, DateTimeKind.Utc).AddTicks(6336),
                             Description = "Justice for 30,000 Iranians - Crimes against humanity must be stopped.",
                             DetailedContent = "Iranians in Melbourne are gathering in front of Parliament House today from 4:00 pm to 6:00 pm to support King Reza Pahlavi and stand shoulder to shoulder with people inside Iran. Protesters are amplifying the voices of families demanding justice for more than 30,000 people killed by the regime and are calling for urgent international action to hold Tehran accountable for its crimes.",
                             EventDate = new DateTime(2026, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -72,7 +72,7 @@ namespace RFI.API.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 22, 11, 58, 9, 360, DateTimeKind.Utc).AddTicks(5641),
+                            CreatedAt = new DateTime(2026, 1, 22, 12, 10, 14, 109, DateTimeKind.Utc).AddTicks(6340),
                             Description = "Stand with Iran",
                             DetailedContent = "Details coming soon.",
                             EventDate = new DateTime(2026, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -129,7 +129,7 @@ namespace RFI.API.Migrations
                             FileUrl = "/posters/charity-run-en.pdf",
                             ThumbnailUrl = "/posters/thumbs/charity-run-en.jpg",
                             Title = "Charity Run Poster - English",
-                            UploadedAt = new DateTime(2026, 1, 22, 11, 58, 9, 360, DateTimeKind.Utc).AddTicks(5738)
+                            UploadedAt = new DateTime(2026, 1, 22, 12, 10, 14, 109, DateTimeKind.Utc).AddTicks(6518)
                         },
                         new
                         {
@@ -140,7 +140,7 @@ namespace RFI.API.Migrations
                             FileUrl = "/posters/charity-run-es.pdf",
                             ThumbnailUrl = "/posters/thumbs/charity-run-es.jpg",
                             Title = "Charity Run Poster - Spanish",
-                            UploadedAt = new DateTime(2026, 1, 22, 11, 58, 9, 360, DateTimeKind.Utc).AddTicks(5741)
+                            UploadedAt = new DateTime(2026, 1, 22, 12, 10, 14, 109, DateTimeKind.Utc).AddTicks(6522)
                         },
                         new
                         {
@@ -151,8 +151,38 @@ namespace RFI.API.Migrations
                             FileUrl = "/posters/food-drive.pdf",
                             ThumbnailUrl = "/posters/thumbs/food-drive.jpg",
                             Title = "Food Drive Flyer",
-                            UploadedAt = new DateTime(2026, 1, 22, 11, 58, 9, 360, DateTimeKind.Utc).AddTicks(5742)
+                            UploadedAt = new DateTime(2026, 1, 22, 12, 10, 14, 109, DateTimeKind.Utc).AddTicks(6525)
                         });
+                });
+
+            modelBuilder.Entity("RFI.API.Models.Visitor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("VisitedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Visitors");
                 });
 
             modelBuilder.Entity("RFI.API.Models.Poster", b =>
