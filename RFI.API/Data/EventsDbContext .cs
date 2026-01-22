@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using RFI.API.Models;
 using System.Text.Json;
 
 namespace RFI.API.Data;
@@ -14,6 +15,8 @@ public class EventsDbContext : DbContext
 
     public DbSet<Event> Events { get; set; }
     public DbSet<Poster> Posters { get; set; }
+    public DbSet<Visitor> Visitors { get; internal set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

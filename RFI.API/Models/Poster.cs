@@ -1,6 +1,6 @@
 ﻿namespace RFI.API.Models
 {
-    public class Poster
+    public record Poster
     {
         public int Id { get; set; }
         public int EventId { get; set; }  // Foreign key to Event
