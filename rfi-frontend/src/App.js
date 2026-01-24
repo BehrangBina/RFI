@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import EventsList from './pages/EventsList';
 import EventDetail from './pages/EventDetail';
+import About from './pages/About';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <main className="pt-24">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/events" element={<EventsList />} />
             <Route path="/events/:id" element={<EventDetail />} />
           </Routes>
