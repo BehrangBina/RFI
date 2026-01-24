@@ -1,0 +1,14 @@
+.fa-instagram{
+  color: #FD1D1D;
+  transition: transform 0.3s ease;
+}
+
+.fa-instagram:hover,
+.fa-telegram:hover {
+  transform: scale(1.4);
+}
+
+.fa-telegram {
+  color: #0088cc;
+    transition: transform 0.3s ease;
+}

@@ -1,0 +1,25 @@
+#contact{
+  padding: 20px 0;
+  /* height: 100vh; */
+}
+
+.contact-section {
+  padding: 20px 0;
+}
+
+.send-message{
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #111010;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  z-index: 15;
+  transition: all 0.3s ease;
+}
+
+.send-message:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}

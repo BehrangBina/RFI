@@ -1,0 +1,70 @@
+/* Accordion Styles - Best Practices */
+.accordion {
+     border: none;
+     background: transparent;
+}
+
+.accordion-item {
+     background-color: transparent;
+     border: 1px solid rgba(255, 255, 255, 0.15);
+     border-radius: 8px;
+     margin-bottom: 1rem;
+     overflow: hidden;
+}
+
+.accordion-button {
+     background-color: rgba(255, 255, 255, 0.08);
+     color: #ffffff;
+     border: none;
+     padding: 1.25rem 1.5rem;
+     font-weight: 500;
+     min-height: 48px;
+     transition: all 0.3s ease;
+     flex-wrap: wrap;
+     align-items: flex-start;
+     position: relative;
+}
+
+.accordion-button:not(.collapsed) {
+     background-color: rgba(255, 255, 255, 0.12);
+     box-shadow: none;
+     color: #ffffff;
+}
+
+.accordion-button:hover {
+     background-color: rgba(255, 255, 255, 0.12);
+}
+
+.accordion-button:focus {
+     border-color: rgba(255, 255, 255, 0.25);
+     box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+}
+
+.accordion-button::after {
+     background-color: #ffffff;
+     opacity: 0.6;
+     position: absolute;
+     right: 1.5rem;
+     top: 50%;
+     transform: translateY(-50%);
+     margin-left: auto;
+}
+
+.accordion-body {
+     padding: 1.5rem;
+     background-color: rgba(0, 0, 0, 0.3);
+     border-top: 1px solid rgba(255, 255, 255, 0.15);
+     color: #e5e7eb;
+     line-height: 1.6;
+}
+
+.accordion-header {
+     margin: 0;
+}
+
+.date {
+     color: #ff6b9d;
+     font-weight: 600;
+     white-space: nowrap;
+     margin-right: 30px;
+}

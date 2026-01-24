@@ -1,0 +1,67 @@
+.highlights-page {
+    background-color: #212529;
+}
+.highlights-page .card img {
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+.highlights-page .card img:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}           
+
+      /* Square poster cards: consistent width and height, image covers area */
+      .highlights-page .poster-card {
+        width: 360px;
+        height: 560px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      /* Make the image occupy the majority of the square, leave room for a larger body */
+      .highlights-page .poster-card .card-img-top {
+        width: 100%;
+        height: calc(100% - 86px);
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      /* Larger card-body to avoid overlap; title limited to two lines */
+      .highlights-page .poster-card .card-body {
+        height: 86px;
+        padding: .5rem .75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .highlights-page .poster-card .card-title {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.15;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* hide secondary description to keep layout tight (optional) */
+      .highlights-page .poster-card .card-text { display: none; }
+
+      .highlights-page .poster-card a[download] {
+        font-size: 1.05rem;
+        padding: .5rem .9rem;
+        border-radius: .5rem;
+        align-self: flex-start;
+      }
+
+      @media (max-width: 767.98px) {
+        .highlights-page .poster-card { width: 100%; height: auto; }
+        .highlights-page .poster-card .card-img-top { height: 180px; }
+        .highlights-page .poster-card .card-body { height: auto; }
+      }
+ 
