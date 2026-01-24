@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { eventsAPI } from '../services/api';
 
 function EventsList() {
@@ -47,7 +48,11 @@ function EventsList() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map(event => (
-            <div key={event.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+            <Link 
+              key={event.id} 
+              to={`/events/${event.id}`}
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+            >
               {event.imageUrl && (
                 <img 
                   src={event.imageUrl} 
@@ -69,7 +74,7 @@ function EventsList() {
                 </p>
                 <p className="text-gray-700 line-clamp-3">{event.description}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
