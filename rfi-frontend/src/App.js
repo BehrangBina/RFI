@@ -8,13 +8,15 @@ import EventDetail from './pages/EventDetail';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen">  {/* Removed bg-gray-50 */}
+      <div className="min-h-screen bg-night">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/events" element={<EventsList />} />
-          <Route path="/events/:id" element={<EventDetail />} />
-        </Routes>
+        <main className="pt-24">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/events" element={<EventsList />} />
+            <Route path="/events/:id" element={<EventDetail />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );
