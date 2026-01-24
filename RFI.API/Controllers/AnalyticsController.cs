@@ -16,7 +16,7 @@ namespace RFI.API.Controllers
         [HttpGet("by-country")]
         public async Task<ActionResult> GetVisitorsByCountry()
         {
-            
+
 
             var byCountry = await _context.Visitors
                 .Where(v => v.Country != "Unknown")
@@ -51,12 +51,6 @@ namespace RFI.API.Controllers
             return Ok(byCity);
         }
 
-
-    public class TrackVisitRequest
-    {
-        public string? TestIp { get; set; }
-        public string? Country { get; set; }
-        public string? City { get; set; }
-        public string? PageUrl { get; set; }
     }
+ 
 }

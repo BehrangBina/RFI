@@ -16,6 +16,7 @@ public class EventsDbContext : DbContext
     public DbSet<Event> Events { get; set; }
     public DbSet<Poster> Posters { get; set; }
     public DbSet<Visitor> Visitors { get; internal set; }
+    public DbSet<Donation> Donations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
