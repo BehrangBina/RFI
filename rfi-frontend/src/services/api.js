@@ -20,9 +20,11 @@ export const eventsAPI = {
 export const postersAPI = {
   getAll: () => apiClient.get('/Posters'),
   getById: (id) => apiClient.get(`/Posters/${id}`),
+  getByEvent: (eventId) => apiClient.get(`/Posters/event/${eventId}`),
   create: (poster) => apiClient.post('/Posters', poster),
   update: (id, poster) => apiClient.put(`/Posters/${id}`, poster),
   delete: (id) => apiClient.delete(`/Posters/${id}`),
+  trackDownload: (id) => apiClient.post(`/Posters/${id}/download`),
 };
 
 export const donationsAPI = {

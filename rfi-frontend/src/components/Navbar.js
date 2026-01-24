@@ -34,6 +34,9 @@ function Navbar() {
             <Link to="/events" className={linkClasses}>
               Events
             </Link>
+            <Link to="/posters" className={linkClasses}>
+              Posters
+            </Link>
             <Link to="/donate" className="pill-button pill-button--secondary shadow-glow">
               💝 Donate
             </Link>
@@ -78,6 +81,13 @@ function Navbar() {
               className="block px-4 py-2 rounded-xl bg-white/10 text-white font-semibold tracking-wide"
             >
               Events
+            </Link>
+            <Link
+              to="/posters"
+              onClick={() => setIsOpen(false)}
+              className="block px-4 py-2 rounded-xl bg-white/10 text-white font-semibold tracking-wide"
+            >
+              Posters
             </Link>
             <Link
               to="/donate"
