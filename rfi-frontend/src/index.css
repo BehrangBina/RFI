@@ -1,31 +1,73 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
-/* Tailwind v4 Configuration */
-@theme {
-  /* Custom colors */
-  --color-primary: #3b82f6;
-  --color-secondary: #8b5cf6;
-  
-  /* Custom fonts */
-  --font-display: ui-serif, Georgia, Cambria, serif;
-  
-  /* Custom spacing (optional) */
-  --spacing-128: 32rem;
-  
-  /* Custom breakpoints (optional) */
-  --breakpoint-3xl: 1920px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #050816;
+  }
+
+  body {
+    @apply min-h-screen text-gray-100 font-sans antialiased;
+    margin: 0;
+    background-image: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.2), transparent 25%),
+      radial-gradient(circle at 90% 10%, rgba(236, 72, 153, 0.25), transparent 35%),
+      linear-gradient(180deg, #050816 0%, #0f172a 55%, #111827 100%);
+  }
+
+  ::selection {
+    background: rgba(59, 130, 246, 0.35);
+    color: #fff;
+  }
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  .gradient-text {
+    background-image: linear-gradient(120deg, #60a5fa 0%, #a855f7 45%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    @apply bg-white/80 dark:bg-white/5 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-glow;
+  }
+
+  .pill-button {
+    @apply inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold transition-transform duration-200 shadow-lg;
+  }
+
+  .pill-button--primary {
+    @apply bg-white text-primary hover:-translate-y-0.5 hover:bg-blue-50;
+  }
+
+  .pill-button--secondary {
+    @apply bg-gradient-to-r from-secondary to-pink-500 text-white hover:brightness-110;
+  }
+
+  .section-heading {
+    @apply text-center text-4xl sm:text-5xl font-extrabold gradient-text leading-tight;
+  }
+
+  .section-subtitle {
+    @apply text-center text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer utilities {
+  .background-grid {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

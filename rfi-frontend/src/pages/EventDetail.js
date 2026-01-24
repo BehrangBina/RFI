@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { eventsAPI } from '../services/api';
 
 function EventDetail() {
@@ -23,8 +24,12 @@ function EventDetail() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-xl">Loading event...</div>
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full"
+        />
       </div>
     );
   }
@@ -60,66 +65,112 @@ function EventDetail() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <button 
-        onClick={() => navigate('/events')}
-        className="mb-6 text-primary hover:underline flex items-center gap-2"
-      >
-        ← Back to Events
-      </button>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.button 
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          whileHover={{ scale: 1.05, x: -5 }}
+          onClick={() => navigate('/events')}
+          className="mb-6 text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all"
+        >
+          <span className="text-xl">←</span> Back to Events
+        </motion.button>
 
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        {event.imageUrl && (
-          <img 
-            src={event.imageUrl} 
-            alt={event.title}
-            className="w-full h-96 object-cover"
-          />
-        )}
-        
-        <div className="p-8">
-          <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
-          
-          <div className="flex flex-col gap-3 mb-6 text-gray-600">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">📍</span>
-              <span className="text-lg">{event.location}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">📅</span>
-              <span className="text-lg">
-                {new Date(event.eventDate).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </span>
-            </div>
-          </div>
-
-          <div className="prose max-w-none">
-            <h2 className="text-2xl font-semibold mb-3">About this event</h2>
-            <p className="text-gray-700 leading-relaxed">{event.description}</p>
-          </div>
-
-          {event.imageUrls && event.imageUrls.length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Gallery</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {event.imageUrls.map((url, index) => (
-                  <img 
-                    key={index}
-                    src={url} 
-                    alt={`${event.title} ${index + 1}`}
-                    className="w-full h-48 object-cover rounded-lg"
-                  />
-                ))}
-              </div>
-            </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-3xl shadow-2xl overflow-hidden"
+        >
+          {event.imageUrl && (
+            <motion.div
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="overflow-hidden"
+            >
+              <img 
+                src={event.imageUrl} 
+                alt={event.title}
+                className="w-full h-96 object-cover"
+              />
+            </motion.div>
           )}
-        </div>
+        
+          <div className="p-8">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+            >
+              {event.title}
+            </motion.h1>
+            
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-col gap-4 mb-8"
+            >
+              <div className="flex items-center gap-3 text-gray-700 bg-blue-50 p-4 rounded-xl">
+                <span className="text-3xl">📍</span>
+                <span className="text-xl font-semibold">{event.location}</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-700 bg-purple-50 p-4 rounded-xl">
+                <span className="text-3xl">📅</span>
+                <span className="text-xl font-semibold">
+                  {new Date(event.eventDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </span>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="prose max-w-none"
+            >
+              <h2 className="text-3xl font-bold mb-4 text-gray-800">About this event</h2>
+              <p className="text-gray-700 text-lg leading-relaxed">{event.description}</p>
+            </motion.div>
+
+            {event.imageUrls && event.imageUrls.length > 0 && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mt-10"
+              >
+                <h2 className="text-3xl font-bold mb-6 text-gray-800">📸 Gallery</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {event.imageUrls.map((url, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.7 + index * 0.1 }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <img 
+                        src={url} 
+                        alt={`${event.title} ${index + 1}`}
+                        className="w-full h-48 object-cover rounded-xl shadow-lg hover:shadow-2xl transition-shadow"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
       </div>
     </div>
   );

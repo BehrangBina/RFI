@@ -8,7 +8,7 @@ import EventDetail from './pages/EventDetail';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">  {/* Removed bg-gray-50 */}
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
