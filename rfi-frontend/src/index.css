@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* Tailwind v4 Configuration */
+@theme {
+  /* Custom colors */
+  --color-primary: #3b82f6;
+  --color-secondary: #8b5cf6;
+  
+  /* Custom fonts */
+  --font-display: ui-serif, Georgia, Cambria, serif;
+  
+  /* Custom spacing (optional) */
+  --spacing-128: 32rem;
+  
+  /* Custom breakpoints (optional) */
+  --breakpoint-3xl: 1920px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
