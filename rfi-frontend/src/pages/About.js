@@ -38,9 +38,10 @@ function About() {
   return (
     <div className="space-y-24 pb-20">
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-[#0b192d] via-night to-black px-6 py-20 text-white shadow-glow">
-        <div className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-white/5 blur-3xl" aria-hidden />
-        <div className="max-w-5xl">
+      <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-br from-[#050b19] via-[#060f1f] to-black px-6 py-24 text-white shadow-[0_40px_120px_rgba(5,10,25,0.6)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_55%)]" aria-hidden />
+        <div className="absolute -top-24 right-10 h-72 w-72 rounded-full bg-white/5 blur-3xl" aria-hidden />
+        <div className="relative max-w-5xl">
           <p className="text-sm uppercase tracking-[0.4em] text-primary">About Us</p>
           <h1 className="mt-6 font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
             We rise for liberty, dignity, safety, and hope
