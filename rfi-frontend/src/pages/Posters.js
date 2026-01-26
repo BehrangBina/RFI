@@ -15,7 +15,11 @@ const fallbackEvents = [
   { id: 101, name: 'Global Freedom Rallies', location: 'Melbourne', focus: 'Street Mobilisation' },
   { id: 102, name: 'Art For Iran Studio', location: 'Sydney', focus: 'Creative Lab' },
   { id: 103, name: 'Women Life Freedom Summit', location: 'Online', focus: 'Digital Organising' },
-];
+].map((evt) => ({
+  ...evt,
+  title: evt.title ?? evt.name,
+  focus: evt.focus ?? evt.location,
+}));
 
 const fallbackPosterMap = {
   101: [
@@ -85,6 +89,48 @@ const fallbackPosterMap = {
     },
   ],
 };
+
+const normalizeEvents = (rawEvents = []) =>
+  rawEvents
+    .map((evt) => {
+      const id = evt.id ?? evt.Id;
+      if (!id) return null;
+      return {
+        ...evt,
+        id,
+        title: evt.title ?? evt.name ?? evt.Title ?? evt.Name ?? 'Untitled action',
+        focus: evt.focus ?? evt.location ?? evt.Focus ?? evt.Location ?? 'Community action',
+      };
+    })
+    .filter(Boolean);
+
+const normalizePosters = (rawPosters = []) =>
+  rawPosters
+    .map((poster) => {
+      const id = poster.id ?? poster.Id;
+      if (!id) return null;
+      
+      const fileUrl = poster.fileUrl ?? poster.FileUrl ?? '';
+      const thumbnailUrl = poster.thumbnailUrl ?? poster.ThumbnailUrl ?? '';
+      
+      // Convert relative URLs to absolute backend URLs
+      const backendBase = 'http://localhost:5186';
+      const absoluteFileUrl = fileUrl.startsWith('http') ? fileUrl : `${backendBase}${fileUrl}`;
+      const absoluteThumbnailUrl = thumbnailUrl.startsWith('http') ? thumbnailUrl : `${backendBase}${thumbnailUrl}`;
+      
+      return {
+        ...poster,
+        id,
+        eventId: poster.eventId ?? poster.EventId ?? 0,
+        title: poster.title ?? poster.Title ?? 'Untitled poster',
+        fileUrl: absoluteFileUrl,
+        thumbnailUrl: absoluteThumbnailUrl,
+        fileSize: poster.fileSize ?? poster.FileSize ?? 0,
+        downloadCount: poster.downloadCount ?? poster.DownloadCount ?? 0,
+        uploadedAt: poster.uploadedAt ?? poster.UploadedAt ?? null,
+      };
+    })
+    .filter(Boolean);
 
 const formatBytes = (bytes = 0) => {
   if (!bytes) return '—';
@@ -159,11 +205,20 @@ function Posters() {
   useEffect(() => {
     const loadEvents = async () => {
       try {
+        console.log('📡 Fetching events from API...');
         const { data } = await eventsAPI.getAll();
-        const usable = Array.isArray(data) && data.length ? data : fallbackEvents;
-        setEvents(usable);
-        setSelectedEventId(usable[0]?.id ?? null);
+        console.log('✅ Events API response:', data);
+        const normalized = normalizeEvents(Array.isArray(data) ? data : []);
+        if (normalized.length) {
+          setEvents(normalized);
+          setSelectedEventId(normalized[0].id);
+        } else {
+          console.warn('⚠️ Events API returned empty data, using fallback');
+          setEvents(fallbackEvents);
+          setSelectedEventId(fallbackEvents[0]?.id ?? null);
+        }
       } catch (error) {
+        console.error('❌ Events API failed:', error.message, error);
         console.warn('Falling back to poster presets', error);
         setEvents(fallbackEvents);
         setSelectedEventId(fallbackEvents[0].id);
@@ -179,13 +234,29 @@ function Posters() {
     const loadPosters = async () => {
       setLoading(true);
       try {
-        const { data } = await postersAPI.getByEvent(selectedEventId);
-        if (Array.isArray(data) && data.length) {
-          setPosters(data);
+        console.log(`📡 Fetching all posters from API...`);
+        const { data } = await postersAPI.getAll();
+        console.log('✅ Posters API response:', data);
+        const normalized = normalizePosters(Array.isArray(data) ? data : []);
+        
+        // Filter by selected event if needed
+        const filtered = selectedEventId 
+          ? normalized.filter(p => p.eventId === selectedEventId)
+          : normalized;
+        
+        if (filtered.length) {
+          console.log(`✅ Using ${filtered.length} real posters from API`);
+          setPosters(filtered);
+        } else if (normalized.length) {
+          console.warn(`⚠️ No posters for event ${selectedEventId}, showing all ${normalized.length} posters`);
+          setPosters(normalized);
         } else {
+          console.warn(`⚠️ No posters found, using fallback`);
           setPosters(fallbackPosterMap[selectedEventId] || []);
         }
       } catch (error) {
+        console.error(`❌ Posters API failed:`, error.message, error);
+        console.warn('Using fallback posters');
         setPosters(fallbackPosterMap[selectedEventId] || []);
       } finally {
         setLoading(false);
@@ -256,8 +327,8 @@ function Posters() {
           <div className="grid gap-6 md:grid-cols-3">
             <div className="glass-card border-white/5 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.4em] text-white/70">Active Set</p>
-              <p className="mt-2 text-2xl font-semibold">{heroEvent?.name || 'Creative Cohort'}</p>
-              <p className="text-sm text-white/60">{heroEvent?.focus}</p>
+              <p className="mt-2 text-2xl font-semibold">{heroEvent?.title || 'Creative Cohort'}</p>
+              <p className="text-sm text-white/60">{heroEvent?.focus || heroEvent?.location}</p>
             </div>
             <div className="glass-card border-white/5 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.4em] text-white/70">Downloads</p>
@@ -281,7 +352,7 @@ function Posters() {
                   event.id === selectedEventId ? 'pill-button--primary' : 'pill-button--secondary',
                 ].join(' ')}
               >
-                <FiCompass className="mr-2" /> {event.name}
+                <FiCompass className="mr-2" /> {event.title}
               </button>
             ))}
           </div>

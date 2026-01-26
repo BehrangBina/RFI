@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { eventsAPI } from '../services/api';
+import { eventsAPI, postersAPI } from '../services/api';
 
 function EventDetail() {
   const { id } = useParams();
@@ -9,8 +9,13 @@ function EventDetail() {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [posters, setPosters] = useState([]);
+  const [postersLoading, setPostersLoading] = useState(true);
+  const [posterError, setPosterError] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
     eventsAPI.getById(id)
       .then(response => {
         setEvent(response.data);
@@ -21,6 +26,60 @@ function EventDetail() {
         setLoading(false);
       });
   }, [id]);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    setPostersLoading(true);
+    setPosterError(null);
+    postersAPI.getByEvent(id)
+      .then(response => {
+        const rawPosters = response.data || [];
+        
+        // Convert relative URLs to absolute backend URLs
+        const backendBase = 'http://localhost:5186';
+        const normalizedPosters = rawPosters.map(poster => ({
+          ...poster,
+          fileUrl: poster.fileUrl?.startsWith('http') ? poster.fileUrl : `${backendBase}${poster.fileUrl}`,
+          thumbnailUrl: poster.thumbnailUrl?.startsWith('http') ? poster.thumbnailUrl : `${backendBase}${poster.thumbnailUrl}`,
+        }));
+        
+        setPosters(normalizedPosters);
+        setPostersLoading(false);
+      })
+      .catch(err => {
+        setPosterError(err.message);
+        setPosters([]);
+        setPostersLoading(false);
+      });
+  }, [id]);
+
+  const handlePosterDownload = async (poster) => {
+    window.open(poster.fileUrl, '_blank', 'noopener');
+    try {
+      await postersAPI.trackDownload(poster.id);
+      setPosters(current =>
+        current.map(item =>
+          item.id === poster.id
+            ? { ...item, downloadCount: (item.downloadCount || 0) + 1 }
+            : item
+        )
+      );
+    } catch (downloadError) {
+      console.warn('Unable to track poster download', downloadError);
+    }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (!bytes) {
+      return '—';
+    }
+
+    const mb = bytes / (1024 * 1024);
+    return `${mb.toFixed(1)} MB`;
+  };
 
   if (loading) {
     return (
@@ -169,6 +228,77 @@ function EventDetail() {
                 </div>
               </motion.div>
             )}
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="mt-12"
+            >
+              <div className="flex flex-col gap-2 mb-6">
+                <h2 className="text-3xl font-bold text-gray-800">Download posters</h2>
+                <p className="text-gray-600">Print-ready artwork curated for this event.</p>
+              </div>
+
+              {posterError && (
+                <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  Unable to load posters right now: {posterError}
+                </div>
+              )}
+
+              {postersLoading ? (
+                <div className="grid gap-6 md:grid-cols-2">
+                  {Array.from({ length: 4 }).map((_, idx) => (
+                    <div key={idx} className="animate-pulse rounded-2xl border border-gray-100 bg-gray-50 p-6">
+                      <div className="mb-4 h-48 rounded-xl bg-gray-200" />
+                      <div className="h-4 w-2/3 rounded bg-gray-200" />
+                    </div>
+                  ))}
+                </div>
+              ) : posters.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-6 py-10 text-center text-gray-600">
+                  No posters have been uploaded for this event yet. Check back soon.
+                </div>
+              ) : (
+                <div className="grid gap-6 md:grid-cols-2">
+                  {posters.map((poster, index) => (
+                    <motion.div
+                      key={poster.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-br from-white to-gray-50 shadow-xl"
+                    >
+                      {poster.thumbnailUrl && (
+                        <img 
+                          src={poster.thumbnailUrl}
+                          alt={poster.title}
+                          className="w-full h-56 object-cover"
+                        />
+                      )}
+                      <div className="p-6 space-y-4">
+                        <div>
+                          <h3 className="text-xl font-semibold text-gray-900">{poster.title}</h3>
+                          {poster.caption && <p className="mt-1 text-sm text-gray-600">{poster.caption}</p>}
+                        </div>
+                        <div className="flex flex-wrap gap-3 text-sm text-gray-500">
+                          <span>{formatFileSize(poster.fileSize)}</span>
+                          <span>•</span>
+                          <span>{poster.downloadCount ?? 0} downloads</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handlePosterDownload(poster)}
+                          className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-3 text-white font-semibold shadow-lg transition hover:shadow-xl"
+                        >
+                          Download poster
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
           </div>
         </motion.div>
       </div>
