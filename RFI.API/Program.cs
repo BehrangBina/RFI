@@ -1,4 +1,5 @@
 using RFI.API.Middleware;
+using RFI.API.Repositories;
 using RFI.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Database Configuration
 builder.Services.AddDbContext<EventsDbContext>(options =>
 {
     var provider = builder.Configuration["Database:Provider"]?.ToLowerInvariant() ?? "sqlite";
@@ -56,10 +59,25 @@ builder.Services.AddDbContext<EventsDbContext>(options =>
             break;
     }
 });
+
+// Register Repositories
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IDonationRepository, DonationRepository>();
+builder.Services.AddScoped<IPosterRepository, PosterRepository>();
+builder.Services.AddScoped<IVisitorRepository, VisitorRepository>();
+
+// Register Business Services
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IDonationService, DonationService>();
+builder.Services.AddScoped<IPosterService, PosterService>();
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+builder.Services.AddScoped<IVisitorTrackingService, VisitorTrackingService>();
+
+// Register Infrastructure Services
 builder.Services.Configure<PosterStorageOptions>(builder.Configuration.GetSection("PosterStorage"));
 builder.Services.AddScoped<IPosterAssetService, LocalPosterAssetService>();
-
 builder.Services.AddHttpClient<IGeoLocationService, GeoLocationService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact",

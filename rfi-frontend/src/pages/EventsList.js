@@ -1,50 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { eventsAPI } from '../services/api';
+import { useFetch } from '../hooks/useApi';
+import { LoadingSpinner, ErrorMessage, EmptyState } from '../components/common/UIComponents';
+import { ROUTES } from '../constants';
 
 function EventsList() {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: events, loading, error } = useFetch(() => eventsAPI.getAll());
 
-  useEffect(() => {
-    eventsAPI.getAll()
-      .then(response => {
-        setEvents(response.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full"
-        />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg"
-        >
-          Error: {error}
-        </motion.div>
-      </div>
-    );
-  }
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12">
@@ -57,15 +23,8 @@ function EventsList() {
           🎉 All Events
         </motion.h1>
       
-        {events.length === 0 ? (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
-          >
-            <div className="text-6xl mb-4">🎭</div>
-            <p className="text-2xl text-gray-600">No events found</p>
-          </motion.div>
+        {!events || events.length === 0 ? (
+          <EmptyState icon="🎭" message="No events found" />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event, index) => (
@@ -77,7 +36,7 @@ function EventsList() {
                 whileHover={{ y: -10, scale: 1.02 }}
               >
                 <Link 
-                  to={`/events/${event.id}`}
+                  to={`${ROUTES.EVENTS}/${event.id}`}
                   className="block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow group"
                 >
                   {event.imageUrl && (
