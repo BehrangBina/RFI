@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "RFI API",
         Version = "v1",
-        Description = "A Web API with SQLite and Swagger"
+        Description = "Rise for Iran API for managing Requests for Information (RFI)"
     });
 });
 
