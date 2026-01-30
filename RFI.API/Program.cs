@@ -3,6 +3,17 @@ using RFI.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -23,6 +34,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+// Enable CORS
+app.UseCors("AllowReactApp");
 
 // Enable serving static files
 app.UseStaticFiles();
