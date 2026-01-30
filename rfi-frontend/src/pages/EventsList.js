@@ -39,10 +39,10 @@ function EventsList() {
                   to={`${ROUTES.EVENTS}/${event.id}`}
                   className="block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow group"
                 >
-                  {event.imageUrl && (
+                  {event.imageUrls && event.imageUrls.length > 0 && (
                     <div className="overflow-hidden">
                       <img 
-                        src={event.imageUrl} 
+                        src={event.imageUrls[0]} 
                         alt={event.title}
                         className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                       />
