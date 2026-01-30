@@ -24,6 +24,9 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+// Enable serving static files
+app.UseStaticFiles();
+
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI(c =>
