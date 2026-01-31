@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Posters from './pages/Posters';
+import About from './pages/About';
+import Events from './pages/Events';
+import News from './pages/News';
+import Contact from './pages/Contact';
 import './App.css';
-import { PosterUpload } from './components/PosterUpload';
-import { PosterList } from './components/PosterList';
 
 function App() {
-  const [refreshKey, setRefreshKey] = useState(0);
-
-  const handleUploadSuccess = () => {
-    setRefreshKey((prev) => prev + 1);
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>RFI Poster Manager</h1>
-      </header>
-      <main>
-        <PosterUpload onUploadSuccess={handleUploadSuccess} />
-        <PosterList refresh={refreshKey} />
+    <BrowserRouter>
+      <Navbar />
+      <main className="pt-24 px-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/posters" element={<Posters />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
       </main>
-    </div>
+    </BrowserRouter>
   );
 }
 
