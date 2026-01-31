@@ -109,3 +109,421 @@ GET http://localhost:5000/api/news
 
 ### Get specific news by ID
 GET http://localhost:5000/api/news/1
+
+### Get all events
+GET http://localhost:5000/api/events
+
+### Get events by category
+GET http://localhost:5000/api/events?category=vigil
+
+### Get event by ID
+GET http://localhost:5000/api/events/1
+
+### Get event by slug
+GET http://localhost:5000/api/events/slug/justice-for-36000-iranians
+
+### Get all categories
+GET http://localhost:5000/api/events/categories
+
+### Create Event - Justice for 36,000+ Iranians
+POST http://localhost:5000/api/events
+Content-Type: application/json
+{
+  "title": "Justice for 36,000+ Iranians",
+  "date": "2026-01-18T00:00:00Z",
+  "location": "Parliament House, Melbourne",
+  "category": "vigil",
+  "summary": "A powerful vigil calling for justice for the 36,000+ Iranians who lost their lives. Community members gathered to honor the victims and demand accountability.",
+  "description": "On January 18, 2026, members of the Iranian community and supporters gathered at Parliament House in Melbourne to hold a vigil for the 36,000+ Iranians who have lost their lives. The event featured speeches, candle lighting, and a moment of silence to honor the victims.",
+  "attendeeCount": 500,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/uploads/events/18Jan.png",
+      "caption": "Community gathering at Parliament House",
+      "orderIndex": 1
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "speech",
+      "title": "Key Speech Highlights",
+      "content": "Speakers emphasized the need for international accountability and justice for victims of human rights violations.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "outcomes",
+      "title": "Event Outcomes",
+      "content": "The vigil successfully raised awareness and garnered media coverage. Attendees signed petitions calling for action from government officials.",
+      "orderIndex": 2
+    }
+  ]
+}
+
+### Create Event - Solidarity Rally
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Solidarity Rally for Iranian Freedom",
+  "date": "2026-01-25T00:00:00Z",
+  "location": "Federation Square, Melbourne",
+  "category": "rally",
+  "summary": "Hundreds gathered to show solidarity with the Iranian freedom movement, featuring speakers, music, and calls for action.",
+  "description": "A large-scale rally bringing together diverse communities in support of Iranian freedom and human rights.",
+  "attendeeCount": 800,
+  "videoUrl": "https://www.youtube.com/embed/example",
+  "images": [],
+  "sections": []
+}
+
+### Update Event
+PUT http://localhost:5000/api/events/1
+Content-Type: application/json
+
+{
+  "title": "Justice for 36,000+ Iranians (Updated)",
+  "date": "2026-01-18T00:00:00Z",
+  "location": "Parliament House, Melbourne",
+  "category": "vigil",
+  "summary": "Updated summary...",
+  "description": "Updated description...",
+  "attendeeCount": 550,
+  "videoUrl": null,
+  "images": [],
+  "sections": []
+}
+
+### Delete Event
+DELETE http://localhost:5000/api/events/1
+
+### Delete all existing events (clean slate)
+DELETE http://localhost:5000/api/events/1
+###
+DELETE http://localhost:5000/api/events/2
+###
+DELETE http://localhost:5000/api/events/3
+
+### EVENT 1: Justice For 36,000+ Iranians (Most Recent)
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Justice For 36,000+ Iranians",
+  "date": "2026-01-25T16:00:00Z",
+  "location": "Parliament Steps, Melbourne",
+  "category": "vigil",
+  "summary": "This Sunday, 25 January 2026, we return to the Parliament Steps to amplify the call for justice for the 36,000+ Iranians murdered, disappeared, or jailed for daring to dream of a free homeland.",
+  "description": "Families and allies will gather from 4:00 pm to 6:00 pm to read the names that regime courts tried to erase, project their portraits across Spring Street, and remind Canberra and the wider international community that every life silenced by Tehran demands an answer.",
+  "videoUrl": null,
+  "images": [],
+  "sections": [
+    {
+      "sectionType": "description",
+      "title": "Event Details",
+      "content": "The vigil will open with a moment of collective silence followed by testimonies from survivors and Australian parliamentarians who have pledged to push for Magnitsky-style sanctions targeting the architects of mass executions. A mobile archive curated by Rise For Iran will showcase letters smuggled out of Iranian prisons, ensuring the world hears directly from those who remain behind bars.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "how_to_help",
+      "title": "How You Can Help",
+      "content": "• Record a 30-second video message for families of the fallen and tag #JusticeForIran\n• Share the vigil details with your networks and encourage attendance\n• Contact your local MP to demand action on human rights abuses in Iran",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "call_to_action",
+      "title": "Join Us",
+      "content": "Bring candles, flags, and any photo that represents the loved ones you carry in your heart. Together we will light a corridor of hope leading up the Parliament Steps and recommit to a future in which Iran is governed by justice, not fear.",
+      "orderIndex": 3
+    }
+  ]
+}
+
+### EVENT 2: Parliament Steps Vigil
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Parliament Steps Vigil Australia - Melbourne",
+  "date": "2026-01-18T16:00:00Z",
+  "location": "Parliament House, Melbourne",
+  "category": "vigil",
+  "summary": "Iranians in Melbourne are gathering in front of Parliament House from 4:00 pm to 6:00 pm to support King Reza Pahlavi and stand shoulder to shoulder with people inside Iran.",
+  "description": "Protesters are amplifying the voices of families demanding justice for more than 30,000 people killed by the regime and are calling for urgent international action to hold Tehran accountable for its crimes.",
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/images/highlights/18Jan.png",
+      "caption": "Poster for the 18 January 2026 Melbourne protest",
+      "orderIndex": 1
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "description",
+      "title": "Event Overview",
+      "content": "Speakers are urging Australians to recognize the stakes for Iran's freedom movement, stressing that defending human rights abroad safeguards liberty at home. The rally's key demands include immediate accountability for regime crimes, coordinated diplomatic pressure, and concrete support for Iranians risking their lives on the streets.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "call_to_action",
+      "title": "Take Action",
+      "content": "Attendees are encouraged to share updates across social platforms, keep the global spotlight on political prisoners, and remind the world that the struggle for a free Iran is inseparable from the universal fight for dignity.",
+      "orderIndex": 2
+    }
+  ]
+}
+
+### EVENT 3: The Last Fight
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "The Last Fight - آخرین نبرد",
+  "date": "2026-01-04T00:00:00Z",
+  "location": "Melbourne, Australia",
+  "category": "rally",
+  "summary": "The event, held in collaboration with the 100 Cities Project and supported by Meliran and Rise For Iran, was a powerful demonstration of global solidarity, supporting Iran's freedom movement.",
+  "description": "Protesters chanted 'Reza Pahlavi' and 'Javid Shah,' even as the IRGC carried out massacres with at least 10–16 people killed. Trump warned Iran's regime against further brutality, stating that U.S. intervention was possible.",
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/images/highlights/olb.jpg",
+      "caption": "The Last Fight rally in Melbourne",
+      "orderIndex": 1
+    },
+    {
+      "imageUrl": "/images/highlights/olb-2.jpg",
+      "caption": "Protesters showing solidarity",
+      "orderIndex": 2
+    },
+    {
+      "imageUrl": "http://100cities.org/wp-content/uploads/2025/05/Logo300.jpg",
+      "caption": "100 Cities Project Logo",
+      "orderIndex": 3
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "background",
+      "title": "Context",
+      "content": "Iran's ongoing protests, starting late December 2025, are driven by economic collapse—inflation over 40%, rial at record lows—escalating into anti-regime demands for freedom. Spread to 174 locations in 25 provinces, with chants for Reza Pahlavi and 'Javid Shah.'",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "description",
+      "title": "Event Details",
+      "content": "At least 10-16 killed by IRGC forces; arrests, internet blackouts. Khamenei vows crackdown; regime blames foreign interference. Trump warns against brutality, hints at US action; Russia reportedly aiding regime. Protesters tear down regime flags, raise Lion and Sun.",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "outcomes",
+      "title": "Impact",
+      "content": "The IRGC has unleashed brutal crackdowns, numerous injuries, and mass arrests amid internet blackouts and deployments of anti-riot forces in cities like Malekshahi and Lordegan. Protesters, chanting 'Javid Shah' (Long Live the Shah) and 'This is the final battle, Pahlavi will return,' demand the restoration of the monarchy under Reza Pahlavi, rejecting the Islamic Republic in rallies across Tehran, Mashhad, and Karaj.",
+      "orderIndex": 3
+    }
+  ]
+}
+
+### EVENT 4: Put Australia First Rally
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Put Australia First",
+  "date": "2025-12-21T00:00:00Z",
+  "location": "Melbourne, Australia",
+  "category": "rally",
+  "summary": "The rally centred on the 'Put Australia First' initiative expressed strong concerns about immigration policy, national security, and the direction of the federal government.",
+  "description": "Speakers argued that current policies were failing to protect Australian interests and claimed that the government had lost the confidence of ordinary citizens. Throughout the event, protesters called for greater accountability from national leaders and demanded effective leadership to restore stability, strengthen border controls, and prioritise the needs of Australians.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/images/statements/paf0.jpg",
+      "caption": "Put Australia First Rally",
+      "orderIndex": 1
+    },
+    {
+      "imageUrl": "/images/statements/paf1.jpg",
+      "caption": "Rally attendees",
+      "orderIndex": 2
+    },
+    {
+      "imageUrl": "/images/statements/paf3.jpg",
+      "caption": "Community gathering",
+      "orderIndex": 3
+    },
+    {
+      "imageUrl": "/images/statements/paf4.jpg",
+      "caption": "Protest scene",
+      "orderIndex": 4
+    },
+    {
+      "imageUrl": "/images/statements/paf5.jpg",
+      "caption": "Rally participants",
+      "orderIndex": 5
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "speech",
+      "title": "Key Speech",
+      "content": "Ladies and gentlemen, Australian Friends, I stand here today as an Iranian-Australian. Proud of where I came from. Grateful for where I stand. Not with hatred. Not with fear. But with truth.\n\nWhat happened at Bondi was evil. Violence against innocent people must be condemned clearly and without excuse. But listen to me—condemnation alone is not enough.\n\nI come from a country that learned this lesson the hard way. A country that once believed, 'It could never happen here.' Before the revolution, Iran was not perfect. But it was alive. It was a civilisation thousands of years old. A land of poets, science, art, and history. Women studied. Women worked. People spoke without fear.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "speech",
+      "title": "Warning from History",
+      "content": "Then, 47 years ago, a radical ideology was given space. It did not come with tanks. It came with promises. It claimed morality. It claimed truth. And slowly, quietly, it took everything. Courts became tools of fear. Schools became tools of control. Freedom became a crime. Culture was erased. An empire that survived centuries of invasion was destroyed from within—not by foreign enemies, but by an ideology that could not tolerate freedom.",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "call_to_action",
+      "title": "A Call to Action",
+      "content": "Do not do what we did. This is not the time to be silent. This is not the time to give space to radicalism. Putting Australia first is not hate. It is not extremism. It is our responsibility. Protecting Australian values is not exclusion. It is preservation. Giving space to extremism is not tolerance. It is surrender.\n\nI lost my country to this ideology. I refuse to lose Australia too. Do not wait. Do not look away. Protect Australia. Protect its values. Protect it now.",
+      "orderIndex": 3
+    }
+  ]
+}
+
+### EVENT 5: Statement of Solidarity
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Statement of Solidarity and Condemnation",
+  "date": "2025-12-19T00:00:00Z",
+  "location": "Melbourne, Australia",
+  "category": "statement",
+  "summary": "On behalf of the 100 Cities Project and its network of participating cities across the globe, we unequivocally condemn the heinous terror attack near Bondi Beach during Hanukkah.",
+  "description": "We stand in solidarity with the Jewish community, with all victims and families affected, and with all those who cherish human dignity, security, and peace. Terror in any form; whether driven by hatred, prejudice, or political extremism; has no place in our societies.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "https://100cities.org/wp-content/uploads/2025/03/logo-website-oben.png",
+      "caption": "100 Cities Project",
+      "orderIndex": 1
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "statement",
+      "title": "Our Position",
+      "content": "As Iranians and supporters of freedom who have lived under extremism, repression, and state-sponsored hatred, we hold deep respect for the Jewish and Israeli values of life, dignity, remembrance, and perseverance. Targeting innocent people because of their faith or identity is an attack on our shared humanity.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "vision",
+      "title": "Looking Forward",
+      "content": "We believe that in a New, free Iran, we will soon be able to rebuild and strengthen the deep-rooted friendship and historic relationship between the Iranian and Jewish peoples, and with Israel; contributing to a free, peaceful Middle East, guided by shared principles of justice, dignity, and mutual respect, inspired by the spirit of the Cyrus Accord.",
+      "orderIndex": 2
+    }
+  ]
+}
+
+### EVENT 6: Bringing Light Together
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Bringing Light Together",
+  "date": "2025-12-15T00:00:00Z",
+  "location": "Caulfield Shule & Temple Beth Israel, Melbourne",
+  "category": "solidarity",
+  "summary": "On Monday 15 December 2025, we attended both the Community Solidarity Gathering at Caulfield Shule and the candle-lighting event at Temple Beth Israel.",
+  "description": "Standing alongside the Jewish community in response to the tragic attack at Bondi Beach during Chanukah. Surrounded by people from all backgrounds, we joined in lighting candles, offering prayers, and honouring the victims with unity and compassion.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/images/statements/bl1.jpg",
+      "caption": "Candle lighting ceremony",
+      "orderIndex": 1
+    },
+    {
+      "imageUrl": "/images/statements/bl2.jpg",
+      "caption": "Community gathering",
+      "orderIndex": 2
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "description",
+      "title": "Event Significance",
+      "content": "Being present in two synagogues on the same night carried deep meaning. A shared commitment to peace, dignity, and the protection of innocent life. In these sacred spaces, we stood shoulder to shoulder with our Jewish friends, bringing light into darkness and reaffirming our unwavering solidarity with all those affected.",
+      "orderIndex": 1
+    }
+  ]
+}
+
+### Get all events (verify they're added)
+GET http://localhost:5000/api/events
+
+### Simple Test Event
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Test Event",
+  "date": "2026-01-25T16:00:00Z",
+  "location": "Melbourne",
+  "category": "vigil",
+  "summary": "Test summary",
+  "description": "Test description",
+  "videoUrl": null,
+  "images": [],
+  "sections": []
+}
+
+### Check existing events
+GET http://localhost:5000/api/events
+
+### Delete existing events by ID (run these first)
+DELETE http://localhost:5000/api/events/1
+###
+DELETE http://localhost:5000/api/events/2
+###
+DELETE http://localhost:5000/api/events/3
+###
+DELETE http://localhost:5000/api/events/4
+###
+DELETE http://localhost:5000/api/events/5
+###
+DELETE http://localhost:5000/api/events/6
+
+### Now add EVENT 1: Justice For 36,000+ Iranians
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Justice For 36,000+ Iranians",
+  "date": "2026-01-25T16:00:00Z",
+  "location": "Parliament Steps, Melbourne",
+  "category": "vigil",
+  "summary": "This Sunday, 25 January 2026, we return to the Parliament Steps to amplify the call for justice for the 36,000+ Iranians murdered, disappeared, or jailed for daring to dream of a free homeland.",
+  "description": "Families and allies will gather from 4:00 pm to 6:00 pm to read the names that regime courts tried to erase, project their portraits across Spring Street, and remind Canberra and the wider international community that every life silenced by Tehran demands an answer.",
+  "videoUrl": null,
+  "images": [],
+  "sections": [
+    {
+      "sectionType": "description",
+      "title": "Event Details",
+      "content": "The vigil will open with a moment of collective silence followed by testimonies from survivors and Australian parliamentarians who have pledged to push for Magnitsky-style sanctions targeting the architects of mass executions. A mobile archive curated by Rise For Iran will showcase letters smuggled out of Iranian prisons, ensuring the world hears directly from those who remain behind bars.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "how_to_help",
+      "title": "How You Can Help",
+      "content": "• Record a 30-second video message for families of the fallen and tag #JusticeForIran\n• Share the vigil details with your networks and encourage attendance\n• Contact your local MP to demand action on human rights abuses in Iran",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "call_to_action",
+      "title": "Join Us",
+      "content": "Bring candles, flags, and any photo that represents the loved ones you carry in your heart. Together we will light a corridor of hope leading up the Parliament Steps and recommit to a future in which Iran is governed by justice, not fear.",
+      "orderIndex": 3
+    }
+  ]
+}
