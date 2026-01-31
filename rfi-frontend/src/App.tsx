@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <main className="pt-24 px-4">
+      <main className="pt-24">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/posters" element={<Posters />} />
