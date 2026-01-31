@@ -18,3 +18,94 @@ Content-Type: image/jpeg
 
 < E:\1.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create the Iranian Opposition Leader News
+POST http://localhost:5000/api/news
+Content-Type: application/json
+
+{
+  "title": "Iranian Opposition Leader Announces Transition Plan and Calls for International Support",
+  "summary": "An opposition leader has stepped forward claiming to lead the movement to liberate Iran from what he describes as an illegitimate regime...",
+  "category": "Politics",
+  "date": "2026-01-17T00:00:00Z",
+  "readTimeMinutes": 15,
+  "videoUrl": "https://www.youtube.com/embed/GIYZhaoiFYU",
+  "imageUrl": null,
+  "sections": [
+    {
+      "sectionType": "support_request",
+      "title": "What Support is Being Requested?",
+      "orderIndex": 1,
+      "keyPoints": [
+        {
+          "title": "1. Protect Iranian people",
+          "description": "by degrading the regime's repressive capacity, including targeting the Islamic Revolutionary Guard leadership and control and its command and control infrastructure",
+          "orderIndex": 1
+        },
+        {
+          "title": "2. Deliver and sustain maximum economic pressure on the regime",
+          "description": "block their assets worldwide, target and dismantle their fleet of ghost tankers.",
+          "orderIndex": 2
+        },
+        {
+          "title": "3. Break into regime information blockage by enabling unrestricted internet access",
+          "description": "deploy Starlink and other secure communications tools widely cross Iran and conduct cyber operations to disable the regime's ability to shutdown the internet",
+          "orderIndex": 3
+        },
+        {
+          "title": "4. Hold the regime accountable",
+          "description": "by expelling its diplomats from your capitals and pursue legal enforcement actions those responsible for crimes against humanity",
+          "orderIndex": 4
+        },
+        {
+          "title": "5. Demand the immediate release of all political prisoners",
+          "description": "",
+          "orderIndex": 5
+        },
+        {
+          "title": "6. Prepare for a democratic transition in Iran",
+          "description": "by committing to recognize a legitimate transitional government when moment comes",
+          "orderIndex": 6
+        }
+      ]
+    },
+    {
+      "sectionType": "key_points",
+      "title": "Key Points",
+      "orderIndex": 2,
+      "keyPoints": [
+        {
+          "title": "Mass Casualties",
+          "description": "The regime is accused of killing over 12,000 Iranians in 48 hours, with protesters hunted even in hospitals.",
+          "orderIndex": 1
+        },
+        {
+          "title": "Military Defections",
+          "description": "Tens of thousands from security forces have reportedly signaled readiness to defect through secure channels.",
+          "orderIndex": 2
+        },
+        {
+          "title": "International Support Requested",
+          "description": "Six measures called for including targeting Revolutionary Guard leadership, blocking regime assets, enabling internet access, and expelling diplomats.",
+          "orderIndex": 3
+        },
+        {
+          "title": "Democratic Transition Plan",
+          "description": "Four core principles outlined: territorial integrity, separation of religion and state, individual liberties, and democratic self-determination.",
+          "orderIndex": 4
+        },
+        {
+          "title": "Cyrus Accords Vision",
+          "description": "A new regional peace initiative envisioned, extending the Abraham Accords to include a free Iran as a pillar of stability.",
+          "orderIndex": 5
+        }
+      ]
+    }
+  ]
+}
+
+### Get all news
+GET http://localhost:5000/api/news
+
+### Get specific news by ID
+GET http://localhost:5000/api/news/1
