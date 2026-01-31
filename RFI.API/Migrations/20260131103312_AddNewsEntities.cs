@@ -33,26 +33,6 @@ namespace RFI.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posters",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    FileUrl = table.Column<string>(type: "TEXT", nullable: false),
-                    ThumbnailUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    FileSize = table.Column<long>(type: "INTEGER", nullable: false),
-                    DownloadCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    UploadedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Tags = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posters", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "NewsSections",
                 columns: table => new
                 {
@@ -118,9 +98,6 @@ namespace RFI.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "KeyPoints");
-
-            migrationBuilder.DropTable(
-                name: "Posters");
 
             migrationBuilder.DropTable(
                 name: "NewsSections");

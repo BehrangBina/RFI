@@ -11,7 +11,7 @@ using RFI.API.Data;
 namespace RFI.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260131102344_AddNewsEntities")]
+    [Migration("20260131103312_AddNewsEntities")]
     partial class AddNewsEntities
     {
         /// <inheritdoc />
