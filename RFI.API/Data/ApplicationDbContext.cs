@@ -11,6 +11,9 @@ namespace RFI.API.Data
         public DbSet<News> News { get; set; }
         public DbSet<NewsSection> NewsSections { get; set; }
         public DbSet<KeyPoint> KeyPoints { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventImage> EventImages { get; set; }
+        public DbSet<EventSection> EventSections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,28 +27,50 @@ namespace RFI.API.Data
                 entity.Property(e => e.Slug).IsRequired();
                 entity.HasIndex(e => e.Slug).IsUnique();
                 entity.Property(e => e.Summary).IsRequired();
-                entity.HasMany(e => e.Sections)
-                    .WithOne(e => e.News)
-                    .HasForeignKey(e => e.NewsId)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // NewsSection configuration
             modelBuilder.Entity<NewsSection>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.SectionType).IsRequired();
-                entity.HasMany(e => e.KeyPoints)
-                    .WithOne(e => e.NewsSection)
-                    .HasForeignKey(e => e.NewsSectionId)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // KeyPoint configuration
             modelBuilder.Entity<KeyPoint>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Description).IsRequired();
+            });
+
+            // Event configuration
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Title).IsRequired();
+                entity.Property(e => e.Slug).IsRequired();
+                entity.HasIndex(e => e.Slug).IsUnique();
+                entity.Property(e => e.Summary).IsRequired();
+                entity.Property(e => e.Category).IsRequired();
+                entity.HasMany(e => e.Images)
+                    .WithOne(i => i.Event)
+                    .HasForeignKey(i => i.EventId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.Sections)
+                    .WithOne(s => s.Event)
+                    .HasForeignKey(s => s.EventId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<EventImage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ImageUrl).IsRequired();
+            });
+
+            modelBuilder.Entity<EventSection>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.SectionType).IsRequired();
+                entity.Property(e => e.Content).IsRequired();
             });
         }
     }
