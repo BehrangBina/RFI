@@ -1,0 +1,120 @@
+### Upload paf0 image (hero)
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="paf0.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\paf0.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload paf1 image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="paf1.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\paf1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload paf2 image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="paf2.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\paf2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload paf3 image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="paf3.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\paf3.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload paf4 image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="paf4.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\paf4.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload paf5 image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="paf5.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\paf5.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create Put Australia First Rally event
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Put Australia First",
+  "date": "2025-12-21T14:00:00Z",
+  "location": "Prince Alfred Park, Sydney & Parliament House, Melbourne",
+  "category": "rally",
+  "summary": "The rally centred on the 'Put Australia First' initiative expressed strong concerns about immigration policy, national security, and the direction of the federal government.",
+  "description": "The rally centred on the 'Put Australia First' initiative expressed strong concerns about immigration policy, national security, and the direction of the federal government. Speakers argued that current policies were failing to protect Australian interests and claimed that the government had lost the confidence of ordinary citizens. Throughout the event, protesters called for greater accountability from national leaders and demanded effective leadership to restore stability, strengthen border controls, and prioritise the needs of Australians.\n\nThe event was also a memorial for the victims of the Bondi attack, emphasising the importance of protecting Australian values and standing against extremism.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/uploads/events/3f8670a1-ce8a-4385-99c8-570e32d9ae79_paf0.jpg",
+      "caption": "Put Australia First Rally",
+      "orderIndex": 1
+    },
+    {
+      "imageUrl": "/uploads/events/91b7a57c-d66a-49e4-8da9-1bb7ad652093_paf4.jpg",
+      "caption": "Rally attendees",
+      "orderIndex": 2
+    },
+    {
+      "imageUrl": "/uploads/events/615cec72-57fe-4af2-845f-98c4f21a75bc_paf3.jpg",
+      "caption": "Rally scene",
+      "orderIndex": 3
+    },
+    {
+      "imageUrl": "/uploads/events/47367628-0b1f-4082-98b3-547135a6c309_paf5.jpg",
+      "caption": "Rally participants",
+      "orderIndex": 4
+    },
+    {
+      "imageUrl": "/uploads/events/93156195-6431-41c7-a59e-24557e68c42b_paf2.jpg",
+      "caption": "Rally event",
+      "orderIndex": 5
+    },
+    {
+      "imageUrl": "/uploads/events/c2e68839-385a-4118-a71e-1b8ff04716d7_paf1.jpg",
+      "caption": "Rally gathering",
+      "orderIndex": 6
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "speech",
+      "title": "Speech: Protecting Australian Values",
+      "content": "Ladies and gentlemen, Australian Friends,\n\nI stand here today as an Iranian-Australian. Proud of where I came from. Grateful for where I stand. Not with hatred. Not with fear. But with truth.\n\nWhat happened at Bondi was evil. Violence against innocent people must be condemned clearly and without excuse. But listen to me—condemnation alone is not enough.\n\nI come from a country that learned this lesson the hard way. A country that once believed, 'It could never happen here.' Before the revolution, Iran was not perfect. But it was alive. It was a civilisation thousands of years old. A land of poets, science, art, and history. Women studied. Women worked. People spoke without fear.\n\nThen, 47 years ago, a radical ideology was given space. It did not come with tanks. It came with promises. It claimed morality. It claimed truth. And slowly, quietly, it took everything. Courts became tools of fear. Schools became tools of control. Freedom became a crime. Culture was erased. An empire that survived centuries of invasion was destroyed from within—not by foreign enemies, but by an ideology that could not tolerate freedom.\n\nHear me clearly. Radical ideology does not only kill people. It destroys heritage. It rewrites identity. It steals the future. I am not attacking faith. Faith is personal. Faith belongs in the heart. I am warning you about radical ideology that excuses violence, rejects democracy, and places belief above human life.\n\nAustralia is strong because Australia stands for something: Freedom. Equality. The rule of law. Respect for women. Respect for life. These are Australian values. But no country is immune if it forgets to protect what it stands for.\n\nAnd let me say this clearly—I was not born in Australia. I did not grow up here. I moved to this country only six years ago. Yet Australia gave me something priceless—a voice. Australia gave me this platform to speak freely, peacefully, and openly.\n\nAnd now we are being told that this rally is against immigration, that it is against Australian values, that we are a threat to this country. We are being labelled 'far right.' But let me be very clear: If respecting Australia is called far right, if respecting Australian values is called far right, if protecting our land and our country from extremism, radicalism, hatred, and antisemitism is called far right—then that label means nothing.\n\nBecause protecting freedom of speech is not extremism. Protecting freedom of association is not extremism. Respecting Australia—with all its colours, cultures, people, and backgrounds—is not extremism. That is not 'far right.' That is being Australian.\n\nIran thought it was strong too. We waited. We stayed silent. And we lost everything. Now we are fighting to get back our freedom, our country, and our values—with our blood. They are killing us. Executing us. Torturing us. Separating us. Killing our girls for refusing compulsory hijab.\n\nDo not do what we did. This is not the time to be silent. This is not the time to give space to radicalism. Putting Australia first is not hate. It is not extremism. It is our responsibility. Protecting Australian values is not exclusion. It is preservation. Giving space to extremism is not tolerance. It is surrender.\n\nWaking up does not mean hate. Standing up does not mean division. It means saying together—Australia comes first. Our values come first. Human life comes first. No to violence. No to extremism. No to the destruction of what makes Australia free.\n\nI lost my country to this ideology. I refuse to lose Australia too. Do not wait. Do not look away. Protect Australia. Protect its values. Protect it now.\n\nThank you.",
+      "orderIndex": 1
+    }
+  ]
+}
