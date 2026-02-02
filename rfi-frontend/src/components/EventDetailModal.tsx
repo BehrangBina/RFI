@@ -78,11 +78,11 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
               {/* Image Gallery */}
               {event.images.length > 0 && (
                 <div className="space-y-4">
-                  <div className="rounded-xl overflow-hidden">
+                  <div className="rounded-xl overflow-hidden bg-gray-800">
                     <img
                       src={`${API_BASE_URL}${event.images[selectedImageIndex].imageUrl}`}
                       alt={event.images[selectedImageIndex].caption}
-                      className="w-full h-96 object-cover"
+                      className="w-full h-auto object-contain max-h-[500px]"
                     />
                   </div>
                   {event.images[selectedImageIndex].caption && (
