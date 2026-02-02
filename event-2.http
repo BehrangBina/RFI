@@ -1,0 +1,64 @@
+### Upload statement image (if saved locally)
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="100cities-logo.png"
+Content-Type: image/png
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\100cities-logo.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create Statement of Solidarity event
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Statement of Solidarity and Condemnation",
+  "date": "2025-12-19T00:00:00Z",
+  "location": "100 Cities Project & Participating Cities Worldwide",
+  "category": "statement",
+  "summary": "On behalf of the 100 Cities Project and its network of participating cities across the globe, we unequivocally condemn the heinous terror attack near Bondi Beach during Hanukkah.",
+  "description": "To the Jewish and Israeli Communities in Australia and Around the World,\n\nOn behalf of the 100 Cities Project and its network of participating cities across the globe, we unequivocally condemn the heinous terror attack near Bondi Beach during Hanukkah, which targeted innocent civilians in a time of peace and celebration.\n\nWe stand in solidarity with the Jewish community, with all victims and families affected, and with all those who cherish human dignity, security, and peace. Terror in any form; whether driven by hatred, prejudice, or political extremism; has no place in our societies.\n\nAs Iranians and supporters of freedom who have lived under extremism, repression, and state-sponsored hatred, we hold deep respect for the Jewish and Israeli values of life, dignity, remembrance, and perseverance. Targeting innocent people because of their faith or identity is an attack on our shared humanity.\n\nOur movement was founded on the belief that human rights, democracy, and respect for all peoples are fundamental to a free and just world. We reject violence against civilians and honor the memory of all those harmed on a sacred night of light, hope, and unity.\n\nWe extend our deepest condolences to the families and communities touched by this tragedy. We reaffirm our commitment to peaceful coexistence and mutual respect among all cultures, religions, and nations.\n\nWe believe that in a New, free Iran, we will soon be able to rebuild and strengthen the deep-rooted friendship and historic relationship between the Iranian and Jewish peoples, and with Israel; contributing to a free, peaceful Middle East, guided by shared principles of justice, dignity, and mutual respect, inspired by the spirit of the Cyrus Accord.\n\nMay this sorrow remind us of the shared values that bind humanity: dignity, compassion, and the unyielding resolve to protect the innocent.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/uploads/events/37d35628-5e6a-4a19-8233-70ab9a4a1532_100cities-logo.png",
+      "caption": "100 Cities Project Logo",
+      "orderIndex": 1
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "signatories",
+      "title": "Signatories - Organizations (English)",
+      "content": "Rise For Iran – Melbourne\nNo to Antisemitism Organization\n100 Cities Global Project\nFarr Kiani Front\nAssociation of Monarchist Physicians of Iran\nIrano\nSepidar – Women's Party of Iran\nRazi National Health Association\nMonarchist Institution\nAssociation of Iranian Patriots of Australia\nIranian American Chamber of Commerce – Northern California\nLion and Sun Association\nIran Development and Civilization Movement\nIranian National Unity Movement\nRealm & Rally Organization – Perth, Australia\nMonarchist Patriotic Iranians of Norway\nMana Iran Organization\nIranian National Solidarity Group – Austria\nSupporters of Prince Reza Pahlavi – Japan\nMonarchist Institution\nMission for My Homeland\nHamad Supporters of the Prince's Leadership\nMeliran – National and Constitutional Platform of Iranians in Australia\nLiberation Conference Team\nHorakhsh Association\nParliamentary Monarchy in Line with Human Rights\nCasandan Cultural-Political Association\nRepublican Council of America\nIranian-Canadian Solidarity Institution\nAssociation of Iranians in Scotland\nAmerican Iranian Patriots\nCyrus Cultural Center Tel Aviv Association\nIran Cultural Center in Israel",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "signatories",
+      "title": "Signatories - Individuals (English)",
+      "content": "Dr. Navid Tobian\nRoza Partow\nDr. Hossein Shokouhamiri\nDr. Mitra Babak\nLeila Dehghan\nDr. Mahdi Mirselimi\nLeili Rahmani",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "signatories",
+      "title": "لیست احزاب و سازمانها",
+      "content": "Rise For Iran – ملبورن\nسازمان «نه به یهودی‌ستیزی»\nپروژهٔ جهانی صد شهر\nجبههٔ فر کیانی\nانجمن پزشکان پادشاهی‌خواه ایران\nایرانو\nسپیدار – حزب زنان ایران\nانجمن ملی سلامت رازی\nنهاد پادشاهی\nانجمن میهن‌پرستان ایرانی استرالیایی\nاتاق بازرگانی ایرانیان آمریکایی – شمال کالیفرنیا\nانجمن شیر و خورشید\nجنبش توسعه و تمدن ایران\nجنبش وحدت ملی ایرانیان\nسازمان Realm & Rally – پرت، استرالیا\nایرانیان میهن‌پرست پادشاهی‌خواه نروژ\nسازمان مانا ایران\nگروه همبستگی ملی ایرانیان – اتریش\nحامیان شاهزاده رضا پهلوی – ژاپن\nنهاد پادشاهی\nمأموریت برای وطنم\nهماد حامیان رهبری شاهزاده\nملیران – سامانهٔ ملی‌گرایی و مشروطه‌خواهی ایرانیان استرالیا\nتیم همایش رهایی\nانجمن هورخش\nپادشاهی پارلمانی در راستای حقوق بشر\nانجمن فرهنگی–سیاسی کاساندان\nشورای جمهوری‌خواهان آمریکا\nنهاد همبستگی ایرانیان و کانادایی‌ها\nانجمن ایرانیان اسکاتلند\nمیهن‌پرستان ایرانی آمریکایی\nانجمن فرهنگسرای کورش تلاویو\nفرهنگسرای ایران در اسراییل",
+      "orderIndex": 3
+    },
+    {
+      "sectionType": "signatories",
+      "title": "افراد",
+      "content": "دکتر نوید توبیان\nرزا پرتو\nدکتر حسین شکوه امیری\nدکتر میترا بابک\nلیلا دهقان\nدکتر مهدی میرسلیمی\nلی لی رحمانی",
+      "orderIndex": 4
+    },
+    {
+      "sectionType": "signature",
+      "title": "Signed on behalf of",
+      "content": "100 Cities Project\nIranian groups, organizations, individuals,\nand all participating cities worldwide",
+      "orderIndex": 5
+    }
+  ]
+}
