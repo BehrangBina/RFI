@@ -1,0 +1,68 @@
+### Upload lastfight1 image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="lastfight1.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\lastfight1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload lastfight2 image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="lastfight2.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\lastfight2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create The Last Fight event
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "The Last Fight - آخرین نبرد",
+  "date": "2026-01-04T14:00:00Z",
+  "location": "Melbourne, Australia",
+  "category": "solidarity",
+  "summary": "The event, held in collaboration with the 100 Cities Project and supported by Meliran and Rise For Iran, was a powerful demonstration of global solidarity supporting Iran's freedom movement.",
+  "description": "The event, held in collaboration with the 100 Cities Project and supported by Meliran and Rise For Iran, took place in Melbourne, Australia, on January 4, 2026. It was a powerful demonstration of global solidarity, supporting Iran's freedom movement and echoing worldwide rallies backing Iranians protesting economic collapse and tyranny. Protesters chanted 'Reza Pahlavi' and 'Javid Shah,' even as the IRGC carried out massacres with at least 10–16 people killed. Trump warned Iran's regime against further brutality, stating that U.S. intervention was possible.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/uploads/events/GUID_lastfight1.jpg",
+      "caption": "Return of Pahlavi - Chanted by the people of Iran",
+      "orderIndex": 1
+    },
+    {
+      "imageUrl": "/uploads/events/GUID_lastfight2.jpg",
+      "caption": "Global solidarity rally in Melbourne",
+      "orderIndex": 2
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "description",
+      "title": "Iran's Ongoing Protests",
+      "content": "Iran's ongoing protests, starting late December 2025, are driven by economic collapse—inflation over 40%, rial at record lows—escalating into anti-regime demands for freedom.\n\nThe movement has spread to 174 locations in 25 provinces, with chants for Reza Pahlavi and 'Javid Shah.' At least 10-16 killed by IRGC forces; arrests, internet blackouts. Khamenei vows crackdown; regime blames foreign interference. Trump warns against brutality, hints at US action; Russia reportedly aiding regime. Protesters tear down regime flags, raise Lion and Sun.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "description",
+      "title": "The Crackdown",
+      "content": "The IRGC has unleashed brutal crackdowns, numerous injuries, and mass arrests amid internet blackouts and deployments of anti-riot forces in cities like Malekshahi and Lordegan. Protesters, chanting 'Javid Shah' (Long Live the Shah) and 'This is the final battle, Pahlavi will return,' demand the restoration of the monarchy under Reza Pahlavi, rejecting the Islamic Republic in rallies across Tehran, Mashhad, and Karaj.",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "description",
+      "title": "Global Support",
+      "content": "This Melbourne rally, organized by the 100 Cities Project, Meliran, and Rise For Iran, demonstrated global solidarity with the Iranian people's struggle for freedom, democracy, and the restoration of their rightful leadership under Reza Pahlavi.",
+      "orderIndex": 3
+    }
+  ]
+}
