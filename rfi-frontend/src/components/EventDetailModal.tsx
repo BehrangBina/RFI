@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Event } from '../services/eventService';
 
+const API_BASE_URL = 'http://localhost:5000';
+
 interface EventDetailModalProps {
   event: Event;
   onClose: () => void;
@@ -78,7 +80,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
                 <div className="space-y-4">
                   <div className="rounded-xl overflow-hidden">
                     <img
-                      src={event.images[selectedImageIndex].imageUrl}
+                      src={`${API_BASE_URL}${event.images[selectedImageIndex].imageUrl}`}
                       alt={event.images[selectedImageIndex].caption}
                       className="w-full h-96 object-cover"
                     />
@@ -103,7 +105,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
                           }`}
                         >
                           <img
-                            src={image.imageUrl}
+                            src={`${API_BASE_URL}${image.imageUrl}`}
                             alt={image.caption}
                             className="w-full h-full object-cover"
                           />

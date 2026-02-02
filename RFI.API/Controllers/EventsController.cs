@@ -74,10 +74,13 @@ namespace RFI.API.Controllers
         [HttpPost]
         public async Task<ActionResult<EventDto>> CreateEvent(CreateEventDto createDto)
         {
+            var baseSlug = GenerateSlug(createDto.Title);
+            var slug = await EnsureUniqueSlug(baseSlug);
+
             var eventEntity = new Event
             {
                 Title = createDto.Title,
-                Slug = GenerateSlug(createDto.Title),
+                Slug = slug,
                 Date = createDto.Date,
                 Location = createDto.Location,
                 Category = createDto.Category.ToLower(),
@@ -199,7 +202,25 @@ namespace RFI.API.Controllers
 
             return Ok(categories);
         }
+        [HttpPost("upload-image")]
+        public async Task<ActionResult<string>> UploadEventImage([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded");
 
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "events");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok($"/uploads/events/{uniqueFileName}");
+        }
         private static EventDto MapToDto(Event eventEntity)
         {
             return new EventDto(
@@ -234,6 +255,20 @@ namespace RFI.API.Controllers
                 .Replace(",", "")
                 .Replace(":", "")
                 .Replace("&", "and");
+        }
+
+        private async Task<string> EnsureUniqueSlug(string baseSlug)
+        {
+            var slug = baseSlug;
+            var counter = 1;
+
+            while (await _context.Events.AnyAsync(e => e.Slug == slug))
+            {
+                slug = $"{baseSlug}-{counter}";
+                counter++;
+            }
+
+            return slug;
         }
     }
 }

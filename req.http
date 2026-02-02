@@ -496,4 +496,3 @@ DELETE http://localhost:5000/api/events/6
 ### Now add EVENT 1: Justice For 36,000+ Iranians
 POST http://localhost:5000/api/events
 Content-Type: application/json
-
