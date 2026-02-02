@@ -1,0 +1,52 @@
+### Upload vigil poster image
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="parliament-vigil.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\statements\parliament-vigil.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create Parliament Steps Vigil event
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Parliament Steps Vigil Australia - Melbourne",
+  "date": "2026-01-18T16:00:00Z",
+  "location": "Parliament House, Melbourne, Australia",
+  "category": "vigil",
+  "summary": "Justice for 30,000 Iranians - Crimes against humanity must be stopped.",
+  "description": "Iranians in Melbourne gathered in front of Parliament House from 4:00 pm to 6:00 pm to support King Reza Pahlavi and stand shoulder to shoulder with people inside Iran. Protesters amplified the voices of families demanding justice for more than 30,000 people killed by the regime and called for urgent international action to hold Tehran accountable for its crimes.\n\nSpeakers urged Australians to recognize the stakes for Iran's freedom movement, stressing that defending human rights abroad safeguards liberty at home. The rally's key demands included immediate accountability for regime crimes, coordinated diplomatic pressure, and concrete support for Iranians risking their lives on the streets.\n\nAttendees were encouraged to share updates across social platforms, keep the global spotlight on political prisoners, and remind the world that the struggle for a free Iran is inseparable from the universal fight for dignity.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/uploads/events/a4a5870a-744f-4497-886e-c6fdfafbf28c_parliament-vigil.jpg",
+      "caption": "Justice for 30,000+ Iranians",
+      "orderIndex": 1
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "description",
+      "title": "Purpose of the Vigil",
+      "content": "Iranians in Melbourne gathered in front of Parliament House to support King Reza Pahlavi and stand shoulder to shoulder with people inside Iran. Protesters amplified the voices of families demanding justice for more than 30,000 people killed by the regime and called for urgent international action to hold Tehran accountable for its crimes.",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "description",
+      "title": "Key Messages",
+      "content": "Speakers urged Australians to recognize the stakes for Iran's freedom movement, stressing that defending human rights abroad safeguards liberty at home. The rally's key demands included:\n\n• Immediate accountability for regime crimes\n• Coordinated diplomatic pressure\n• Concrete support for Iranians risking their lives on the streets",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "description",
+      "title": "Call to Action",
+      "content": "Attendees were encouraged to share updates across social platforms, keep the global spotlight on political prisoners, and remind the world that the struggle for a free Iran is inseparable from the universal fight for dignity.",
+      "orderIndex": 3
+    }
+  ]
+}
