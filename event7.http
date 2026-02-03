@@ -1,0 +1,181 @@
+ ### Upload Australia Day image 2.1
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="2.1.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\2.1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload Australia Day image 2.2
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="2.2.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\2.2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload Australia Day image 2.3
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="2.3.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\2.3.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload Australia Day image 2.4 (hero)
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="2.4.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\2.4.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload Australia Day image 2.5
+POST http://localhost:5000/api/events/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="2.5.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\bck\RiseForIran\images\2.5.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create Australia Day 2026 Event
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Australia Day 2026",
+  "date": "2026-01-26T00:00:00Z",
+  "location": "Victoria, Australia",
+  "category": "community-engagement",
+  "summary": "Australia Day was a meaningful opportunity to connect, reflect, and celebrate the diversity that makes Australia strong.",
+  "description": "We had a chance to engage, contemplate, and commemorate the diversity that strengthens Australia. We had the privilege of being invited by Matthew Guy MP to have meaningful discussions with other MPs and Jess Wilson, the Leader of the Opposition.\n\nAs members of the Iranian-Australian community, we went to celebrate Australia Day with people from all backgrounds, cultures, and traditions while also representing our voices and promoting open discourse. It served as a reminder of the significance of solidarity, civic engagement, and common democratic principles in creating an inclusive Australia where everyone is welcome.\n\nStrong democracies are created when people from all backgrounds feel heard, respected, and included, according to Jess Wilson, who emphasised the importance of multicultural communities in influencing Victoria's future. Her perspective reinforced the importance of active participation and the contributions migrant communities make to Australia's social and civic fabric.\n\nConcerns regarding safety, visibility, and community support were among the difficulties Iranian political activists in Australia face. We talked about how we can work better with Victorian leaders to make sure that activists, many of whom escaped persecution, can engage in civic life with confidence and freedom. In this context, we shared perspectives within the Iranian diaspora, including those of individuals like Prince Reza Pahlavi, especially with regard to human rights, democratic values, and the desire for Iran to have a free and representative future. These discussions served to emphasize how crucial it is to assist diaspora communities that are still fighting for freedom and justice.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/uploads/events/fcd4a735-d935-4557-92bb-b0d9c2df55bb_2.2.jpg",
+      "caption": "Australia Day celebration with community leaders",
+      "orderIndex": 1,
+      "isHero": true
+    },
+    {
+      "imageUrl": "/uploads/events/382b341d-e63c-4088-bbcf-a009b9583ef7_2.4.jpg",
+      "caption": "Meeting with Victorian MPs and community members",
+      "orderIndex": 2
+    },
+    {
+      "imageUrl": "/uploads/events/572b4bff-7fde-4d15-b776-475faa25ae7b_2.1.jpg",
+      "caption": "Gathering with community representatives",
+      "orderIndex": 3
+    },
+    {
+      "imageUrl": "/uploads/events/101a0fa4-321a-41d4-83aa-74f5d560a08a_2.3.jpg",
+      "caption": "Iranian-Australian community delegation",
+      "orderIndex": 4
+    },
+    {
+      "imageUrl": "/uploads/events/95cbae0d-c6f5-416b-b5e1-393fd067a9c1_2.5.jpg",
+      "caption": "With Matthew Guy MP and community leaders",
+      "orderIndex": 5
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "highlights",
+      "title": "Key Highlights",
+      "content": "• Invited by Matthew Guy MP for meaningful discussions with Victorian MPs\n• Met with Jess Wilson, Leader of the Opposition\n• Discussed multicultural contributions to Victoria's future\n• Addressed challenges faced by Iranian political activists in Australia\n• Shared perspectives on human rights and democratic values\n• Emphasized the importance of civic engagement and solidarity",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "discussion",
+      "title": "Discussion Topics",
+      "content": "The discussions centered around several critical themes:\n\n**Community Engagement:** The importance of active participation from multicultural communities in shaping Victoria's democratic future.\n\n**Safety and Support:** Addressing concerns regarding safety, visibility, and community support for Iranian political activists who have escaped persecution.\n\n**Democratic Values:** Sharing perspectives within the Iranian diaspora, including views aligned with individuals like Prince Reza Pahlavi, regarding human rights and the desire for a free and representative future for Iran.\n\n**Inclusive Democracy:** Reinforcing that strong democracies are built when people from all backgrounds feel heard, respected, and included.",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "quote",
+      "title": "From the Leader of the Opposition",
+      "content": "\"Strong democracies are created when people from all backgrounds feel heard, respected, and included. Multicultural communities play a vital role in influencing Victoria's future.\"\n\n— Jess Wilson, Leader of the Opposition",
+      "orderIndex": 3
+    }
+  ]
+}
+
+
+### Create Australia Day 2026 Event
+POST http://localhost:5000/api/events
+Content-Type: application/json
+
+{
+  "title": "Australia Day 2026",
+  "date": "2026-01-26T00:00:00Z",
+  "location": "Victoria, Australia",
+  "category": "community-engagement",
+  "summary": "Australia Day was a meaningful opportunity to connect, reflect, and celebrate the diversity that makes Australia strong.",
+  "description": "We had a chance to engage, contemplate, and commemorate the diversity that strengthens Australia. We had the privilege of being invited by Matthew Guy MP to have meaningful discussions with other MPs and Jess Wilson, the Leader of the Opposition.\n\nAs members of the Iranian-Australian community, we went to celebrate Australia Day with people from all backgrounds, cultures, and traditions while also representing our voices and promoting open discourse. It served as a reminder of the significance of solidarity, civic engagement, and common democratic principles in creating an inclusive Australia where everyone is welcome.\n\nStrong democracies are created when people from all backgrounds feel heard, respected, and included, according to Jess Wilson, who emphasised the importance of multicultural communities in influencing Victoria's future. Her perspective reinforced the importance of active participation and the contributions migrant communities make to Australia's social and civic fabric.\n\nConcerns regarding safety, visibility, and community support were among the difficulties Iranian political activists in Australia face. We talked about how we can work better with Victorian leaders to make sure that activists, many of whom escaped persecution, can engage in civic life with confidence and freedom. In this context, we shared perspectives within the Iranian diaspora, including those of individuals like Prince Reza Pahlavi, especially with regard to human rights, democratic values, and the desire for Iran to have a free and representative future. These discussions served to emphasize how crucial it is to assist diaspora communities that are still fighting for freedom and justice.",
+  "attendeeCount": null,
+  "videoUrl": null,
+  "images": [
+    {
+      "imageUrl": "/uploads/events/fcd4a735-d935-4557-92bb-b0d9c2df55bb_2.4.jpg",
+      "caption": "Australia Day celebration with community leaders",
+      "orderIndex": 1,
+      "isHero": true
+    },
+    {
+      "imageUrl": "/uploads/events/382b341d-e63c-4088-bbcf-a009b9583ef7_2.2.jpg",
+      "caption": "Meeting with Victorian MPs and community members",
+      "orderIndex": 2
+    },
+    {
+      "imageUrl": "/uploads/events/572b4bff-7fde-4d15-b776-475faa25ae7b_2.1.jpg",
+      "caption": "Gathering with community representatives",
+      "orderIndex": 3
+    },
+    {
+      "imageUrl": "/uploads/events/101a0fa4-321a-41d4-83aa-74f5d560a08a_2.3.jpg",
+      "caption": "Iranian-Australian community delegation",
+      "orderIndex": 4
+    },
+    {
+      "imageUrl": "/uploads/events/95cbae0d-c6f5-416b-b5e1-393fd067a9c1_2.5.jpg",
+      "caption": "With Matthew Guy MP and community leaders",
+      "orderIndex": 5
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "highlights",
+      "title": "Key Highlights",
+      "content": "• Invited by Matthew Guy MP for meaningful discussions with Victorian MPs\n• Met with Jess Wilson, Leader of the Opposition\n• Discussed multicultural contributions to Victoria's future\n• Addressed challenges faced by Iranian political activists in Australia\n• Shared perspectives on human rights and democratic values\n• Emphasized the importance of civic engagement and solidarity",
+      "orderIndex": 1
+    },
+    {
+      "sectionType": "discussion",
+      "title": "Discussion Topics",
+      "content": "The discussions centered around several critical themes:\n\n**Community Engagement:** The importance of active participation from multicultural communities in shaping Victoria's democratic future.\n\n**Safety and Support:** Addressing concerns regarding safety, visibility, and community support for Iranian political activists who have escaped persecution.\n\n**Democratic Values:** Sharing perspectives within the Iranian diaspora, including views aligned with individuals like Prince Reza Pahlavi, regarding human rights and the desire for a free and representative future for Iran.\n\n**Inclusive Democracy:** Reinforcing that strong democracies are built when people from all backgrounds feel heard, respected, and included.",
+      "orderIndex": 2
+    },
+    {
+      "sectionType": "quote",
+      "title": "From the Leader of the Opposition",
+      "content": "\"Strong democracies are created when people from all backgrounds feel heard, respected, and included. Multicultural communities play a vital role in influencing Victoria's future.\"\n\n— Jess Wilson, Leader of the Opposition",
+      "orderIndex": 3
+    }
+  ]
+}
