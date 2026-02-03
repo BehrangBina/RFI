@@ -17,7 +17,7 @@ const Navbar = () => {
     <nav className="bg-[#46A2B9]/95 fixed inset-x-0 top-0 z-50 shadow-md backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2 font-semibold text-white" aria-label="Home">
-          <img src="./images/sitelogo.svg" alt="Rise For Iran logo" className="h-10 w-10" />
+          <img src="http://localhost:5000/images/favicon.svg" alt="Rise For Iran logo" className="h-10 w-10" />
           Rise For Iran
         </Link>
 

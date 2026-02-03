@@ -43,7 +43,12 @@ var app = builder.Build();
 app.UseCors("AllowReactApp");
 
 // Enable serving static files
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
+    RequestPath = "" // Serves from root
+});
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
