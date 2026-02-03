@@ -14,7 +14,8 @@ namespace RFI.API.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<EventImage> EventImages { get; set; }
         public DbSet<EventSection> EventSections { get; set; }
-
+        public DbSet<HeroSlide> HeroSlides { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

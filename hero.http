@@ -1,0 +1,110 @@
+### Upload hero slide image to highlights folder
+POST http://localhost:5000/api/heroslides/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="18-1.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\RFI.API\wwwroot\highlights\18-1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create Hero Slide
+POST http://localhost:5000/api/heroslides
+Content-Type: application/json
+
+{
+  "title": "Welcome to Rise For Iran",
+  "subtitle": "Together for Freedom",
+  "description": "Join us in promoting human rights and democracy",
+  "imageUrl": "/highlights/f5004a4f-7381-418a-b030-2bb54fdfebb7_18-1.jpg",
+  "buttonText": "Learn More",
+  "buttonLink": "/about",
+  "orderIndex": 1,
+  "isActive": true
+}
+
+################# 2  ###########################
+
+### Upload hero slide image to highlights folder
+POST http://localhost:5000/api/heroslides/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="18-2.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\RFI.API\wwwroot\highlights\18-2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Update Hero Slide #2 (fix imageUrl and activate)
+PUT http://localhost:5000/api/heroslides/2
+Content-Type: application/json
+
+{
+  "id": 2,
+  "title": "Supporting Our Community",
+  "subtitle": "Stand Together",
+  "description": "Building a stronger future for all Iranians",
+  "imageUrl": "/highlights/e5b1b1a0-583f-4af0-ae71-f601c340a59e_18-2.jpg",
+  "buttonText": "Get Involved",
+  "buttonLink": "/events",
+  "orderIndex": 2,
+  "isActive": true,
+  "createdAt": "2026-02-03T13:08:47.460265Z"
+}
+
+################# 3  ###########################
+
+### Upload hero slide image to highlights folder
+POST http://localhost:5000/api/heroslides/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="18-3.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\RFI.API\wwwroot\highlights\18-3.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create Hero Slide #3
+POST http://localhost:5000/api/heroslides
+Content-Type: application/json
+
+{
+  "title": "Our Vision for Change",
+  "subtitle": "Unity and Progress",
+  "description": "Working together towards a brighter tomorrow",
+  "imageUrl": "/highlights/940c2858-e09f-4fb4-80ff-6b8a15396864_18-3.jpg",
+  "buttonText": "Join Us",
+  "buttonLink": "/contact",
+  "orderIndex": 3,
+  "isActive": true
+}
+################# 4  ###########################
+
+### Upload hero slide image to highlights folder
+POST http://localhost:5000/api/heroslides/upload-image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="18-4.jpg"
+Content-Type: image/jpeg
+
+< E:\work\Training\RFI\RFI.API\wwwroot\highlights\18-4.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Create Hero Slide #4
+POST http://localhost:5000/api/heroslides
+Content-Type: application/json
+
+{
+  "title": "Our Vision for Change",
+  "subtitle": "Unity and Progress",
+  "description": "Working together towards a brighter tomorrow",
+  "imageUrl": "/highlights/863e4934-e646-4a21-b423-e723a9df6f84_18-4.jpg",
+  "buttonText": "Join Us",
+  "buttonLink": "/contact",
+  "orderIndex": 4,
+  "isActive": true
+}
