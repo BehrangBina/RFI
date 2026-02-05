@@ -7,6 +7,7 @@ export const PosterList: React.FC<{ refresh: number }> = ({ refresh }) => {
   const [posters, setPosters] = useState<Poster[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     loadPosters();
@@ -41,67 +42,95 @@ export const PosterList: React.FC<{ refresh: number }> = ({ refresh }) => {
   const handleDownload = async (poster: Poster) => {
     try {
       await posterService.incrementDownloadCount(poster.id);
-      // Open in new tab or download
       window.open(posterService.getImageUrl(poster.fileUrl), '_blank');
-      loadPosters(); // Refresh to show updated download count
+      loadPosters();
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const openImageModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+  };
+
+  const closeImageModal = () => {
+    setSelectedImage(null);
   };
 
   if (loading) return <div className="loading">Loading posters...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="poster-list">
-      <h2>Posters ({posters.length})</h2>
-      {posters.length === 0 ? (
-        <p>No posters yet. Upload your first one!</p>
-      ) : (
-        <div className="poster-grid">
-          {posters.map((poster) => (
-            <div key={poster.id} className="poster-card">
-              <div className="poster-image">
-                {poster.thumbnailUrl ? (
-                  <img
-                    src={posterService.getImageUrl(poster.thumbnailUrl)}
-                    alt={poster.title}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
-                    }}
-                  />
-                ) : poster.fileUrl.toLowerCase().endsWith('.pdf') ? (
-                  <div className="pdf-placeholder">📄 PDF</div>
-                ) : (
-                  <img
-                    src={posterService.getImageUrl(poster.fileUrl)}
-                    alt={poster.title}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
-                    }}
-                  />
-                )}
-              </div>
-              <div className="poster-info">
-                <h3>{poster.title}</h3>
-                {poster.description && <p>{poster.description}</p>}
-                <div className="poster-meta">
-                  <span>Size: {(poster.fileSize / 1024 / 1024).toFixed(2)} MB</span>
-                  <span>Downloads: {poster.downloadCount}</span>
+    <>
+      <div className="poster-list">
+        <h2>Posters ({posters.length})</h2>
+        {posters.length === 0 ? (
+          <p>No posters yet. Upload your first one!</p>
+        ) : (
+          <div className="poster-grid">
+            {posters.map((poster) => (
+              <div key={poster.id} className="poster-card">
+                <div 
+                  className="poster-image" 
+                  onClick={() => {
+                    const imageUrl = poster.thumbnailUrl || poster.fileUrl;
+                    if (!imageUrl.toLowerCase().endsWith('.pdf')) {
+                      openImageModal(imageUrl);
+                    }
+                  }}
+                  style={{ cursor: poster.thumbnailUrl || !poster.fileUrl.toLowerCase().endsWith('.pdf') ? 'pointer' : 'default' }}
+                >
+                  {poster.thumbnailUrl ? (
+                    <img
+                      src={posterService.getImageUrl(poster.thumbnailUrl)}
+                      alt={poster.title}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
+                      }}
+                    />
+                  ) : poster.fileUrl.toLowerCase().endsWith('.pdf') ? (
+                    <div className="pdf-placeholder">📄 PDF</div>
+                  ) : (
+                    <img
+                      src={posterService.getImageUrl(poster.fileUrl)}
+                      alt={poster.title}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
+                      }}
+                    />
+                  )}
                 </div>
-                <div className="poster-actions">
-                  <button onClick={() => handleDownload(poster)} className="btn-download">
-                    View/Download
-                  </button>
-                  <button onClick={() => handleDelete(poster.id)} className="btn-delete">
-                    Delete
-                  </button>
+                <div className="poster-info">
+                  <h3>{poster.title}</h3>
+                  {poster.description && <p>{poster.description}</p>}
+                  <div className="poster-meta">
+                    <span>Size: {(poster.fileSize / 1024 / 1024).toFixed(2)} MB</span>
+                    <span>Downloads: {poster.downloadCount}</span>
+                  </div>
+                  <div className="poster-actions">
+                    <button onClick={() => handleDownload(poster)} className="btn-download">
+                      View/Download
+                    </button>
+                    <button onClick={() => handleDelete(poster.id)} className="btn-delete">
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div className="image-modal" onClick={closeImageModal}>
+          <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={closeImageModal}>&times;</button>
+            <img src={posterService.getImageUrl(selectedImage)} alt="Full size" />
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
