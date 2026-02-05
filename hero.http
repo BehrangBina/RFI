@@ -3,7 +3,7 @@ POST http://localhost:5000/api/heroslides/upload-image
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="18-1.jpg"
+Content-Disposition: form-data; name="file"; filename="18-6.jpg"
 Content-Type: image/jpeg
 
 < E:\work\Training\RFI\RFI.API\wwwroot\highlights\18-1.jpg
@@ -131,9 +131,62 @@ Content-Type: application/json
   "title": "Our Vision for Change",
   "subtitle": "Unity and Progress",
   "description": "Working together towards a brighter tomorrow",
-  "imageUrl": "/highlights/e1413391-8bc0-484d-bb89-39a2df62b9bd_18-5.jpgg",
+  "imageUrl": "/highlights/e1413391-8bc0-484d-bb89-39a2df62b9bd_18-5.jpg",
   "buttonText": "Join Us",
   "buttonLink": "/contact",
   "orderIndex": 5,
   "isActive": true
 }
+
+### Update Hero Slide #5
+PUT http://localhost:5000/api/heroslides/5
+Content-Type: application/json
+
+{
+  "id": 5,
+  "title": "Our Vision for Change",
+  "subtitle": "Unity and Progress",
+  "description": "Working together towards a brighter tomorrow",
+  "imageUrl": "/highlights/e1413391-8bc0-484d-bb89-39a2df62b9bd_18-5.jpg",
+  "buttonText": "Join Us",
+  "buttonLink": "/contact",
+  "orderIndex": 5,
+  "isActive": true,
+  "createdAt": "2026-02-03T13:00:00Z"
+}
+
+
+
+### Create Hero Slide #6
+POST http://localhost:5000/api/heroslides
+Content-Type: application/json
+
+{
+  "title": "Infront of U.S. Consulate General Melbourne ",
+  "subtitle": "Asking President Trump to stop dealing with the Iranian regime",
+  "description": "",
+  "imageUrl": "/highlights/801feef4-65ef-4a91-9114-cc2d32164607_18-6.jpg",
+  "buttonText": "",
+  "buttonLink": "",
+  "orderIndex": 6,
+  "isActive": true
+}
+
+### Update Hero Slide #6
+PUT http://localhost:5000/api/heroslides/6
+Content-Type: application/json
+
+{
+  "id": 6,
+  "title": "Infront of U.S. Consulate General Melbourne ",
+  "subtitle": "Asking President Trump to stop dealing with the Iranian regime",
+  "description": "",
+  "imageUrl": "/highlights/801feef4-65ef-4a91-9114-cc2d32164607_18-6.jpg",
+  "buttonText": "",
+  "buttonLink": "",
+  "orderIndex": 6,
+  "isActive": true,
+  "createdAt": "2026-02-03T13:00:00Z"
+}
+
+
