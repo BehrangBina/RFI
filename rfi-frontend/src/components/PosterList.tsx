@@ -62,7 +62,15 @@ export const PosterList: React.FC<{ refresh: number }> = ({ refresh }) => {
           {posters.map((poster) => (
             <div key={poster.id} className="poster-card">
               <div className="poster-image">
-                {poster.fileUrl.toLowerCase().endsWith('.pdf') ? (
+                {poster.thumbnailUrl ? (
+                  <img
+                    src={posterService.getImageUrl(poster.thumbnailUrl)}
+                    alt={poster.title}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
+                    }}
+                  />
+                ) : poster.fileUrl.toLowerCase().endsWith('.pdf') ? (
                   <div className="pdf-placeholder">📄 PDF</div>
                 ) : (
                   <img

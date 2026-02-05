@@ -45,7 +45,11 @@ public class PostersController : ControllerBase
 
     // POST: api/posters/upload
     [HttpPost("upload")]
-    public async Task<ActionResult<Poster>> UploadPoster([FromForm] IFormFile file, [FromForm] string title, [FromForm] string? description)
+    public async Task<ActionResult<Poster>> UploadPoster(
+        [FromForm] IFormFile file, 
+        [FromForm] IFormFile? thumbnail,
+        [FromForm] string title, 
+        [FromForm] string? description)
     {
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");
@@ -54,20 +58,41 @@ public class PostersController : ControllerBase
         if (file.Length > 20 * 1024 * 1024)
             return BadRequest("File size exceeds 20MB limit");
 
-        // Validate file type
+        // Validate main file type
         var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".pdf" };
         var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
         if (!allowedExtensions.Contains(extension))
             return BadRequest("Invalid file type. Allowed: jpg, jpeg, png, gif, pdf");
 
-        // Generate unique filename
+        // Generate unique filename for main file
         var fileName = $"{Guid.NewGuid()}{extension}";
         var filePath = Path.Combine(_uploadsFolder, fileName);
 
-        // Save file
+        // Save main file
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
+        }
+
+        // Handle thumbnail if provided
+        string? thumbnailUrl = null;
+        if (thumbnail != null && thumbnail.Length > 0)
+        {
+            var thumbExtension = Path.GetExtension(thumbnail.FileName).ToLowerInvariant();
+            var allowedThumbExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            
+            if (allowedThumbExtensions.Contains(thumbExtension))
+            {
+                var thumbFileName = $"{Guid.NewGuid()}_thumb{thumbExtension}";
+                var thumbPath = Path.Combine(_uploadsFolder, thumbFileName);
+                
+                using (var stream = new FileStream(thumbPath, FileMode.Create))
+                {
+                    await thumbnail.CopyToAsync(stream);
+                }
+                
+                thumbnailUrl = $"/uploads/posters/{thumbFileName}";
+            }
         }
 
         // Create poster record
@@ -76,6 +101,7 @@ public class PostersController : ControllerBase
             Title = title,
             Description = description,
             FileUrl = $"/uploads/posters/{fileName}",
+            ThumbnailUrl = thumbnailUrl,
             FileSize = file.Length,
             UploadedAt = DateTime.UtcNow
         };
