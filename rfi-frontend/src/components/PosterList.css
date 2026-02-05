@@ -42,7 +42,8 @@
 
 .poster-image {
   width: 100%;
-  height: 200px;
+  height: auto; /* Changed from 200px */
+  min-height: 200px; /* Add minimum height */
   background: #f5f5f5;
   display: flex;
   align-items: center;
@@ -52,8 +53,8 @@
 
 .poster-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto; /* Changed from 100% */
+  object-fit: contain; /* Changed from cover */
 }
 
 .pdf-placeholder {
@@ -85,13 +86,15 @@
 }
 
 .poster-actions {
-  display: flex;
+  padding-top: 4px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   gap: 0.5rem;
 }
 
 .poster-actions button {
-  flex: 1;
-  padding: 0.5rem;
+  grid-column: 2; /* Place button in middle column */
+  padding: 0.5rem 2rem; /* Add more horizontal padding */
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -161,3 +164,4 @@
 .close-modal:hover {
   color: #ccc;
 }
+h1,h2{color:rgb(182, 182, 182);text-align:center;margin-top:1rem;}

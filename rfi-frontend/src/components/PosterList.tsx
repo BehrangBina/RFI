@@ -111,9 +111,9 @@ export const PosterList: React.FC<{ refresh: number }> = ({ refresh }) => {
                     <button onClick={() => handleDownload(poster)} className="btn-download">
                       View/Download
                     </button>
-                    <button onClick={() => handleDelete(poster.id)} className="btn-delete">
+                    {/* <button onClick={() => handleDelete(poster.id)} className="btn-delete">
                       Delete
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
