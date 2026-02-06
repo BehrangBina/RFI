@@ -7,6 +7,7 @@ import Events from './pages/Events';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import Contact from './pages/Contact';
+import AdminPage from './pages/Admin';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/news" element={<News />} />
           <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </main>
     </BrowserRouter>
