@@ -21,3 +21,52 @@ Content-Disposition: form-data; name="description"
 
 Download our latest poster
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### Upload Poster with Thumbnail    2
+POST http://localhost:5000/api/posters/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="E:\work\Training\RFI\bck\RiseForIran\images\posters\Return of Pahlavi_Farsi_Print.pdf"
+Content-Type: application/pdf
+
+< E:\work\Training\RFI\bck\RiseForIran\images\posters\Return of Pahlavi_Farsi_Print.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="thumbnail"; filename="E:\work\Training\RFI\bck\RiseForIran\images\posters\lvsd.png"
+Content-Type: image/png
+
+< E:\work\Training\RFI\bck\RiseForIran\images\posters\lvsd.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+Important Announcement
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+Download our latest poster
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Upload Poster with Thumbnail 3
+POST http://localhost:5000/api/posters/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="E:\work\Training\RFI\bck\RiseForIran\images\posters\Trump2.pdf"
+Content-Type: application/pdf
+
+< E:\work\Training\RFI\bck\RiseForIran\images\posters\Trump2.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="thumbnail"; filename="E:\work\Training\RFI\bck\RiseForIran\images\posters\Trump2.png"
+Content-Type: image/png
+
+< E:\work\Training\RFI\bck\RiseForIran\images\posters\Trump2.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+SOS Trump Help Iran
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+President Trump please help free Iran
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

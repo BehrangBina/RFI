@@ -54,9 +54,9 @@ public class PostersController : ControllerBase
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");
 
-        // Validate file size (20MB max)
-        if (file.Length > 20 * 1024 * 1024)
-            return BadRequest("File size exceeds 20MB limit");
+        // Validate file size (25MB max)
+        if (file.Length > 25 * 1024 * 1024)
+            return BadRequest("File size exceeds 25MB limit");
 
         // Validate main file type
         var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".pdf" };
