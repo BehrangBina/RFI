@@ -22,6 +22,10 @@ builder.Services.AddControllers()
     });
 
 // Configure SQLite
+
+builder.Services.AddDbContext<AdminDbContext>(options =>
+    options.UseSqlite("Data Source=admin.db"));
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
