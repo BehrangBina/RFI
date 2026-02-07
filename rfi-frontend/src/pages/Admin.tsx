@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 
 interface CarouselPhoto {
   id: number;
@@ -17,6 +20,8 @@ export default function AdminPage() {
   const [title, setTitle] = useState('');
   const [order, setOrder] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPhotos();
@@ -45,17 +50,28 @@ export default function AdminPage() {
     try {
       const response = await fetch('http://localhost:5000/api/admin/carousel', {
         method: 'POST',
+        headers: authService.getAuthHeader(),
         body: formData,
       });
+      
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
       
       if (response.ok) {
         setFile(null);
         setTitle('');
         setOrder(0);
         fetchPhotos();
+      } else {
+        alert('Upload failed. Please try again.');
       }
     } catch (error) {
       console.error('Error uploading photo:', error);
+      alert('Upload failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -65,10 +81,21 @@ export default function AdminPage() {
     if (!window.confirm('Are you sure you want to delete this photo?')) return;
 
     try {
-      await fetch(`http://localhost:5000/api/admin/carousel/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/admin/carousel/${id}`, {
         method: 'DELETE',
+        headers: authService.getAuthHeader(),
       });
-      fetchPhotos();
+      
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+      
+      if (response.ok) {
+        fetchPhotos();
+      }
     } catch (error) {
       console.error('Error deleting photo:', error);
     }
@@ -76,16 +103,29 @@ export default function AdminPage() {
 
   const toggleActive = async (photo: CarouselPhoto) => {
     try {
-      await fetch(`http://localhost:5000/api/admin/carousel/${photo.id}`, {
+      const response = await fetch(`http://localhost:5000/api/admin/carousel/${photo.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...authService.getAuthHeader(),
+        },
         body: JSON.stringify({
           title: photo.title,
           order: photo.order,
           isActive: !photo.isActive,
         }),
       });
-      fetchPhotos();
+      
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+      
+      if (response.ok) {
+        fetchPhotos();
+      }
     } catch (error) {
       console.error('Error updating photo:', error);
     }
@@ -93,7 +133,21 @@ export default function AdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Admin - Carousel Management</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Admin - Carousel Management</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-600">Logged in as: <strong>{user?.username}</strong></span>
+          <button
+            onClick={() => {
+              logout();
+              navigate('/login');
+            }}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
 
       {/* Upload Form */}
       <div className="bg-white rounded-lg shadow p-6 mb-8">

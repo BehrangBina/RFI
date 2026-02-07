@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
@@ -47,6 +48,7 @@ namespace RFI.API.Controllers
         }
 
         // POST: api/news
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<NewsDto>> CreateNews(CreateNewsDto createDto)
         {
@@ -94,6 +96,7 @@ namespace RFI.API.Controllers
         }
 
         // PUT: api/news/{id}
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateNews(int id, CreateNewsDto updateDto)
         {
@@ -147,6 +150,7 @@ namespace RFI.API.Controllers
         }
 
         // DELETE: api/news/{id}
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNews(int id)
         {

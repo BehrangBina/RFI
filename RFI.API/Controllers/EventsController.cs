@@ -1,4 +1,5 @@
 using RFI.API.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
@@ -71,6 +72,7 @@ namespace RFI.API.Controllers
         }
 
         // POST: api/events
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<EventDto>> CreateEvent(CreateEventDto createDto)
         {
@@ -121,6 +123,7 @@ namespace RFI.API.Controllers
         }
 
         // PUT: api/events/{id}
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEvent(int id, CreateEventDto updateDto)
         {
@@ -177,6 +180,7 @@ namespace RFI.API.Controllers
         }
 
         // DELETE: api/events/{id}
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
@@ -202,6 +206,7 @@ namespace RFI.API.Controllers
 
             return Ok(categories);
         }
+        [Authorize]
         [HttpPost("upload-image")]
         public async Task<ActionResult<string>> UploadEventImage([FromForm] IFormFile file)
         {

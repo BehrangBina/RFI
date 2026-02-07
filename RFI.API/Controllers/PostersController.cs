@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
@@ -44,23 +45,20 @@ public class PostersController : ControllerBase
     }
 
     // POST: api/posters/upload
+    [Authorize]
     [HttpPost("upload")]
-    public async Task<ActionResult<Poster>> UploadPoster(
-        [FromForm] IFormFile file, 
-        [FromForm] IFormFile? thumbnail,
-        [FromForm] string title, 
-        [FromForm] string? description)
+    public async Task<ActionResult<Poster>> UploadPoster([FromForm] DTOs.UploadPosterDto dto)
     {
-        if (file == null || file.Length == 0)
+        if (dto.File == null || dto.File.Length == 0)
             return BadRequest("No file uploaded");
 
         // Validate file size (25MB max)
-        if (file.Length > 25 * 1024 * 1024)
+        if (dto.File.Length > 25 * 1024 * 1024)
             return BadRequest("File size exceeds 25MB limit");
 
         // Validate main file type
         var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".pdf" };
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        var extension = Path.GetExtension(dto.File.FileName).ToLowerInvariant();
         if (!allowedExtensions.Contains(extension))
             return BadRequest("Invalid file type. Allowed: jpg, jpeg, png, gif, pdf");
 
@@ -71,14 +69,14 @@ public class PostersController : ControllerBase
         // Save main file
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
-            await file.CopyToAsync(stream);
+            await dto.File.CopyToAsync(stream);
         }
 
         // Handle thumbnail if provided
         string? thumbnailUrl = null;
-        if (thumbnail != null && thumbnail.Length > 0)
+        if (dto.Thumbnail != null && dto.Thumbnail.Length > 0)
         {
-            var thumbExtension = Path.GetExtension(thumbnail.FileName).ToLowerInvariant();
+            var thumbExtension = Path.GetExtension(dto.Thumbnail.FileName).ToLowerInvariant();
             var allowedThumbExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
             
             if (allowedThumbExtensions.Contains(thumbExtension))
@@ -88,7 +86,7 @@ public class PostersController : ControllerBase
                 
                 using (var stream = new FileStream(thumbPath, FileMode.Create))
                 {
-                    await thumbnail.CopyToAsync(stream);
+                    await dto.Thumbnail.CopyToAsync(stream);
                 }
                 
                 thumbnailUrl = $"/uploads/posters/{thumbFileName}";
@@ -98,11 +96,11 @@ public class PostersController : ControllerBase
         // Create poster record
         var poster = new Poster
         {
-            Title = title,
-            Description = description,
+            Title = dto.Title,
+            Description = dto.Description,
             FileUrl = $"/uploads/posters/{fileName}",
             ThumbnailUrl = thumbnailUrl,
-            FileSize = file.Length,
+            FileSize = dto.File.Length,
             UploadedAt = DateTime.UtcNow
         };
 
@@ -113,6 +111,7 @@ public class PostersController : ControllerBase
     }
 
     // PUT: api/posters/5
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePoster(int id, [FromBody] Poster poster)
     {
@@ -136,6 +135,7 @@ public class PostersController : ControllerBase
     }
 
     // DELETE: api/posters/5
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePoster(int id)
     {

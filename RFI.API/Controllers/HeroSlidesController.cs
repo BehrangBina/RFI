@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
@@ -39,6 +40,7 @@ namespace RFI.API.Controllers
         }
 
         // POST: api/heroslides
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<HeroSlide>> CreateHeroSlide(HeroSlide slide)
         {
@@ -50,6 +52,7 @@ namespace RFI.API.Controllers
         }
 
         // PUT: api/heroslides/{id}
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateHeroSlide(int id, HeroSlide slide)
         {
@@ -74,6 +77,7 @@ namespace RFI.API.Controllers
         }
 
         // DELETE: api/heroslides/{id}
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHeroSlide(int id)
         {
@@ -88,6 +92,7 @@ namespace RFI.API.Controllers
         }
 
         // POST: api/heroslides/upload-image
+        [Authorize]
         [HttpPost("upload-image")]
         public async Task<ActionResult<string>> UploadHeroImage([FromForm] IFormFile file)
         {

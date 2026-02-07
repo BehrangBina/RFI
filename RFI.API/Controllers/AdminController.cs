@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
@@ -28,6 +29,7 @@ namespace RFI.API.Controllers
             return Ok(photos);
         }
 
+        [Authorize]
         [HttpPost("carousel")]
         public async Task<IActionResult> AddCarouselPhoto([FromForm] CarouselPhotoDto dto)
         {
@@ -60,6 +62,7 @@ namespace RFI.API.Controllers
             return Ok(carouselPhoto);
         }
 
+        [Authorize]
         [HttpPut("carousel/{id}")]
         public async Task<IActionResult> UpdateCarouselPhoto(int id, [FromBody] UpdateCarouselDto dto)
         {
@@ -75,6 +78,7 @@ namespace RFI.API.Controllers
             return Ok(photo);
         }
 
+        [Authorize]
         [HttpDelete("carousel/{id}")]
         public async Task<IActionResult> DeleteCarouselPhoto(int id)
         {
