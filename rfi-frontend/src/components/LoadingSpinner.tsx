@@ -2,11 +2,14 @@ const LoadingSpinner = () => {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-md">
       <div className="relative flex flex-col items-center">
-        {/* Static Favicon - No Animation */}
+        {/* Static Favicon - #439BB2 Color */}
         <img
           src="/favicon.svg"
           alt="Rise For Iran logo"
           className="w-[300px] h-[300px] drop-shadow-xl"
+          style={{
+            filter: 'brightness(0) saturate(100%) invert(50%) sepia(85%) saturate(450%) hue-rotate(185deg) brightness(95%) contrast(90%)'
+          }}
         />
 
         {/* Animated Text and Loading Bar */}

@@ -23,7 +23,7 @@ function AppContent() {
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // Adjust duration as needed
+    }, 800); // Adjust duration as needed
 
     return () => clearTimeout(timer);
   }, [location.pathname]);
