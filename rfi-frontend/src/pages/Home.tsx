@@ -32,7 +32,9 @@ const Home = () => {
   return (
     <div>
       {/* Hero Carousel - Full Width */}
-      {!loading && slides.length > 0 && <HeroCarousel slides={slides} />}
+      <div className="-mt-24 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+        {!loading && slides.length > 0 && <HeroCarousel slides={slides} />}
+      </div>
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-12">
