@@ -37,8 +37,8 @@ const Home = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <section className="mb-12">
+      <div className="max-w-6xl mx-auto px-4 py-10">
+        <section className="mb-12 text-center">
           <h2 className="text-3xl font-bold mb-6">Welcome to Rise For Iran</h2>
           <p className="text-gray-700 text-lg leading-relaxed">
             We are a community dedicated to promoting human rights, democracy, and freedom for Iran.

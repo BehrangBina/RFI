@@ -46,7 +46,7 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
   const currentSlide = slides[currentIndex];
 
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-gray-900">
+    <div className="relative w-full h-[650px] md:h-[750px] lg:h-[850px] overflow-hidden bg-gray-900">
       {/* Slides */}
       <div className="relative w-full h-full">
         {slides.map((slide, index) => (
