@@ -10,6 +10,9 @@ import About from './pages/About';
 import Events from './pages/Events';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
+import Training from './pages/Training';
+import TrainingCategory from './pages/TrainingCategory';
+import TrainingDetail from './pages/TrainingDetail';
 import Contact from './pages/Contact';
 import AdminPage from './pages/Admin';
 import LoginPage from './pages/Login';
@@ -40,6 +43,9 @@ function AppContent() {
           <Route path="/events" element={<Events />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:id" element={<NewsDetail />} />
+          <Route path="/training" element={<Training />} />
+          <Route path="/training/category/:slug" element={<TrainingCategory />} />
+          <Route path="/training/view/:slug" element={<TrainingDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<LoginPage />} />
           <Route 

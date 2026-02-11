@@ -73,11 +73,11 @@ Content-Type: application/json
   "title": "What is a Constitutional Monarchy?",
   "content": "<h2>Introduction</h2><p>A constitutional monarchy is a system of government in which a monarch shares power with a constitutionally organized government...</p><h2>Key Features</h2><ul><li>Limited powers of the monarch</li><li>Democratic institutions</li><li>Rule of law</li></ul>",
   "summary": "An introduction to constitutional monarchies and their characteristics",
-  "videoUrl": "https://www.youtube.com/watch?v=example",
+  "videoUrl": "https://www.youtube.com/embed/oyd6SlLw5Zo",
   "imageUrl": "/images/training/constitutional-monarchy-intro.jpg",
   "readTimeMinutes": 5,
   "orderIndex": 1,
-  "subjectCategoryId": 2
+  "subjectCategoryId": 1
 }
 
 ### Create another training item
@@ -109,7 +109,7 @@ Content-Type: application/json
   "subjectCategoryId": 2
 }
 
-### Update a training item
+### Update a training item (Only send these fields - NO createdAt or subjectCategoryName)
 PUT {{baseUrl}}/api/training/1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -118,7 +118,7 @@ Content-Type: application/json
   "title": "What is a Constitutional Monarchy?",
   "content": "<h2>Introduction</h2><p>Updated content: A constitutional monarchy is a system of government...</p>",
   "summary": "An updated introduction to constitutional monarchies",
-  "videoUrl": "https://www.youtube.com/watch?v=example",
+  "videoUrl": "https://www.youtube.com/embed/oyd6SlLw5Zo",
   "imageUrl": "/images/training/constitutional-monarchy-intro.jpg",
   "readTimeMinutes": 6,
   "orderIndex": 1,
