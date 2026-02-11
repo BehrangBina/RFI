@@ -1,0 +1,130 @@
+@baseUrl = http://localhost:5000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImp0aSI6ImRhODg3YTJkLWNhY2UtNDUzZi05YzdlLTRlOGY0NzI4YThkOCIsImV4cCI6MTc3MDg5MDcyMCwiaXNzIjoiUkZJLkFQSSIsImF1ZCI6IlJGSS5Gcm9udGVuZCJ9.ecsGzoQ5l-Wkg8C4UIrjZydU6cHWeQSpFdJRkRp5Yjc
+
+### Get all subject categories
+GET {{baseUrl}}/api/training/categories
+
+### Get category by ID
+GET {{baseUrl}}/api/training/categories/1
+
+### Get category by slug
+GET {{baseUrl}}/api/training/categories/slug/constitutional-monarchy
+
+### Create a subject category
+POST {{baseUrl}}/api/training/categories
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Constitutional Monarchy",
+  "description": "Learn about constitutional monarchies and their role in modern governance",
+  "imageUrl": "/images/categories/constitutional-monarchy.jpg",
+  "orderIndex": 1
+}
+
+### Create another category
+POST {{baseUrl}}/api/training/categories
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Parliamentary Systems",
+  "description": "Understanding parliamentary systems of government",
+  "imageUrl": "/images/categories/parliamentary.jpg",
+  "orderIndex": 2
+}
+
+### Update a category
+PUT {{baseUrl}}/api/training/categories/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Constitutional Monarchy",
+  "description": "Updated: Learn about constitutional monarchies and their role in modern governance",
+  "imageUrl": "/images/categories/constitutional-monarchy.jpg",
+  "orderIndex": 1
+}
+
+### Delete a category
+DELETE {{baseUrl}}/api/training/categories/1
+Authorization: Bearer {{token}}
+
+### ==================== TRAININGS ====================
+
+### Get all trainings
+GET {{baseUrl}}/api/training
+
+### Get training by ID
+GET {{baseUrl}}/api/training/1
+
+### Get training by slug
+GET {{baseUrl}}/api/training/slug/what-is-a-constitutional-monarchy
+
+### Get trainings by category
+GET {{baseUrl}}/api/training/category/1
+
+### Create a training item
+POST {{baseUrl}}/api/training
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "What is a Constitutional Monarchy?",
+  "content": "<h2>Introduction</h2><p>A constitutional monarchy is a system of government in which a monarch shares power with a constitutionally organized government...</p><h2>Key Features</h2><ul><li>Limited powers of the monarch</li><li>Democratic institutions</li><li>Rule of law</li></ul>",
+  "summary": "An introduction to constitutional monarchies and their characteristics",
+  "videoUrl": "https://www.youtube.com/watch?v=example",
+  "imageUrl": "/images/training/constitutional-monarchy-intro.jpg",
+  "readTimeMinutes": 5,
+  "orderIndex": 1,
+  "subjectCategoryId": 2
+}
+
+### Create another training item
+POST {{baseUrl}}/api/training
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "The Role of the Monarch",
+  "content": "<h2>The Ceremonial Role</h2><p>In most constitutional monarchies, the monarch serves primarily a ceremonial role...</p>",
+  "summary": "Understanding the modern role of monarchs in constitutional systems",
+  "readTimeMinutes": 7,
+  "orderIndex": 2,
+  "subjectCategoryId": 1
+}
+
+### Create training for Parliamentary System (use category ID 2)
+POST {{baseUrl}}/api/training
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "How Parliament Works",
+  "content": "<h2>The Legislature</h2><p>Parliament is the legislative body in a parliamentary system...</p>",
+  "summary": "Learn how parliamentary bodies function",
+  "imageUrl": "/images/training/parliament.jpg",
+  "readTimeMinutes": 10,
+  "orderIndex": 1,
+  "subjectCategoryId": 2
+}
+
+### Update a training item
+PUT {{baseUrl}}/api/training/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "What is a Constitutional Monarchy?",
+  "content": "<h2>Introduction</h2><p>Updated content: A constitutional monarchy is a system of government...</p>",
+  "summary": "An updated introduction to constitutional monarchies",
+  "videoUrl": "https://www.youtube.com/watch?v=example",
+  "imageUrl": "/images/training/constitutional-monarchy-intro.jpg",
+  "readTimeMinutes": 6,
+  "orderIndex": 1,
+  "subjectCategoryId": 1
+}
+
+### Delete a training item
+DELETE {{baseUrl}}/api/training/1
+Authorization: Bearer {{token}}

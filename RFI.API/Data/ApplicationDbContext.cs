@@ -15,6 +15,8 @@ namespace RFI.API.Data
         public DbSet<EventImage> EventImages { get; set; }
         public DbSet<EventSection> EventSections { get; set; }
         public DbSet<HeroSlide> HeroSlides { get; set; }
+        public DbSet<SubjectCategory> SubjectCategories { get; set; }
+        public DbSet<Training> Trainings { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,6 +73,29 @@ namespace RFI.API.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.SectionType).IsRequired();
+                entity.Property(e => e.Content).IsRequired();
+            });
+
+            // Training configuration
+            modelBuilder.Entity<SubjectCategory>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.Slug).IsRequired();
+                entity.HasIndex(e => e.Slug).IsUnique();
+                entity.Property(e => e.Description).IsRequired();
+                entity.HasMany(sc => sc.Trainings)
+                    .WithOne(t => t.SubjectCategory)
+                    .HasForeignKey(t => t.SubjectCategoryId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Training>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Title).IsRequired();
+                entity.Property(e => e.Slug).IsRequired();
+                entity.HasIndex(e => e.Slug).IsUnique();
                 entity.Property(e => e.Content).IsRequired();
             });
         }
