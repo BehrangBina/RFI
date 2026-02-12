@@ -79,49 +79,72 @@ const Training = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category, index) => (
-            <FadeIn key={category.id} delay={index * 0.1}>
-              <motion.div
-                className="bg-slate-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-700 hover:border-[#449CB2] transition-all duration-300 cursor-pointer h-full"
-                whileHover={{ y: -8, scale: 1.02 }}
-                onClick={() => handleCategoryClick(category.slug)}
-              >
-                {category.imageUrl && (
-                  <div className="h-48 overflow-hidden bg-slate-700">
-                    <img
-                      src={category.imageUrl}
-                      alt={category.name}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#449CB2] to-[#2d7a8a]"><i class="fas fa-book-open text-6xl text-white/30"></i></div>';
-                      }}
-                    />
-                  </div>
-                )}
-                {!category.imageUrl && (
-                  <div className="h-48 bg-gradient-to-br from-[#449CB2] to-[#2d7a8a] flex items-center justify-center">
-                    <i className="fas fa-book-open text-6xl text-white/30"></i>
-                  </div>
-                )}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {category.name}
-                  </h3>
-                  <p className="text-gray-300 mb-4 line-clamp-3">
-                    {category.description}
-                  </p>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[#449CB2] flex items-center gap-2">
-                      <i className="fas fa-book"></i>
-                      {category.trainingCount || 0} training{category.trainingCount !== 1 ? 's' : ''}
-                    </span>
-                    <span className="text-white flex items-center gap-2 group-hover:gap-3 transition-all">
-                      View <i className="fas fa-arrow-right"></i>
-                    </span>
-                  </div>
+            <motion.div
+              key={category.id}
+              className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-slate-700 hover:border-[#449CB2] transition-all duration-500 cursor-pointer group shadow-xl hover:shadow-2xl hover:shadow-[#449CB2]/20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleCategoryClick(category.slug)}
+            >
+              {/* Category Image */}
+              <div className="relative h-64 overflow-hidden">
+                <motion.img
+                  src={category.imageUrl?.startsWith('http') 
+                    ? category.imageUrl 
+                    : category.imageUrl 
+                      ? `http://localhost:5000${category.imageUrl}`
+                      : 'http://localhost:5000/images/training/constitutional-monarchy-intro.jpg'}
+                  alt={category.name}
+                  className="w-full h-full object-cover"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.6 }}
+                  onError={(e) => {
+                    e.currentTarget.src = 'http://localhost:5000/images/training/constitutional-monarchy-intro.jpg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#182134] via-[#182134]/60 to-transparent" />
+                
+                {/* Animated Orb */}
+                <motion.div
+                  className="absolute top-4 right-4 w-16 h-16 rounded-full bg-gradient-to-br from-[#449CB2] to-[#5bb5cc] opacity-20"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 180, 360],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+                
+                {/* Training Count Badge */}
+                <div className="absolute top-4 left-4 bg-[#449CB2]/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow-lg">
+                  <i className="fas fa-book mr-2"></i>
+                  {category.trainingCount || 0} training{category.trainingCount !== 1 ? 's' : ''}
                 </div>
-              </motion.div>
-            </FadeIn>
+              </div>
+
+              {/* Category Content */}
+              <div className="p-6">
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#449CB2] transition-colors">
+                  {category.name}
+                </h3>
+                <p className="text-gray-300 mb-4 line-clamp-3 text-base">
+                  {category.description}
+                </p>
+                <div className="flex items-center justify-end text-sm">
+                  <motion.span 
+                    className="text-[#449CB2] flex items-center gap-2 font-medium"
+                    whileHover={{ gap: '0.75rem' }}
+                  >
+                    View Details <i className="fas fa-arrow-right"></i>
+                  </motion.span>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       )}
