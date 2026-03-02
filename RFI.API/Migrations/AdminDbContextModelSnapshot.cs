@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RFI.API.Data;
 
 #nullable disable
 
-namespace RFI.API.Migrations.AdminDb
+namespace RFI.API.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20260228095314_InitialPostgresAdmin")]
-    partial class InitialPostgresAdmin
+    partial class AdminDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,7 +85,7 @@ namespace RFI.API.Migrations.AdminDb
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 2, 28, 9, 53, 14, 227, DateTimeKind.Utc).AddTicks(691),
+                            CreatedAt = new DateTime(2026, 3, 2, 10, 28, 29, 473, DateTimeKind.Utc).AddTicks(2509),
                             PasswordHash = "JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=",
                             Role = "Admin",
                             Username = "admin"
