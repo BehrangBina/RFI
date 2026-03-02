@@ -1,7 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using RFI.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RFI.API.Data;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,13 +52,12 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
 
-// Configure SQLite
+// Configure PostgreSQL
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<AdminDbContext>(options =>
-    options.UseSqlite("Data Source=admin.db"));
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();

@@ -15,14 +15,13 @@ namespace RFI.API.Migrations
                 name: "SubjectCategories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<int>(nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Slug = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
                     OrderIndex = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    CreatedAt = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,8 +32,7 @@ namespace RFI.API.Migrations
                 name: "Trainings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<int>(nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Slug = table.Column<string>(type: "TEXT", nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
@@ -43,7 +41,7 @@ namespace RFI.API.Migrations
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
                     ReadTimeMinutes = table.Column<int>(type: "INTEGER", nullable: true),
                     OrderIndex = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     SubjectCategoryId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
