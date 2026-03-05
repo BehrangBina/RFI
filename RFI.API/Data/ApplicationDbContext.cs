@@ -18,6 +18,7 @@ namespace RFI.API.Data
         public DbSet<SubjectCategory> SubjectCategories { get; set; }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<Membership> Memberships { get; set; }
+        public DbSet<TicketPurchase> TicketPurchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
