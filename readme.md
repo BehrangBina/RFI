@@ -4,7 +4,7 @@ docker run --name rfi-postgres `
   -p 5432:5432 `
   -d postgres:latest
 
-
+docker start rfi-postgres
 
 
   

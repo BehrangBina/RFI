@@ -8,7 +8,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.ConfigureKestrel(options =>
 {
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
     options.ListenAnyIP(int.Parse(port));
 });
 // Add CORS
@@ -122,7 +122,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "RFI API v1");
-    c.RoutePrefix = "swagger"; // Swagger UI at /swagger
+    c.RoutePrefix = "swagger"; // Swagger UI available at /swagger
 });
 
 // Ensure database is created
@@ -135,12 +135,12 @@ using (var scope = app.Services.CreateScope())
     adminDbContext.Database.EnsureCreated();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Commented out for development - only using HTTP
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+ 
 app.Run();
 
