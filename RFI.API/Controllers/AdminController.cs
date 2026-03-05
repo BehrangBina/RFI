@@ -12,11 +12,13 @@ namespace RFI.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly AdminDbContext _context;
+        private readonly ApplicationDbContext _appContext;
         private readonly IWebHostEnvironment _environment;
 
-        public AdminController(AdminDbContext context, IWebHostEnvironment environment)
+        public AdminController(AdminDbContext context, ApplicationDbContext appContext, IWebHostEnvironment environment)
         {
             _context = context;
+            _appContext = appContext;
             _environment = environment;
         }
 
@@ -95,6 +97,15 @@ namespace RFI.API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        [Authorize]
+        [HttpGet("memberships")]
+        public async Task<IActionResult> GetMemberships()
+        {
+            var memberships = await _appContext.Memberships
+                .OrderByDescending(m => m.JoinDate)
+                .ToListAsync();
+            return Ok(memberships);
         }
     }
 }

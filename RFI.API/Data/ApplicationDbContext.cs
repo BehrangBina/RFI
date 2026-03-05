@@ -17,7 +17,8 @@ namespace RFI.API.Data
         public DbSet<HeroSlide> HeroSlides { get; set; }
         public DbSet<SubjectCategory> SubjectCategories { get; set; }
         public DbSet<Training> Trainings { get; set; }
-        
+        public DbSet<Membership> Memberships { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -98,6 +99,11 @@ namespace RFI.API.Data
                 entity.HasIndex(e => e.Slug).IsUnique();
                 entity.Property(e => e.Content).IsRequired();
             });
+
+            // Membership configuration
+            modelBuilder.Entity<Membership>()
+                .HasIndex(m => m.Email)
+                .IsUnique();
         }
     }
 }
