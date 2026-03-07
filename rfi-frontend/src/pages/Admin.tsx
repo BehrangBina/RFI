@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/authService';
 
+type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'training';
+
 interface CarouselPhoto {
   id: number;
   title: string;
@@ -15,6 +17,7 @@ interface CarouselPhoto {
 }
 
 export default function AdminPage() {
+  const [activeSection, setActiveSection] = useState<AdminSection>('carousel');
   const [photos, setPhotos] = useState<CarouselPhoto[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState('');
@@ -24,8 +27,10 @@ export default function AdminPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPhotos();
-  }, []);
+    if (activeSection === 'carousel') {
+      fetchPhotos();
+    }
+  }, [activeSection]);
 
   const fetchPhotos = async () => {
     try {
@@ -133,8 +138,9 @@ export default function AdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Admin - Carousel Management</h1>
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">Logged in as: <strong>{user?.username}</strong></span>
           <button
@@ -149,85 +155,178 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Upload Form */}
-      <div className="bg-white rounded-lg shadow p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-4">Add New Carousel Photo</h2>
-        <form onSubmit={handleUpload} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md"
-              placeholder="Optional title"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Order</label>
-            <input
-              type="number"
-              value={order}
-              onChange={(e) => setOrder(parseInt(e.target.value))}
-              className="w-full px-3 py-2 border rounded-md"
-              min="0"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Photo</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-              className="w-full"
-              required
-            />
-          </div>
+      {/* Navigation Menu */}
+      <div className="bg-white rounded-lg shadow mb-6">
+        <nav className="flex border-b">
           <button
-            type="submit"
-            disabled={loading || !file}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+            onClick={() => setActiveSection('carousel')}
+            className={`px-6 py-4 font-medium transition-colors ${
+              activeSection === 'carousel'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
           >
-            {loading ? 'Uploading...' : 'Upload Photo'}
+            Carousel
           </button>
-        </form>
+          <button
+            onClick={() => setActiveSection('event')}
+            className={`px-6 py-4 font-medium transition-colors ${
+              activeSection === 'event'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Event
+          </button>
+          <button
+            onClick={() => setActiveSection('news')}
+            className={`px-6 py-4 font-medium transition-colors ${
+              activeSection === 'news'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            News
+          </button>
+          <button
+            onClick={() => setActiveSection('poster')}
+            className={`px-6 py-4 font-medium transition-colors ${
+              activeSection === 'poster'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Poster
+          </button>
+          <button
+            onClick={() => setActiveSection('training')}
+            className={`px-6 py-4 font-medium transition-colors ${
+              activeSection === 'training'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Training
+          </button>
+        </nav>
       </div>
 
-      {/* Photo List */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Current Carousel Photos</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {photos.map((photo) => (
-            <div key={photo.id} className="border rounded-lg p-4">
-              <img
-                src={`http://localhost:5000${photo.imageUrl}`}
-                alt={photo.title || 'Carousel photo'}
-                className="w-full h-48 object-cover rounded mb-2"
-              />
-              <p className="font-medium">{photo.title || 'No title'}</p>
-              <p className="text-sm text-gray-600">Order: {photo.orderIndex}</p>
-              <div className="flex gap-2 mt-3">
-                <button
-                  onClick={() => toggleActive(photo)}
-                  className={`flex-1 px-3 py-1 rounded text-sm ${
-                    photo.isActive
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  {photo.isActive ? 'Active' : 'Inactive'}
-                </button>
-                <button
-                  onClick={() => handleDelete(photo.id)}
-                  className="px-3 py-1 bg-red-100 text-red-700 rounded text-sm hover:bg-red-200"
-                >
-                  Delete
-                </button>
+      {/* Carousel Section */}
+      {activeSection === 'carousel' && (
+        <>
+          {/* Upload Form */}
+          <div className="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 className="text-xl font-semibold mb-4">Add New Carousel Photo</h2>
+            <form onSubmit={handleUpload} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Title</label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-md"
+                  placeholder="Optional title"
+                />
               </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Order</label>
+                <input
+                  type="number"
+                  value={order}
+                  onChange={(e) => setOrder(parseInt(e.target.value))}
+                  className="w-full px-3 py-2 border rounded-md"
+                  min="0"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Photo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  className="w-full"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading || !file}
+                className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+              >
+                {loading ? 'Uploading...' : 'Upload Photo'}
+              </button>
+            </form>
+          </div>
+
+          {/* Photo List */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-xl font-semibold mb-4">Current Carousel Photos</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {photos.map((photo) => (
+                <div key={photo.id} className="border rounded-lg p-4">
+                  <img
+                    src={`http://localhost:5000${photo.imageUrl}`}
+                    alt={photo.title || 'Carousel photo'}
+                    className="w-full h-48 object-cover rounded mb-2"
+                  />
+                  <p className="font-medium">{photo.title || 'No title'}</p>
+                  <p className="text-sm text-gray-600">Order: {photo.orderIndex}</p>
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      onClick={() => toggleActive(photo)}
+                      className={`flex-1 px-3 py-1 rounded text-sm ${
+                        photo.isActive
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      {photo.isActive ? 'Active' : 'Inactive'}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(photo.id)}
+                      className="px-3 py-1 bg-red-100 text-red-700 rounded text-sm hover:bg-red-200"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        </>
+      )}
+
+      {/* Event Section */}
+      {activeSection === 'event' && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-2xl font-semibold mb-4">Event Management</h2>
+          <p className="text-gray-600">Event management functionality coming soon...</p>
         </div>
-      </div>
+      )}
+
+      {/* News Section */}
+      {activeSection === 'news' && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-2xl font-semibold mb-4">News Management</h2>
+          <p className="text-gray-600">News management functionality coming soon...</p>
+        </div>
+      )}
+
+      {/* Poster Section */}
+      {activeSection === 'poster' && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-2xl font-semibold mb-4">Poster Management</h2>
+          <p className="text-gray-600">Poster management functionality coming soon...</p>
+        </div>
+      )}
+
+      {/* Training Section */}
+      {activeSection === 'training' && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-2xl font-semibold mb-4">Training Management</h2>
+          <p className="text-gray-600">Training management functionality coming soon...</p>
+        </div>
+      )}
     </div>
   );
 }
