@@ -2,19 +2,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
+using RFI.API.DTOs;
 using RFI.API.Models;
 
 namespace RFI.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/carousel")]
     [ApiController]
     public class HeroSlidesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public HeroSlidesController(ApplicationDbContext context)
+        public HeroSlidesController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/heroslides
@@ -39,28 +42,53 @@ namespace RFI.API.Controllers
             return slide;
         }
 
-        // POST: api/heroslides
+        // POST: api/carousel (with file upload)
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<HeroSlide>> CreateHeroSlide(HeroSlide slide)
+        public async Task<ActionResult<HeroSlide>> CreateHeroSlide([FromForm] string? title, [FromForm] int order, [FromForm] IFormFile? photo)
         {
-            slide.CreatedAt = DateTime.UtcNow;
+            if (photo == null || photo.Length == 0)
+                return BadRequest("Photo is required");
+
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "carousel");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(photo.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await photo.CopyToAsync(stream);
+            }
+
+            var slide = new HeroSlide
+            {
+                Title = title ?? "",
+                ImageUrl = $"/uploads/carousel/{fileName}",
+                OrderIndex = order,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
             _context.HeroSlides.Add(slide);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetHeroSlide), new { id = slide.Id }, slide);
         }
 
-        // PUT: api/heroslides/{id}
+        // PUT: api/carousel/{id}
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateHeroSlide(int id, HeroSlide slide)
+        public async Task<IActionResult> UpdateHeroSlide(int id, [FromBody] UpdateCarouselDto dto)
         {
-            if (id != slide.Id)
-                return BadRequest();
+            var slide = await _context.HeroSlides.FindAsync(id);
+            if (slide == null)
+                return NotFound();
 
+            slide.Title = dto.Title ?? slide.Title;
+            slide.OrderIndex = dto.Order;
+            slide.IsActive = dto.IsActive;
             slide.UpdatedAt = DateTime.UtcNow;
-            _context.Entry(slide).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +101,7 @@ namespace RFI.API.Controllers
                 throw;
             }
 
-            return NoContent();
+            return Ok(slide);
         }
 
         // DELETE: api/heroslides/{id}

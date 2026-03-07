@@ -17,14 +17,14 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/heroslides')
+    fetch('http://localhost:5000/api/carousel')
       .then(res => res.json())
       .then(data => {
         setSlides(data);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Failed to load hero slides:', err);
+        console.error('Failed to load carousel:', err);
         setLoading(false);
       });
   }, []);

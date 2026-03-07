@@ -9,7 +9,7 @@ interface CarouselPhoto {
   id: number;
   title: string;
   imageUrl: string;
-  order: number;
+  orderIndex: number;
   isActive: boolean;
   createdAt: string;
 }
@@ -29,7 +29,7 @@ export default function AdminPage() {
 
   const fetchPhotos = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/carousel');
+      const response = await fetch('http://localhost:5000/api/carousel');
       const data = await response.json();
       setPhotos(data);
     } catch (error) {
@@ -48,7 +48,7 @@ export default function AdminPage() {
     formData.append('order', order.toString());
 
     try {
-      const response = await fetch('http://localhost:5000/api/admin/carousel', {
+      const response = await fetch('http://localhost:5000/api/carousel', {
         method: 'POST',
         headers: authService.getAuthHeader(),
         body: formData,
@@ -81,7 +81,7 @@ export default function AdminPage() {
     if (!window.confirm('Are you sure you want to delete this photo?')) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/carousel/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/carousel/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -103,7 +103,7 @@ export default function AdminPage() {
 
   const toggleActive = async (photo: CarouselPhoto) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/carousel/${photo.id}`, {
+      const response = await fetch(`http://localhost:5000/api/carousel/${photo.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export default function AdminPage() {
         },
         body: JSON.stringify({
           title: photo.title,
-          order: photo.order,
+          order: photo.orderIndex,
           isActive: !photo.isActive,
         }),
       });
@@ -205,7 +205,7 @@ export default function AdminPage() {
                 className="w-full h-48 object-cover rounded mb-2"
               />
               <p className="font-medium">{photo.title || 'No title'}</p>
-              <p className="text-sm text-gray-600">Order: {photo.order}</p>
+              <p className="text-sm text-gray-600">Order: {photo.orderIndex}</p>
               <div className="flex gap-2 mt-3">
                 <button
                   onClick={() => toggleActive(photo)}
