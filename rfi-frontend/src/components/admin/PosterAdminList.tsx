@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Poster } from '../../types/Poster';
+import { posterService } from '../../services/posterService';
 
 interface PosterAdminListProps {
   posters: Poster[];
@@ -76,7 +77,7 @@ export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDel
               <div className="flex-shrink-0">
                 {poster.thumbnailUrl || !isPDF(poster.fileUrl) ? (
                   <img
-                    src={poster.thumbnailUrl || poster.fileUrl}
+                    src={posterService.getImageUrl(poster.thumbnailUrl || poster.fileUrl)}
                     alt={poster.title}
                     className="w-24 h-24 object-cover rounded-lg"
                   />
@@ -171,7 +172,7 @@ export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDel
                       <div className="flex justify-between">
                         <span className="text-gray-600">File URL:</span>
                         <a
-                          href={poster.fileUrl}
+                          href={posterService.getImageUrl(poster.fileUrl)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 hover:underline truncate max-w-xs"
@@ -183,7 +184,7 @@ export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDel
                         <div className="flex justify-between">
                           <span className="text-gray-600">Thumbnail URL:</span>
                           <a
-                            href={poster.thumbnailUrl}
+                            href={posterService.getImageUrl(poster.thumbnailUrl)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline truncate max-w-xs"
@@ -215,7 +216,7 @@ export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDel
                     <div className="bg-gray-100 rounded-lg p-4 flex items-center justify-center h-48">
                       {poster.thumbnailUrl || !isPDF(poster.fileUrl) ? (
                         <img
-                          src={poster.thumbnailUrl || poster.fileUrl}
+                          src={posterService.getImageUrl(poster.thumbnailUrl || poster.fileUrl)}
                           alt={poster.title}
                           className="max-h-full max-w-full object-contain rounded"
                         />
