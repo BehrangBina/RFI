@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/authService';
+import { NewsArticle } from '../types/News';
+import { newsService } from '../services/newsService';
+import { NewsAdminForm } from '../components/admin/NewsAdminForm';
+import { NewsAdminList } from '../components/admin/NewsAdminList';
 
 type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'training';
 
@@ -16,6 +20,30 @@ interface CarouselPhoto {
   createdAt: string;
 }
 
+interface KeyPointForm {
+  title: string;
+  description: string;
+  orderIndex: number;
+}
+
+interface SectionForm {
+  sectionType: string;
+  title: string;
+  orderIndex: number;
+  keyPoints: KeyPointForm[];
+}
+
+interface NewsFormData {
+  title: string;
+  summary: string;
+  category: string;
+  date: string;
+  readTimeMinutes: number;
+  videoUrl: string;
+  imageUrl: string;
+  sections: SectionForm[];
+}
+
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState<AdminSection>('carousel');
   const [photos, setPhotos] = useState<CarouselPhoto[]>([]);
@@ -26,9 +54,17 @@ export default function AdminPage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  // News Management State
+  const [newsList, setNewsList] = useState<NewsArticle[]>([]);
+  const [newsLoading, setNewsLoading] = useState(false);
+  const [showNewsForm, setShowNewsForm] = useState(false);
+  const [editingNews, setEditingNews] = useState<NewsArticle | null>(null);
+
   useEffect(() => {
     if (activeSection === 'carousel') {
       fetchPhotos();
+    } else if (activeSection === 'news') {
+      fetchNews();
     }
   }, [activeSection]);
 
@@ -133,6 +169,122 @@ export default function AdminPage() {
       }
     } catch (error) {
       console.error('Error updating photo:', error);
+    }
+  };
+
+  // ==================== NEWS MANAGEMENT FUNCTIONS ====================
+
+  const fetchNews = async () => {
+    try {
+      setNewsLoading(true);
+      const data = await newsService.getAllNews();
+      setNewsList(data);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+      alert('Failed to load news articles');
+    } finally {
+      setNewsLoading(false);
+    }
+  };
+
+  const handleCreateNews = () => {
+    setEditingNews(null);
+    setShowNewsForm(true);
+  };
+
+  const handleEditNews = (news: NewsArticle) => {
+    setEditingNews(news);
+    setShowNewsForm(true);
+  };
+
+  const handleCancelNewsForm = () => {
+    setShowNewsForm(false);
+    setEditingNews(null);
+  };
+
+  const handleSubmitNews = async (formData: NewsFormData) => {
+    try {
+      const payload = {
+        title: formData.title,
+        summary: formData.summary,
+        category: formData.category || null,
+        date: new Date(formData.date).toISOString(),
+        readTimeMinutes: formData.readTimeMinutes,
+        videoUrl: formData.videoUrl || null,
+        imageUrl: formData.imageUrl || null,
+        sections: formData.sections.map((section) => ({
+          sectionType: section.sectionType,
+          title: section.title || null,
+          orderIndex: section.orderIndex,
+          keyPoints: section.keyPoints.map((kp) => ({
+            title: kp.title || null,
+            description: kp.description,
+            orderIndex: kp.orderIndex,
+          })),
+        })),
+      };
+
+      const response = await fetch(
+        editingNews
+          ? `http://localhost:5000/api/news/${editingNews.id}`
+          : 'http://localhost:5000/api/news',
+        {
+          method: editingNews ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...authService.getAuthHeader(),
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert(
+          editingNews ? 'News article updated successfully!' : 'News article created successfully!'
+        );
+        setShowNewsForm(false);
+        setEditingNews(null);
+        fetchNews();
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to ${editingNews ? 'update' : 'create'} news article: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error submitting news:', error);
+      alert(`Failed to ${editingNews ? 'update' : 'create'} news article`);
+    }
+  };
+
+  const handleDeleteNews = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/news/${id}`, {
+        method: 'DELETE',
+        headers: authService.getAuthHeader(),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('News article deleted successfully!');
+        fetchNews();
+      } else {
+        alert('Failed to delete news article');
+      }
+    } catch (error) {
+      console.error('Error deleting news:', error);
+      alert('Failed to delete news article');
     }
   };
 
@@ -306,9 +458,43 @@ export default function AdminPage() {
 
       {/* News Section */}
       {activeSection === 'news' && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-semibold mb-4">News Management</h2>
-          <p className="text-gray-600">News management functionality coming soon...</p>
+        <div className="space-y-6">
+          {/* Header */}
+          {!showNewsForm && (
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-semibold mb-2">News Management</h2>
+                  <p className="text-gray-600">Create and manage news articles</p>
+                </div>
+                <button
+                  onClick={handleCreateNews}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                >
+                  <i className="fas fa-plus mr-2"></i>Create News Article
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Form */}
+          {showNewsForm && (
+            <NewsAdminForm
+              news={editingNews}
+              onSubmit={handleSubmitNews}
+              onCancel={handleCancelNewsForm}
+            />
+          )}
+
+          {/* List */}
+          {!showNewsForm && (
+            <NewsAdminList
+              newsList={newsList}
+              onEdit={handleEditNews}
+              onDelete={handleDeleteNews}
+              loading={newsLoading}
+            />
+          )}
         </div>
       )}
 
