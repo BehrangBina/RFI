@@ -13,7 +13,7 @@ namespace RFI.API.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260305113201_memebership")]
-    partial class memebership
+    partial class Memebership
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

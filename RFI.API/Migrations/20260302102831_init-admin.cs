@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RFI.API.Migrations
 {
     /// <inheritdoc />
-    public partial class initadmin : Migration
+    public partial class InitAdmin : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

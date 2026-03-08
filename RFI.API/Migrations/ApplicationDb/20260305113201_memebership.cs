@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RFI.API.Migrations.ApplicationDb
 {
     /// <inheritdoc />
-    public partial class memebership : Migration
+    public partial class Memebership : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

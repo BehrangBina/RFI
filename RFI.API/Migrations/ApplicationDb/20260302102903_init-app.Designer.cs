@@ -13,7 +13,7 @@ namespace RFI.API.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260302102903_init-app")]
-    partial class initapp
+    partial class InitApp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

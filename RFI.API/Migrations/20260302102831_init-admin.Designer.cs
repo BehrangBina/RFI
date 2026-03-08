@@ -13,7 +13,7 @@ namespace RFI.API.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
     [Migration("20260302102831_init-admin")]
-    partial class initadmin
+    partial class InitAdmin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
