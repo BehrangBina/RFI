@@ -8,6 +8,10 @@ import { NewsArticle } from '../types/News';
 import { newsService } from '../services/newsService';
 import { NewsAdminForm } from '../components/admin/NewsAdminForm';
 import { NewsAdminList } from '../components/admin/NewsAdminList';
+import { Poster } from '../types/Poster';
+import { posterService } from '../services/posterService';
+import { PosterAdminForm } from '../components/admin/PosterAdminForm';
+import { PosterAdminList } from '../components/admin/PosterAdminList';
 
 type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'training';
 
@@ -60,11 +64,18 @@ export default function AdminPage() {
   const [showNewsForm, setShowNewsForm] = useState(false);
   const [editingNews, setEditingNews] = useState<NewsArticle | null>(null);
 
+  // Poster Management State
+  const [posterList, setPosterList] = useState<Poster[]>([]);
+  const [posterLoading, setPosterLoading] = useState(false);
+  const [showPosterForm, setShowPosterForm] = useState(false);
+
   useEffect(() => {
     if (activeSection === 'carousel') {
       fetchPhotos();
     } else if (activeSection === 'news') {
       fetchNews();
+    } else if (activeSection === 'poster') {
+      fetchPosters();
     }
   }, [activeSection]);
 
@@ -288,6 +299,102 @@ export default function AdminPage() {
     }
   };
 
+  // ==================== POSTER MANAGEMENT FUNCTIONS ====================
+
+  const fetchPosters = async () => {
+    try {
+      setPosterLoading(true);
+      const data = await posterService.getAllPosters();
+      setPosterList(data);
+    } catch (error) {
+      console.error('Error fetching posters:', error);
+      alert('Failed to load posters');
+    } finally {
+      setPosterLoading(false);
+    }
+  };
+
+  const handleCreatePoster = () => {
+    setShowPosterForm(true);
+  };
+
+  const handleCancelPosterForm = () => {
+    setShowPosterForm(false);
+  };
+
+  const handleSubmitPoster = async (formData: FormData) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/posters/upload', {
+        method: 'POST',
+        headers: authService.getAuthHeader(),
+        body: formData,
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('Poster uploaded successfully!');
+        setShowPosterForm(false);
+        fetchPosters();
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to upload poster: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error uploading poster:', error);
+      alert('Failed to upload poster');
+    }
+  };
+
+  const handleDeletePoster = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/posters/${id}`, {
+        method: 'DELETE',
+        headers: authService.getAuthHeader(),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('Poster deleted successfully!');
+        fetchPosters();
+      } else {
+        alert('Failed to delete poster');
+      }
+    } catch (error) {
+      console.error('Error deleting poster:', error);
+      alert('Failed to delete poster');
+    }
+  };
+
+  const handleDownloadPoster = async (poster: Poster) => {
+    try {
+      // Increment download count
+      await fetch(`http://localhost:5000/api/posters/${poster.id}/download`, {
+        method: 'POST',
+        headers: authService.getAuthHeader(),
+      });
+
+      // Download the file
+      window.open(`http://localhost:5000${poster.fileUrl}`, '_blank');
+      
+      // Refresh the list to update download count
+      fetchPosters();
+    } catch (error) {
+      console.error('Error downloading poster:', error);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
@@ -500,9 +607,50 @@ export default function AdminPage() {
 
       {/* Poster Section */}
       {activeSection === 'poster' && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-semibold mb-4">Poster Management</h2>
-          <p className="text-gray-600">Poster management functionality coming soon...</p>
+        <div className="space-y-6">
+          {/* Header */}
+          {!showPosterForm && (
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-semibold mb-2">Poster Management</h2>
+                  <p className="text-gray-600">Upload and manage posters and documents</p>
+                </div>
+                <button
+                  onClick={handleCreatePoster}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                >
+                  <i className="fas fa-plus mr-2"></i>Upload Poster
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Form */}
+          {showPosterForm && (
+            <PosterAdminForm
+              onSubmit={handleSubmitPoster}
+              onCancel={handleCancelPosterForm}
+            />
+          )}
+
+          {/* List */}
+          {!showPosterForm && (
+            <>
+              {posterLoading ? (
+                <div className="bg-white rounded-lg shadow p-12 text-center">
+                  <i className="fas fa-spinner fa-spin text-4xl text-blue-600 mb-4"></i>
+                  <p className="text-gray-600">Loading posters...</p>
+                </div>
+              ) : (
+                <PosterAdminList
+                  posters={posterList}
+                  onDelete={handleDeletePoster}
+                  onDownload={handleDownloadPoster}
+                />
+              )}
+            </>
+          )}
         </div>
       )}
 
