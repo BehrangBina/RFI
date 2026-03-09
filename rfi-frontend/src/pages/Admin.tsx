@@ -16,6 +16,9 @@ import { OrganizationMember } from '../types/OrganizationMember';
 import { organizationService } from '../services/organizationService';
 import { OrganizationMemberAdminForm } from '../components/admin/OrganizationMemberAdminForm';
 import { OrganizationMemberAdminList } from '../components/admin/OrganizationMemberAdminList';
+import { Event, eventService } from '../services/eventService';
+import { EventAdminForm } from '../components/admin/EventAdminForm';
+import { EventAdminList } from '../components/admin/EventAdminList';
 
 type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'organization' | 'training';
 
@@ -79,9 +82,17 @@ export default function AdminPage() {
   const [showOrgForm, setShowOrgForm] = useState(false);
   const [editingOrgMember, setEditingOrgMember] = useState<OrganizationMember | null>(null);
 
+  // Event Management State
+  const [eventList, setEventList] = useState<Event[]>([]);
+  const [eventLoading, setEventLoading] = useState(false);
+  const [showEventForm, setShowEventForm] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+
   useEffect(() => {
     if (activeSection === 'carousel') {
       fetchPhotos();
+    } else if (activeSection === 'event') {
+      fetchEvents();
     } else if (activeSection === 'news') {
       fetchNews();
     } else if (activeSection === 'poster') {
@@ -308,6 +319,108 @@ export default function AdminPage() {
     } catch (error) {
       console.error('Error deleting news:', error);
       alert('Failed to delete news article');
+    }
+  };
+
+  // ==================== EVENT MANAGEMENT FUNCTIONS ====================
+
+  const fetchEvents = async () => {
+    try {
+      setEventLoading(true);
+      const data = await eventService.getAllEvents();
+      setEventList(data);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      alert('Failed to load events');
+    } finally {
+      setEventLoading(false);
+    }
+  };
+
+  const handleCreateEvent = () => {
+    setEditingEvent(null);
+    setShowEventForm(true);
+  };
+
+  const handleEditEvent = (event: Event) => {
+    setEditingEvent(event);
+    setShowEventForm(true);
+  };
+
+  const handleCancelEventForm = () => {
+    setShowEventForm(false);
+    setEditingEvent(null);
+  };
+
+  const handleSubmitEvent = async (formData: any) => {
+    try {
+      const response = await fetch(
+        editingEvent
+          ? `http://localhost:5000/api/events/${editingEvent.id}`
+          : 'http://localhost:5000/api/events',
+        {
+          method: editingEvent ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...authService.getAuthHeader(),
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert(
+          editingEvent
+            ? 'Event updated successfully!'
+            : 'Event created successfully!'
+        );
+        setShowEventForm(false);
+        setEditingEvent(null);
+        fetchEvents();
+      } else {
+        const errorData = await response.json();
+        alert(
+          `Failed to ${
+            editingEvent ? 'update' : 'create'
+          } event: ${errorData.message || 'Unknown error'}`
+        );
+      }
+    } catch (error) {
+      console.error('Error submitting event:', error);
+      alert(`Failed to ${editingEvent ? 'update' : 'create'} event`);
+    }
+  };
+
+  const handleDeleteEvent = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/events/${id}`, {
+        method: 'DELETE',
+        headers: authService.getAuthHeader(),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('Event deleted successfully!');
+        fetchEvents();
+      } else {
+        alert('Failed to delete event');
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      alert('Failed to delete event');
     }
   };
 
@@ -721,9 +834,33 @@ export default function AdminPage() {
 
       {/* Event Section */}
       {activeSection === 'event' && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-semibold mb-4">Event Management</h2>
-          <p className="text-gray-600">Event management functionality coming soon...</p>
+        <div>
+          <div className="mb-6">
+            {!showEventForm && (
+              <button
+                onClick={handleCreateEvent}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded"
+              >
+                <i className="fa-solid fa-plus mr-2"></i>
+                Add New Event
+              </button>
+            )}
+          </div>
+
+          {showEventForm && (
+            <EventAdminForm
+              onSubmit={handleSubmitEvent}
+              onCancel={handleCancelEventForm}
+              editingEvent={editingEvent}
+            />
+          )}
+
+          <EventAdminList
+            events={eventList}
+            onEdit={handleEditEvent}
+            onDelete={handleDeleteEvent}
+            loading={eventLoading}
+          />
         </div>
       )}
 
