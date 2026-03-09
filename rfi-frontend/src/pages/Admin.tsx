@@ -12,8 +12,12 @@ import { Poster } from '../types/Poster';
 import { posterService } from '../services/posterService';
 import { PosterAdminForm } from '../components/admin/PosterAdminForm';
 import { PosterAdminList } from '../components/admin/PosterAdminList';
+import { OrganizationMember } from '../types/OrganizationMember';
+import { organizationService } from '../services/organizationService';
+import { OrganizationMemberAdminForm } from '../components/admin/OrganizationMemberAdminForm';
+import { OrganizationMemberAdminList } from '../components/admin/OrganizationMemberAdminList';
 
-type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'training';
+type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'organization' | 'training';
 
 interface CarouselPhoto {
   id: number;
@@ -69,6 +73,12 @@ export default function AdminPage() {
   const [posterLoading, setPosterLoading] = useState(false);
   const [showPosterForm, setShowPosterForm] = useState(false);
 
+  // Organization Member Management State
+  const [organizationMembers, setOrganizationMembers] = useState<OrganizationMember[]>([]);
+  const [orgLoading, setOrgLoading] = useState(false);
+  const [showOrgForm, setShowOrgForm] = useState(false);
+  const [editingOrgMember, setEditingOrgMember] = useState<OrganizationMember | null>(null);
+
   useEffect(() => {
     if (activeSection === 'carousel') {
       fetchPhotos();
@@ -76,6 +86,8 @@ export default function AdminPage() {
       fetchNews();
     } else if (activeSection === 'poster') {
       fetchPosters();
+    } else if (activeSection === 'organization') {
+      fetchOrganizationMembers();
     }
   }, [activeSection]);
 
@@ -299,6 +311,108 @@ export default function AdminPage() {
     }
   };
 
+  // ==================== ORGANIZATION MEMBER MANAGEMENT FUNCTIONS ====================
+
+  const fetchOrganizationMembers = async () => {
+    try {
+      setOrgLoading(true);
+      const data = await organizationService.getAllMembers();
+      setOrganizationMembers(data);
+    } catch (error) {
+      console.error('Error fetching organization members:', error);
+      alert('Failed to load organization members');
+    } finally {
+      setOrgLoading(false);
+    }
+  };
+
+  const handleCreateOrgMember = () => {
+    setEditingOrgMember(null);
+    setShowOrgForm(true);
+  };
+
+  const handleEditOrgMember = (member: OrganizationMember) => {
+    setEditingOrgMember(member);
+    setShowOrgForm(true);
+  };
+
+  const handleCancelOrgForm = () => {
+    setShowOrgForm(false);
+    setEditingOrgMember(null);
+  };
+
+  const handleSubmitOrgMember = async (formData: any) => {
+    try {
+      const response = await fetch(
+        editingOrgMember
+          ? `http://localhost:5000/api/organizationmembers/${editingOrgMember.id}`
+          : 'http://localhost:5000/api/organizationmembers',
+        {
+          method: editingOrgMember ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...authService.getAuthHeader(),
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert(
+          editingOrgMember
+            ? 'Organization member updated successfully!'
+            : 'Organization member created successfully!'
+        );
+        setShowOrgForm(false);
+        setEditingOrgMember(null);
+        fetchOrganizationMembers();
+      } else {
+        const errorData = await response.json();
+        alert(
+          `Failed to ${
+            editingOrgMember ? 'update' : 'create'
+          } organization member: ${errorData.message || 'Unknown error'}`
+        );
+      }
+    } catch (error) {
+      console.error('Error submitting organization member:', error);
+      alert(`Failed to ${editingOrgMember ? 'update' : 'create'} organization member`);
+    }
+  };
+
+  const handleDeleteOrgMember = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/organizationmembers/${id}`, {
+        method: 'DELETE',
+        headers: authService.getAuthHeader(),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('Organization member deleted successfully!');
+        fetchOrganizationMembers();
+      } else {
+        alert('Failed to delete organization member');
+      }
+    } catch (error) {
+      console.error('Error deleting organization member:', error);
+      alert('Failed to delete organization member');
+    }
+  };
+
   // ==================== POSTER MANAGEMENT FUNCTIONS ====================
 
   const fetchPosters = async () => {
@@ -498,6 +612,16 @@ export default function AdminPage() {
             Poster
           </button>
           <button
+            onClick={() => setActiveSection('organization')}
+            className={`px-6 py-4 font-medium transition-colors ${
+              activeSection === 'organization'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Organization
+          </button>
+          <button
             onClick={() => setActiveSection('training')}
             className={`px-6 py-4 font-medium transition-colors ${
               activeSection === 'training'
@@ -692,6 +816,39 @@ export default function AdminPage() {
               )}
             </>
           )}
+        </div>
+      )}
+
+      {/* Organization Section */}
+      {activeSection === 'organization' && (
+        <div>
+          <div className="mb-6">
+            {!showOrgForm && (
+              <button
+                onClick={handleCreateOrgMember}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded"
+              >
+                <i className="fa-solid fa-plus mr-2"></i>
+                Add New Member
+              </button>
+            )}
+          </div>
+
+          {showOrgForm && (
+            <OrganizationMemberAdminForm
+              onSubmit={handleSubmitOrgMember}
+              onCancel={handleCancelOrgForm}
+              editingMember={editingOrgMember}
+              allMembers={organizationMembers}
+            />
+          )}
+
+          <OrganizationMemberAdminList
+            members={organizationMembers}
+            onEdit={handleEditOrgMember}
+            onDelete={handleDeleteOrgMember}
+            loading={orgLoading}
+          />
         </div>
       )}
 

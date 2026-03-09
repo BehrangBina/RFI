@@ -3,6 +3,7 @@ import { StaggerContainer } from '../components/animations/StaggerContainer';
 import { ScaleIn } from '../components/animations/ScaleIn';
 import { ActivityCard } from '../components/about/ActivityCard';
 import { CallToActionItem } from '../components/about/CallToActionItem';
+import { OrganizationChart } from '../components/about/OrganizationChart';
 
 const About = () => {
   const activities = [
@@ -115,8 +116,20 @@ const About = () => {
         </FadeIn>
       </section>
 
+      {/* Organization Chart Section */}
+      <section className="mb-16">
+        <FadeIn delay={1.4}>
+          <h2 className="text-3xl font-bold text-white mb-6 text-center">Our Team</h2>
+          <div className="h-1 w-24 bg-[#46A2B9] mx-auto rounded-full mb-8"></div>
+        </FadeIn>
+
+        <FadeIn delay={1.5}>
+          <OrganizationChart />
+        </FadeIn>
+      </section>
+
       {/* Footer Disclaimer */}
-      <FadeIn direction="up" delay={1.4}>
+      <FadeIn direction="up" delay={1.6}>
         <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
           <h5 className="text-white font-semibold mb-3">Disclaimer</h5>
           <p className="text-gray-400 text-sm">
