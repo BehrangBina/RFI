@@ -19,6 +19,12 @@ import { OrganizationMemberAdminList } from '../components/admin/OrganizationMem
 import { Event, eventService } from '../services/eventService';
 import { EventAdminForm } from '../components/admin/EventAdminForm';
 import { EventAdminList } from '../components/admin/EventAdminList';
+import { SubjectCategory, Training } from '../types/Training';
+import { trainingService } from '../services/trainingService';
+import { SubjectCategoryAdminForm } from '../components/admin/SubjectCategoryAdminForm';
+import { SubjectCategoryAdminList } from '../components/admin/SubjectCategoryAdminList';
+import { TrainingAdminForm } from '../components/admin/TrainingAdminForm';
+import { TrainingAdminList } from '../components/admin/TrainingAdminList';
 
 type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'organization' | 'training';
 
@@ -88,6 +94,17 @@ export default function AdminPage() {
   const [showEventForm, setShowEventForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
 
+  // Training Management State
+  const [trainingTab, setTrainingTab] = useState<'categories' | 'trainings'>('categories');
+  const [subjectCategories, setSubjectCategories] = useState<SubjectCategory[]>([]);
+  const [categoryLoading, setCategoryLoading] = useState(false);
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<SubjectCategory | null>(null);
+  const [trainingList, setTrainingList] = useState<Training[]>([]);
+  const [trainingLoading, setTrainingLoading] = useState(false);
+  const [showTrainingForm, setShowTrainingForm] = useState(false);
+  const [editingTraining, setEditingTraining] = useState<Training | null>(null);
+
   useEffect(() => {
     if (activeSection === 'carousel') {
       fetchPhotos();
@@ -99,6 +116,9 @@ export default function AdminPage() {
       fetchPosters();
     } else if (activeSection === 'organization') {
       fetchOrganizationMembers();
+    } else if (activeSection === 'training') {
+      fetchSubjectCategories();
+      fetchTrainings();
     }
   }, [activeSection]);
 
@@ -421,6 +441,210 @@ export default function AdminPage() {
     } catch (error) {
       console.error('Error deleting event:', error);
       alert('Failed to delete event');
+    }
+  };
+
+  // ==================== TRAINING MANAGEMENT FUNCTIONS ====================
+
+  // Subject Categories
+  const fetchSubjectCategories = async () => {
+    try {
+      setCategoryLoading(true);
+      const data = await trainingService.getAllCategories();
+      setSubjectCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      alert('Failed to load categories');
+    } finally {
+      setCategoryLoading(false);
+    }
+  };
+
+  const handleCreateCategory = () => {
+    setEditingCategory(null);
+    setShowCategoryForm(true);
+  };
+
+  const handleEditCategory = (category: SubjectCategory) => {
+    setEditingCategory(category);
+    setShowCategoryForm(true);
+  };
+
+  const handleCancelCategoryForm = () => {
+    setShowCategoryForm(false);
+    setEditingCategory(null);
+  };
+
+  const handleSubmitCategory = async (formData: any) => {
+    try {
+      const response = await fetch(
+        editingCategory
+          ? `http://localhost:5000/api/training/categories/${editingCategory.id}`
+          : 'http://localhost:5000/api/training/categories',
+        {
+          method: editingCategory ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...authService.getAuthHeader(),
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert(
+          editingCategory
+            ? 'Category updated successfully!'
+            : 'Category created successfully!'
+        );
+        setShowCategoryForm(false);
+        setEditingCategory(null);
+        fetchSubjectCategories();
+      } else {
+        const errorData = await response.json();
+        alert(
+          `Failed to ${
+            editingCategory ? 'update' : 'create'
+          } category: ${errorData.message || 'Unknown error'}`
+        );
+      }
+    } catch (error) {
+      console.error('Error submitting category:', error);
+      alert(`Failed to ${editingCategory ? 'update' : 'create'} category`);
+    }
+  };
+
+  const handleDeleteCategory = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/training/categories/${id}`, {
+        method: 'DELETE',
+        headers: authService.getAuthHeader(),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('Category deleted successfully!');
+        fetchSubjectCategories();
+      } else {
+        alert('Failed to delete category');
+      }
+    } catch (error) {
+      console.error('Error deleting category:', error);
+      alert('Failed to delete category');
+    }
+  };
+
+  // Trainings
+  const fetchTrainings = async () => {
+    try {
+      setTrainingLoading(true);
+      const data = await trainingService.getAllTrainings();
+      setTrainingList(data);
+    } catch (error) {
+      console.error('Error fetching trainings:', error);
+      alert('Failed to load trainings');
+    } finally {
+      setTrainingLoading(false);
+    }
+  };
+
+  const handleCreateTraining = () => {
+    setEditingTraining(null);
+    setShowTrainingForm(true);
+  };
+
+  const handleEditTraining = (training: Training) => {
+    setEditingTraining(training);
+    setShowTrainingForm(true);
+  };
+
+  const handleCancelTrainingForm = () => {
+    setShowTrainingForm(false);
+    setEditingTraining(null);
+  };
+
+  const handleSubmitTraining = async (formData: any) => {
+    try {
+      const response = await fetch(
+        editingTraining
+          ? `http://localhost:5000/api/training/${editingTraining.id}`
+          : 'http://localhost:5000/api/training',
+        {
+          method: editingTraining ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...authService.getAuthHeader(),
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert(
+          editingTraining
+            ? 'Training updated successfully!'
+            : 'Training created successfully!'
+        );
+        setShowTrainingForm(false);
+        setEditingTraining(null);
+        fetchTrainings();
+      } else {
+        const errorData = await response.json();
+        alert(
+          `Failed to ${
+            editingTraining ? 'update' : 'create'
+          } training: ${errorData.message || 'Unknown error'}`
+        );
+      }
+    } catch (error) {
+      console.error('Error submitting training:', error);
+      alert(`Failed to ${editingTraining ? 'update' : 'create'} training`);
+    }
+  };
+
+  const handleDeleteTraining = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/training/${id}`, {
+        method: 'DELETE',
+        headers: authService.getAuthHeader(),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('Training deleted successfully!');
+        fetchTrainings();
+      } else {
+        alert('Failed to delete training');
+      }
+    } catch (error) {
+      console.error('Error deleting training:', error);
+      alert('Failed to delete training');
     }
   };
 
@@ -991,9 +1215,107 @@ export default function AdminPage() {
 
       {/* Training Section */}
       {activeSection === 'training' && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-semibold mb-4">Training Management</h2>
-          <p className="text-gray-600">Training management functionality coming soon...</p>
+        <div>
+          {/* Sub-navigation for Training */}
+          <div className="bg-white rounded-lg shadow mb-6">
+            <nav className="flex border-b">
+              <button
+                onClick={() => setTrainingTab('categories')}
+                className={`px-6 py-3 font-medium transition-colors ${
+                  trainingTab === 'categories'
+                    ? 'border-b-2 border-green-600 text-green-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <i className="fa-solid fa-folder mr-2"></i>
+                Subject Categories
+              </button>
+              <button
+                onClick={() => setTrainingTab('trainings')}
+                className={`px-6 py-3 font-medium transition-colors ${
+                  trainingTab === 'trainings'
+                    ? 'border-b-2 border-green-600 text-green-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <i className="fa-solid fa-book mr-2"></i>
+                Training Materials
+              </button>
+            </nav>
+          </div>
+
+          {/* Categories Tab */}
+          {trainingTab === 'categories' && (
+            <div>
+              <div className="mb-6">
+                {!showCategoryForm && (
+                  <button
+                    onClick={handleCreateCategory}
+                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded"
+                  >
+                    <i className="fa-solid fa-plus mr-2"></i>
+                    Add Subject Category
+                  </button>
+                )}
+              </div>
+
+              {showCategoryForm && (
+                <SubjectCategoryAdminForm
+                  onSubmit={handleSubmitCategory}
+                  onCancel={handleCancelCategoryForm}
+                  editingCategory={editingCategory}
+                />
+              )}
+
+              <SubjectCategoryAdminList
+                categories={subjectCategories}
+                onEdit={handleEditCategory}
+                onDelete={handleDeleteCategory}
+                loading={categoryLoading}
+              />
+            </div>
+          )}
+
+          {/* Trainings Tab */}
+          {trainingTab === 'trainings' && (
+            <div>
+              <div className="mb-6">
+                {!showTrainingForm && (
+                  <button
+                    onClick={handleCreateTraining}
+                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded"
+                    disabled={subjectCategories.length === 0}
+                    title={subjectCategories.length === 0 ? 'Create categories first' : ''}
+                  >
+                    <i className="fa-solid fa-plus mr-2"></i>
+                    Add Training Material
+                  </button>
+                )}
+                {subjectCategories.length === 0 && !showTrainingForm && (
+                  <p className="text-sm text-orange-600 mt-2">
+                    <i className="fa-solid fa-info-circle mr-1"></i>
+                    Please create at least one subject category first
+                  </p>
+                )}
+              </div>
+
+              {showTrainingForm && (
+                <TrainingAdminForm
+                  onSubmit={handleSubmitTraining}
+                  onCancel={handleCancelTrainingForm}
+                  editingTraining={editingTraining}
+                  categories={subjectCategories}
+                />
+              )}
+
+              <TrainingAdminList
+                trainings={trainingList}
+                onEdit={handleEditTraining}
+                onDelete={handleDeleteTraining}
+                loading={trainingLoading}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
