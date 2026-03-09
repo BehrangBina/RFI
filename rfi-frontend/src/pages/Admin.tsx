@@ -395,6 +395,46 @@ export default function AdminPage() {
     }
   };
 
+  const handleUpdatePoster = async (id: number, title: string, description: string) => {
+    try {
+      const poster = posterList.find(p => p.id === id);
+      if (!poster) {
+        alert('Poster not found');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/posters/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...authService.getAuthHeader(),
+        },
+        body: JSON.stringify({
+          ...poster,
+          title,
+          description: description || null,
+        }),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        alert('Poster updated successfully!');
+        fetchPosters();
+      } else {
+        alert('Failed to update poster');
+      }
+    } catch (error) {
+      console.error('Error updating poster:', error);
+      throw error;
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
@@ -647,6 +687,7 @@ export default function AdminPage() {
                   posters={posterList}
                   onDelete={handleDeletePoster}
                   onDownload={handleDownloadPoster}
+                  onUpdate={handleUpdatePoster}
                 />
               )}
             </>

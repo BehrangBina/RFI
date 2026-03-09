@@ -6,11 +6,16 @@ interface PosterAdminListProps {
   posters: Poster[];
   onDelete: (id: number) => void;
   onDownload: (poster: Poster) => void;
+  onUpdate: (id: number, title: string, description: string) => Promise<void>;
 }
 
-export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDelete, onDownload }) => {
+export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDelete, onDownload, onUpdate }) => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [saving, setSaving] = useState(false);
 
   const toggleExpand = (id: number) => {
     setExpandedId(expandedId === id ? null : id);
@@ -27,6 +32,38 @@ export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDel
       await onDelete(poster.id);
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleEdit = (poster: Poster) => {
+    setEditingId(poster.id);
+    setEditTitle(poster.title);
+    setEditDescription(poster.description || '');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditTitle('');
+    setEditDescription('');
+  };
+
+  const handleSaveEdit = async (posterId: number) => {
+    if (!editTitle.trim()) {
+      alert('Title cannot be empty');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await onUpdate(posterId, editTitle, editDescription);
+      setEditingId(null);
+      setEditTitle('');
+      setEditDescription('');
+    } catch (error) {
+      console.error('Error updating poster:', error);
+      alert('Failed to update poster');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -92,70 +129,138 @@ export const PosterAdminList: React.FC<PosterAdminListProps> = ({ posters, onDel
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                      {poster.title}
-                    </h3>
-                    {poster.description && (
-                      <p className="text-gray-600 text-sm line-clamp-2 mb-2">
-                        {poster.description}
-                      </p>
-                    )}
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                      <span className="flex items-center gap-1">
-                        <i className="fas fa-calendar"></i>
-                        {formatDate(poster.uploadedAt)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <i className="fas fa-file"></i>
-                        {getFileExtension(poster.fileUrl)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <i className="fas fa-hdd"></i>
-                        {formatFileSize(poster.fileSize)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <i className="fas fa-download"></i>
-                        {poster.downloadCount} downloads
-                      </span>
-                    </div>
-                    {poster.tags && (
-                      <div className="mt-2">
-                        <span className="text-xs text-gray-600">
-                          <i className="fas fa-tags mr-1"></i>
-                          {poster.tags}
-                        </span>
+                    {editingId === poster.id ? (
+                      /* Edit Mode */
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">
+                            Title
+                          </label>
+                          <input
+                            type="text"
+                            value={editTitle}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter title"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">
+                            Description
+                          </label>
+                          <textarea
+                            value={editDescription}
+                            onChange={(e) => setEditDescription(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            rows={2}
+                            placeholder="Enter description (optional)"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleSaveEdit(poster.id)}
+                            disabled={saving}
+                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 text-sm"
+                          >
+                            {saving ? (
+                              <>
+                                <i className="fas fa-spinner fa-spin mr-1"></i>Saving...
+                              </>
+                            ) : (
+                              <>
+                                <i className="fas fa-save mr-1"></i>Save
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={handleCancelEdit}
+                            disabled={saving}
+                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 text-sm"
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
+                    ) : (
+                      /* View Mode */
+                      <>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                          {poster.title}
+                        </h3>
+                        {poster.description && (
+                          <p className="text-gray-600 text-sm line-clamp-2 mb-2">
+                            {poster.description}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                          <span className="flex items-center gap-1">
+                            <i className="fas fa-calendar"></i>
+                            {formatDate(poster.uploadedAt)}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <i className="fas fa-file"></i>
+                            {getFileExtension(poster.fileUrl)}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <i className="fas fa-hdd"></i>
+                            {formatFileSize(poster.fileSize)}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <i className="fas fa-download"></i>
+                            {poster.downloadCount} downloads
+                          </span>
+                        </div>
+                        {poster.tags && (
+                          <div className="mt-2">
+                            <span className="text-xs text-gray-600">
+                              <i className="fas fa-tags mr-1"></i>
+                              {poster.tags}
+                            </span>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
 
                   {/* Actions */}
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => onDownload(poster)}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                      title="Download"
-                    >
-                      <i className="fas fa-download"></i>
-                    </button>
-                    <button
-                      onClick={() => toggleExpand(poster.id)}
-                      className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                      title={expandedId === poster.id ? 'Collapse' : 'Expand'}
-                    >
-                      <i className={`fas fa-chevron-${expandedId === poster.id ? 'up' : 'down'}`}></i>
-                    </button>
-                    <button
-                      onClick={() => handleDelete(poster)}
-                      disabled={deletingId === poster.id}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                      title="Delete"
-                    >
-                      {deletingId === poster.id ? (
-                        <i className="fas fa-spinner fa-spin"></i>
-                      ) : (
-                        <i className="fas fa-trash"></i>
-                      )}
-                    </button>
+                    {editingId !== poster.id && (
+                      <>
+                        <button
+                          onClick={() => handleEdit(poster)}
+                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                          title="Edit"
+                        >
+                          <i className="fas fa-edit"></i>
+                        </button>
+                        <button
+                          onClick={() => onDownload(poster)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Download"
+                        >
+                          <i className="fas fa-download"></i>
+                        </button>
+                        <button
+                          onClick={() => toggleExpand(poster.id)}
+                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                          title={expandedId === poster.id ? 'Collapse' : 'Expand'}
+                        >
+                          <i className={`fas fa-chevron-${expandedId === poster.id ? 'up' : 'down'}`}></i>
+                        </button>
+                        <button
+                          onClick={() => handleDelete(poster)}
+                          disabled={deletingId === poster.id}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                          title="Delete"
+                        >
+                          {deletingId === poster.id ? (
+                            <i className="fas fa-spinner fa-spin"></i>
+                          ) : (
+                            <i className="fas fa-trash"></i>
+                          )}
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
