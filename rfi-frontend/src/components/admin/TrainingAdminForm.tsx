@@ -26,6 +26,7 @@ export const TrainingAdminForm: React.FC<TrainingAdminFormProps> = ({
   categories,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState<TrainingFormData>({
     title: '',
     content: '',
@@ -62,6 +63,38 @@ export const TrainingAdminForm: React.FC<TrainingAdminFormProps> = ({
         ? parseInt(value) || 0
         : value,
     }));
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    const uploadFormData = new FormData();
+    uploadFormData.append('file', file);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/training/upload-image', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        body: uploadFormData,
+      });
+
+      if (response.ok) {
+        const imageUrl = await response.text();
+        setFormData((prev) => ({
+          ...prev,
+          imageUrl: imageUrl.replace(/"/g, ''),
+        }));
+      } else {
+        alert('Failed to upload image');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Failed to upload image');
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -181,17 +214,55 @@ export const TrainingAdminForm: React.FC<TrainingAdminFormProps> = ({
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Image URL
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Training Image
             </label>
-            <input
-              type="url"
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="https://example.com/image.jpg or /images/training/..."
-            />
+            
+            {/* Current Image Preview */}
+            {formData.imageUrl && (
+              <div className="mb-3">
+                <img
+                  src={formData.imageUrl}
+                  alt="Training preview"
+                  className="h-32 w-auto object-cover rounded border border-gray-300"
+                />
+              </div>
+            )}
+
+            {/* File Upload */}
+            <div className="mb-2">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={uploadingImage}
+                className="block w-full text-sm text-gray-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-blue-50 file:text-blue-700
+                  hover:file:bg-blue-100
+                  disabled:opacity-50"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                {uploadingImage ? 'Uploading...' : 'Upload an image file (recommended)'}
+              </p>
+            </div>
+
+            {/* Manual URL Input */}
+            <div>
+              <label className="block text-xs text-gray-600 mb-1">
+                Or enter image URL manually:
+              </label>
+              <input
+                type="url"
+                name="imageUrl"
+                value={formData.imageUrl}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="https://example.com/image.jpg or /uploads/training/..."
+              />
+            </div>
           </div>
 
           <div className="md:col-span-2">

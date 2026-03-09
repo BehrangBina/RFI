@@ -417,6 +417,27 @@ namespace RFI.API.Controllers
             return NoContent();
         }
 
+        // POST: api/training/upload-image
+        [HttpPost("upload-image")]
+        public async Task<ActionResult<string>> UploadTrainingImage([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded");
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "training");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok($"/uploads/training/{uniqueFileName}");
+        }
+
         // ==================== HELPER METHODS ====================
 
         private static string GenerateSlug(string title)
