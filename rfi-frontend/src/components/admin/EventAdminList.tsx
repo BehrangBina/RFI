@@ -38,6 +38,14 @@ export const EventAdminList: React.FC<EventAdminListProps> = ({
     });
   };
 
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit'
+    });
+  };
+
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="overflow-x-auto">
@@ -91,6 +99,7 @@ export const EventAdminList: React.FC<EventAdminListProps> = ({
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">{formatDate(event.date)}</div>
+                  <div className="text-xs text-gray-500">{formatTime(event.date)}</div>
                 </td>
                 <td className="px-6 py-4">
                   <div className="text-sm text-gray-900 max-w-xs truncate">

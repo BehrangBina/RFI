@@ -18,6 +18,7 @@ interface EventSection {
 interface EventFormData {
   title: string;
   date: string;
+  time: string;
   location: string;
   category: string;
   summary: string;
@@ -44,6 +45,7 @@ export const EventAdminForm: React.FC<EventAdminFormProps> = ({
   const [formData, setFormData] = useState<EventFormData>({
     title: '',
     date: '',
+    time: '14:00',
     location: '',
     category: 'rally',
     summary: '',
@@ -56,9 +58,14 @@ export const EventAdminForm: React.FC<EventAdminFormProps> = ({
 
   useEffect(() => {
     if (editingEvent) {
+      const eventDate = new Date(editingEvent.date);
+      const dateStr = eventDate.toISOString().split('T')[0];
+      const timeStr = eventDate.toTimeString().substring(0, 5);
+      
       setFormData({
         title: editingEvent.title,
-        date: editingEvent.date.split('T')[0],
+        date: dateStr,
+        time: timeStr,
         location: editingEvent.location,
         category: editingEvent.category,
         summary: editingEvent.summary,
@@ -185,15 +192,17 @@ export const EventAdminForm: React.FC<EventAdminFormProps> = ({
 
     setLoading(true);
     try {
+      const dateTimeString = `${formData.date}T${formData.time}:00`;
       const submitData = {
         ...formData,
-        date: new Date(formData.date).toISOString(),
+        date: new Date(dateTimeString).toISOString(),
       };
       await onSubmit(submitData);
       if (!editingEvent) {
         setFormData({
           title: '',
           date: '',
+          time: '14:00',
           location: '',
           category: 'rally',
           summary: '',
@@ -242,6 +251,20 @@ export const EventAdminForm: React.FC<EventAdminFormProps> = ({
               type="date"
               name="date"
               value={formData.date}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Time <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="time"
+              name="time"
+              value={formData.time}
               onChange={handleChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
