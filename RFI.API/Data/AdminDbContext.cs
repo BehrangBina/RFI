@@ -1,7 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Models;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace RFI.API.Data;
 
@@ -26,14 +25,19 @@ namespace RFI.API.Data;
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Username).IsRequired();
+                entity.Property(e => e.Email).IsRequired();
                 entity.HasIndex(e => e.Username).IsUnique();
+                entity.HasIndex(e => e.Email).IsUnique();
                 
-                // Seed default admin user (username: admin, password: admin123)
+                // Seed default admin user
+                // TODO: Change password in production via environment variable
+                var adminPassword = Environment.GetEnvironmentVariable("ADMIN_PASSWORD") ?? "admin123";
                 entity.HasData(new User
                 {
                     Id = 1,
                     Username = "admin",
-                    PasswordHash = HashPassword("admin123"),
+                    Email = "admin@rfi.org",
+                    PasswordHash = HashPassword(adminPassword),
                     Role = "Admin",
                     CreatedAt = DateTime.UtcNow
                 });
@@ -42,8 +46,8 @@ namespace RFI.API.Data;
 
         private static string HashPassword(string password)
         {
-            using var sha256 = SHA256.Create();
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hashedBytes);
+            // Using ASP.NET Core Identity's PasswordHasher for better security
+            var hasher = new PasswordHasher<User>();
+            return hasher.HashPassword(null!, password);
         }
     }

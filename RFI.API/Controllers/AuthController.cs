@@ -1,11 +1,12 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RFI.API.Data;
 using RFI.API.DTOs;
+using RFI.API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace RFI.API.Controllers
@@ -16,11 +17,13 @@ namespace RFI.API.Controllers
     {
         private readonly AdminDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly PasswordHasher<User> _passwordHasher;
 
         public AuthController(AdminDbContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
+            _passwordHasher = new PasswordHasher<User>();
         }
 
         [HttpPost("login")]
@@ -31,11 +34,17 @@ namespace RFI.API.Controllers
                 return BadRequest("Username and password are required");
             }
 
-            var passwordHash = HashPassword(loginDto.Password);
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == loginDto.Username && u.PasswordHash == passwordHash);
+                .FirstOrDefaultAsync(u => u.Username == loginDto.Username);
 
             if (user == null)
+            {
+                return Unauthorized("Invalid username or password");
+            }
+
+            // Verify password using PasswordHasher
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginDto.Password);
+            if (result == PasswordVerificationResult.Failed)
             {
                 return Unauthorized("Invalid username or password");
             }
@@ -50,7 +59,7 @@ namespace RFI.API.Controllers
             });
         }
 
-        private string GenerateJwtToken(Models.User user)
+        private string GenerateJwtToken(User user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var secretKey = jwtSettings["SecretKey"] ?? "YourSuperSecretKeyThatIsAtLeast32CharactersLong!";
@@ -74,13 +83,6 @@ namespace RFI.API.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private static string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hashedBytes);
         }
     }
 }

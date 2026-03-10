@@ -14,6 +14,12 @@ namespace RFI.API.Models;
         public string? VideoUrl { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         
+        // Ticket Sales
+        public decimal? TicketPrice { get; set; }
+        public int? TotalTickets { get; set; }
+        public int? AvailableTickets { get; set; }
+        public bool IsTicketSaleActive { get; set; } = false;
+        
         // Navigation properties
         public ICollection<EventImage> Images { get; set; } = new List<EventImage>();
         public ICollection<EventSection> Sections { get; set; } = new List<EventSection>();
