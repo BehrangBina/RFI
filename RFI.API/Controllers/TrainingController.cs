@@ -418,6 +418,7 @@ namespace RFI.API.Controllers
         }
 
         // POST: api/training/upload-image
+        [Authorize]
         [HttpPost("upload-image")]
         public async Task<ActionResult<string>> UploadTrainingImage([FromForm] IFormFile file)
         {

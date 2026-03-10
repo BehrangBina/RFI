@@ -40,5 +40,4 @@ public class MemberShipController : ControllerBase
         return Ok(new { message = "Registration successful" });
     }
 
-
 }
