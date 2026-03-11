@@ -692,7 +692,7 @@ export default function AdminPage() {
 
   const handleSubmitProduct = async (formData: any) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = user?.token;
       if (!token) {
         alert('Session expired. Please login again.');
         logout();
@@ -719,7 +719,7 @@ export default function AdminPage() {
 
   const handleDeleteProduct = async (id: number) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = user?.token;
       if (!token) {
         alert('Session expired. Please login again.');
         logout();

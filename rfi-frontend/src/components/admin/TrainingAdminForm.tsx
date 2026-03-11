@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Training, SubjectCategory } from '../../types/Training';
+import { authService } from '../../services/authService';
 
 interface TrainingFormData {
   title: string;
@@ -76,7 +77,7 @@ export const TrainingAdminForm: React.FC<TrainingAdminFormProps> = ({
     try {
       const response = await fetch('http://localhost:5000/api/training/upload-image', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${authService.getToken()}` },
         body: uploadFormData,
       });
 

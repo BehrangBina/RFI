@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Product } from '../../types/Product';
+import { authService } from '../../services/authService';
 
 interface ProductFormData {
   name: string;
@@ -80,7 +81,7 @@ export const ProductAdminForm: React.FC<ProductAdminFormProps> = ({
     try {
       const response = await fetch('http://localhost:5000/api/shop/upload-image', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `Bearer ${authService.getToken()}` },
         body: uploadFormData,
       });
 
