@@ -18,6 +18,168 @@ public class ShopController : ControllerBase
         _context = context;
     }
 
+    // ==================== PRODUCTS ====================
+
+    // GET: api/shop/products
+    [HttpGet("products")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts([FromQuery] bool? activeOnly = true)
+    {
+        var query = _context.Products.AsQueryable();
+
+        if (activeOnly == true)
+        {
+            query = query.Where(p => p.IsActive);
+        }
+
+        var products = await query
+            .OrderBy(p => p.Category)
+            .ThenBy(p => p.Name)
+            .ToListAsync();
+
+        var productDtos = products.Select(p => new ProductDto(
+            p.Id,
+            p.Name,
+            p.Slug,
+            p.Description,
+            p.Category,
+            p.Price,
+            p.ImageUrl,
+            p.StockQuantity,
+            p.IsActive,
+            p.RequiresShipping,
+            p.CreatedAt
+        ));
+
+        return Ok(productDtos);
+    }
+
+    // GET: api/shop/products/{id}
+    [HttpGet("products/{id}")]
+    public async Task<ActionResult<ProductDto>> GetProduct(int id)
+    {
+        var product = await _context.Products.FindAsync(id);
+
+        if (product == null)
+            return NotFound();
+
+        var productDto = new ProductDto(
+            product.Id,
+            product.Name,
+            product.Slug,
+            product.Description,
+            product.Category,
+            product.Price,
+            product.ImageUrl,
+            product.StockQuantity,
+            product.IsActive,
+            product.RequiresShipping,
+            product.CreatedAt
+        );
+
+        return Ok(productDto);
+    }
+
+    // POST: api/shop/products
+    [Authorize]
+    [HttpPost("products")]
+    public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto createDto)
+    {
+        var product = new Product
+        {
+            Name = createDto.Name,
+            Slug = GenerateSlug(createDto.Name),
+            Description = createDto.Description,
+            Category = createDto.Category,
+            Price = createDto.Price,
+            ImageUrl = createDto.ImageUrl,
+            StockQuantity = createDto.StockQuantity,
+            RequiresShipping = createDto.RequiresShipping,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Products.Add(product);
+        await _context.SaveChangesAsync();
+
+        var productDto = new ProductDto(
+            product.Id,
+            product.Name,
+            product.Slug,
+            product.Description,
+            product.Category,
+            product.Price,
+            product.ImageUrl,
+            product.StockQuantity,
+            product.IsActive,
+            product.RequiresShipping,
+            product.CreatedAt
+        );
+
+        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, productDto);
+    }
+
+    // PUT: api/shop/products/{id}
+    [Authorize]
+    [HttpPut("products/{id}")]
+    public async Task<IActionResult> UpdateProduct(int id, UpdateProductDto updateDto)
+    {
+        var product = await _context.Products.FindAsync(id);
+        if (product == null)
+            return NotFound();
+
+        product.Name = updateDto.Name;
+        product.Slug = GenerateSlug(updateDto.Name);
+        product.Description = updateDto.Description;
+        product.Category = updateDto.Category;
+        product.Price = updateDto.Price;
+        product.ImageUrl = updateDto.ImageUrl;
+        product.StockQuantity = updateDto.StockQuantity;
+        product.IsActive = updateDto.IsActive;
+        product.RequiresShipping = updateDto.RequiresShipping;
+        product.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    // DELETE: api/shop/products/{id}
+    [Authorize]
+    [HttpDelete("products/{id}")]
+    public async Task<IActionResult> DeleteProduct(int id)
+    {
+        var product = await _context.Products.FindAsync(id);
+        if (product == null)
+            return NotFound();
+
+        _context.Products.Remove(product);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    // POST: api/shop/upload-image
+    [HttpPost("upload-image")]
+    public async Task<ActionResult<string>> UploadProductImage([FromForm] IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest("No file uploaded");
+
+        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
+        Directory.CreateDirectory(uploadsFolder);
+
+        var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        return Ok($"/uploads/products/{uniqueFileName}");
+    }
+
+    // ==================== ORDERS ====================
+
     // GET: api/shop/orders (user's orders - requires auth)
     [HttpGet("orders")]
     [Authorize]
@@ -278,5 +440,16 @@ public class ShopController : ControllerBase
                 i.TicketInstances?.Select(t => t.TicketCode).ToList()
             )).ToList()
         );
+    }
+
+    private static string GenerateSlug(string name)
+    {
+        return name.ToLowerInvariant()
+            .Replace(" ", "-")
+            .Replace("'", "")
+            .Replace("\"", "")
+            .Replace(",", "")
+            .Replace(":", "")
+            .Replace("&", "and");
     }
 }

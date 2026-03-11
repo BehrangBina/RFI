@@ -25,8 +25,12 @@ import { SubjectCategoryAdminForm } from '../components/admin/SubjectCategoryAdm
 import { SubjectCategoryAdminList } from '../components/admin/SubjectCategoryAdminList';
 import { TrainingAdminForm } from '../components/admin/TrainingAdminForm';
 import { TrainingAdminList } from '../components/admin/TrainingAdminList';
+import { Product } from '../types/Product';
+import { productService } from '../services/productService';
+import { ProductAdminForm } from '../components/admin/ProductAdminForm';
+import { ProductAdminList } from '../components/admin/ProductAdminList';
 
-type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'organization' | 'training';
+type AdminSection = 'carousel' | 'event' | 'news' | 'poster' | 'organization' | 'training' | 'product';
 
 interface CarouselPhoto {
   id: number;
@@ -105,6 +109,12 @@ export default function AdminPage() {
   const [showTrainingForm, setShowTrainingForm] = useState(false);
   const [editingTraining, setEditingTraining] = useState<Training | null>(null);
 
+  // Product Management State
+  const [productList, setProductList] = useState<Product[]>([]);
+  const [productLoading, setProductLoading] = useState(false);
+  const [showProductForm, setShowProductForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
   useEffect(() => {
     if (activeSection === 'carousel') {
       fetchPhotos();
@@ -118,6 +128,8 @@ export default function AdminPage() {
       fetchOrganizationMembers();
     } else if (activeSection === 'training') {
       fetchSubjectCategories();
+    } else if (activeSection === 'product') {
+      fetchProducts();
       fetchTrainings();
     }
   }, [activeSection]);
@@ -648,6 +660,82 @@ export default function AdminPage() {
     }
   };
 
+  // ==================== PRODUCT MANAGEMENT FUNCTIONS ====================
+
+  const fetchProducts = async () => {
+    try {
+      setProductLoading(true);
+      const data = await productService.getAllProducts(false);
+      setProductList(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      alert('Failed to load products');
+    } finally {
+      setProductLoading(false);
+    }
+  };
+
+  const handleCreateProduct = () => {
+    setEditingProduct(null);
+    setShowProductForm(true);
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setShowProductForm(true);
+  };
+
+  const handleCancelProductForm = () => {
+    setShowProductForm(false);
+    setEditingProduct(null);
+  };
+
+  const handleSubmitProduct = async (formData: any) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (editingProduct) {
+        await productService.updateProduct(editingProduct.id, formData, token);
+        alert('Product updated successfully!');
+      } else {
+        await productService.createProduct(formData, token);
+        alert('Product created successfully!');
+      }
+
+      setShowProductForm(false);
+      setEditingProduct(null);
+      fetchProducts();
+    } catch (error) {
+      console.error('Error submitting product:', error);
+      alert(`Failed to ${editingProduct ? 'update' : 'create'} product`);
+    }
+  };
+
+  const handleDeleteProduct = async (id: number) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      await productService.deleteProduct(id, token);
+      alert('Product deleted successfully!');
+      fetchProducts();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      alert('Failed to delete product');
+    }
+  };
+
   // ==================== ORGANIZATION MEMBER MANAGEMENT FUNCTIONS ====================
 
   const fetchOrganizationMembers = async () => {
@@ -967,6 +1055,16 @@ export default function AdminPage() {
             }`}
           >
             Training
+          </button>
+          <button
+            onClick={() => setActiveSection('product')}
+            className={`px-6 py-4 font-medium transition-colors ${
+              activeSection === 'product'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Shop
           </button>
         </nav>
       </div>
@@ -1316,6 +1414,38 @@ export default function AdminPage() {
               />
             </div>
           )}
+        </div>
+      )}
+
+      {/* Product/Shop Section */}
+      {activeSection === 'product' && (
+        <div>
+          <div className="mb-6">
+            {!showProductForm && (
+              <button
+                onClick={handleCreateProduct}
+                className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded"
+              >
+                <i className="fa-solid fa-plus mr-2"></i>
+                Add Product
+              </button>
+            )}
+          </div>
+
+          {showProductForm && (
+            <ProductAdminForm
+              onSubmit={handleSubmitProduct}
+              onCancel={handleCancelProductForm}
+              editingProduct={editingProduct}
+            />
+          )}
+
+          <ProductAdminList
+            products={productList}
+            onEdit={handleEditProduct}
+            onDelete={handleDeleteProduct}
+            loading={productLoading}
+          />
         </div>
       )}
     </div>
