@@ -13,6 +13,8 @@ import NewsDetail from './pages/NewsDetail';
 import Training from './pages/Training';
 import TrainingCategory from './pages/TrainingCategory';
 import TrainingDetail from './pages/TrainingDetail';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
 import Contact from './pages/Contact';
 import AdminPage from './pages/Admin';
 import LoginPage from './pages/Login';
@@ -46,6 +48,8 @@ function AppContent() {
           <Route path="/training" element={<Training />} />
           <Route path="/training/category/:slug" element={<TrainingCategory />} />
           <Route path="/training/view/:slug" element={<TrainingDetail />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/product/:slug" element={<ProductDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<LoginPage />} />
           <Route 

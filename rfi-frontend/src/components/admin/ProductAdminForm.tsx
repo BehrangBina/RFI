@@ -261,7 +261,7 @@ export const ProductAdminForm: React.FC<ProductAdminFormProps> = ({
             {formData.imageUrl && (
               <div className="mb-3">
                 <img
-                  src={formData.imageUrl}
+                  src={formData.imageUrl.startsWith('http') ? formData.imageUrl : `http://localhost:5000${formData.imageUrl}`}
                   alt="Product preview"
                   className="h-32 w-auto object-cover rounded border border-gray-300"
                 />
@@ -294,7 +294,7 @@ export const ProductAdminForm: React.FC<ProductAdminFormProps> = ({
                 Or enter image URL manually:
               </label>
               <input
-                type="url"
+                type="text"
                 name="imageUrl"
                 value={formData.imageUrl}
                 onChange={handleChange}

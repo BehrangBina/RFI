@@ -66,7 +66,7 @@ export const ProductAdminList: React.FC<ProductAdminListProps> = ({
                 <div className="flex items-center">
                   {product.imageUrl && (
                     <img
-                      src={product.imageUrl}
+                      src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`}
                       alt={product.name}
                       className="h-10 w-10 rounded object-cover mr-3"
                       onError={(e) => {
