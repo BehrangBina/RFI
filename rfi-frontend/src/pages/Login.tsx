@@ -75,10 +75,6 @@ export default function LoginPage() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-
-        <div className="mt-4 text-center text-sm text-gray-600">
-          Default credentials: admin / admin123
-        </div>
       </div>
     </div>
   );
