@@ -40,6 +40,7 @@ public record CreateOrderDto(
     string? ShippingCity,
     string? ShippingPostalCode,
     string? ShippingCountry,
+    string? PaymentMethod,
     List<CreateOrderItemDto> Items
 );
 

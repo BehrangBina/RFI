@@ -12,8 +12,7 @@ const Cart: React.FC = () => {
   };
 
   const handleCheckout = () => {
-    // TODO: Implement checkout flow
-    alert('Checkout functionality coming soon!');
+    navigate('/checkout');
   };
 
   if (cart.items.length === 0) {

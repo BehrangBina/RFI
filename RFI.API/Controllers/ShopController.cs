@@ -250,6 +250,7 @@ public class ShopController : ControllerBase
             ShippingCity = dto.ShippingCity,
             ShippingPostalCode = dto.ShippingPostalCode,
             ShippingCountry = dto.ShippingCountry,
+            PaymentMethod = dto.PaymentMethod,
             PaymentStatus = "Pending",
             OrderDate = DateTime.UtcNow,
             Items = new List<OrderItem>()
@@ -362,11 +363,11 @@ public class ShopController : ControllerBase
             order.Items.Add(orderItem);
         }
 
-        // Calculate shipping (simple logic - can be enhanced)
+        // Calculate shipping (free shipping over $50, otherwise $5 flat rate)
         decimal shippingCost = 0;
         if (requiresShipping && !string.IsNullOrEmpty(dto.ShippingAddress))
         {
-            shippingCost = 10.00m; // Flat rate shipping
+            shippingCost = subtotal > 50 ? 0 : 5.00m; // Free shipping over $50
         }
 
         order.SubtotalPrice = subtotal;
