@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Product } from '../types/Product';
 import { productService } from '../services/productService';
 import { Link, useNavigate } from 'react-router-dom';
@@ -137,6 +137,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const [showAddedToast, setShowAddedToast] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const addingRef = useRef(false);
   
   const isOutOfStock = product.stockQuantity === 0;
   const isLowStock = product.stockQuantity > 0 && product.stockQuantity < 10;
@@ -145,8 +146,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     
-    if (isAdding) return; // Prevent double-clicks
+    if (addingRef.current) return; // Prevent double-clicks
     
+    addingRef.current = true;
     setIsAdding(true);
     addToCart(product, 1);
     setShowAddedToast(true);
@@ -154,7 +156,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setTimeout(() => {
       setShowAddedToast(false);
       setIsAdding(false);
-    }, 2000);
+      addingRef.current = false;
+    }, 1500);
   };
 
   return (

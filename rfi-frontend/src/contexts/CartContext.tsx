@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect, useRef, ReactNode } from 'react';
 import { CartItem, Cart } from '../types/Cart';
 import { Product } from '../types/Product';
 
@@ -32,6 +32,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return { items: [], totalItems: 0, totalPrice: 0 };
   });
 
+  // Track processed operations to prevent StrictMode double-execution
+  const processedOps = useRef<Set<string>>(new Set());
+  const currentOpId = useRef<string | null>(null);
+
   // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
@@ -45,22 +49,54 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const addToCart = (product: Product, quantity: number) => {
+    // Create unique operation ID for this add operation
+    const operationId = `add-${product.id}-${quantity}-${Date.now()}`;
+    currentOpId.current = operationId;
+    
+    console.log('📦 CartContext addToCart called:', { productId: product.id, quantityToAdd: quantity, operationId });
+    
     setCart(prevCart => {
+      // Check if this operation has already been processed (StrictMode protection)
+      if (processedOps.current.has(operationId)) {
+        console.log('⚠️ Operation already processed, returning unchanged state:', operationId);
+        return prevCart;
+      }
+      
+      // Mark operation as processed
+      processedOps.current.add(operationId);
+      
+      // Clean up old operation IDs (keep only last 10)
+      if (processedOps.current.size > 10) {
+        const opsArray = Array.from(processedOps.current);
+        processedOps.current = new Set(opsArray.slice(-10));
+      }
+      
       const existingItemIndex = prevCart.items.findIndex(item => item.product.id === product.id);
+      
+      console.log('📦 Processing operation:', { 
+        operationId,
+        existingItemIndex, 
+        currentQuantity: existingItemIndex > -1 ? prevCart.items[existingItemIndex].quantity : 0,
+        quantityToAdd: quantity
+      });
       
       let newItems: CartItem[];
       if (existingItemIndex > -1) {
         // Update quantity if product already in cart
         newItems = [...prevCart.items];
         const newQuantity = newItems[existingItemIndex].quantity + quantity;
+        console.log('📦 Updating existing item:', { oldQuantity: newItems[existingItemIndex].quantity, quantityToAdd: quantity, newQuantity });
         // Don't exceed stock
         newItems[existingItemIndex].quantity = Math.min(newQuantity, product.stockQuantity);
       } else {
         // Add new item to cart
+        console.log('📦 Adding new item:', { quantity });
         newItems = [...prevCart.items, { product, quantity: Math.min(quantity, product.stockQuantity) }];
       }
       
-      return calculateCart(newItems);
+      const updatedCart = calculateCart(newItems);
+      console.log('📦 Updated cart:', { totalItems: updatedCart.totalItems, items: updatedCart.items.map(i => ({ id: i.product.id, qty: i.quantity })) });
+      return updatedCart;
     });
   };
 

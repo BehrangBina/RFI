@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Product } from '../types/Product';
 import { productService } from '../services/productService';
@@ -14,6 +14,7 @@ const ProductDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showAddedToast, setShowAddedToast] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const addingRef = useRef(false);
 
   useEffect(() => {
     const loadProductData = async () => {
@@ -42,8 +43,10 @@ const ProductDetail: React.FC = () => {
   }, [slug]);
 
   const handleAddToCart = () => {
-    if (!product || isAdding) return;
+    if (!product || addingRef.current) return;
     
+    console.log('🛒 Adding to cart:', { productId: product.id, quantity, timestamp: Date.now() });
+    addingRef.current = true;
     setIsAdding(true);
     addToCart(product, quantity);
     setShowAddedToast(true);
@@ -51,15 +54,21 @@ const ProductDetail: React.FC = () => {
     setTimeout(() => {
       setShowAddedToast(false);
       setIsAdding(false);
-    }, 3000);
+      addingRef.current = false;
+    }, 1500);
   };
 
   const handleBuyNow = () => {
-    if (!product || isAdding) return;
+    if (!product || addingRef.current) return;
     
+    addingRef.current = true;
     setIsAdding(true);
     addToCart(product, quantity);
-    navigate('/cart');
+    
+    // Small delay to ensure cart is updated before navigation
+    setTimeout(() => {
+      navigate('/cart');
+    }, 100);
   };
 
   if (loading) {
