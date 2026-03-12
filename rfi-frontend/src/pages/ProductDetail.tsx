@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Product } from '../types/Product';
 import { productService } from '../services/productService';
+import { useCart } from '../contexts/CartContext';
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { addToCart, getItemQuantity } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAddedToast, setShowAddedToast] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
     const loadProductData = async () => {
@@ -38,17 +42,24 @@ const ProductDetail: React.FC = () => {
   }, [slug]);
 
   const handleAddToCart = () => {
-    if (!product) return;
+    if (!product || isAdding) return;
     
-    // For now, just show an alert. You can implement cart functionality later
-    alert(`Added ${quantity} x ${product.name} to cart!\n\nCart functionality coming soon.`);
+    setIsAdding(true);
+    addToCart(product, quantity);
+    setShowAddedToast(true);
+    
+    setTimeout(() => {
+      setShowAddedToast(false);
+      setIsAdding(false);
+    }, 3000);
   };
 
   const handleBuyNow = () => {
-    if (!product) return;
+    if (!product || isAdding) return;
     
-    // For now, just show an alert. You can implement checkout later
-    alert(`Buy Now: ${quantity} x ${product.name}\n\nCheckout functionality coming soon.`);
+    setIsAdding(true);
+    addToCart(product, quantity);
+    navigate('/cart');
   };
 
   if (loading) {
@@ -81,9 +92,24 @@ const ProductDetail: React.FC = () => {
 
   const isOutOfStock = product.stockQuantity === 0;
   const isLowStock = product.stockQuantity > 0 && product.stockQuantity < 10;
+  const cartQuantity = product ? getItemQuantity(product.id) : 0;
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      {/* Toast Notification */}
+      {showAddedToast && (
+        <div className="fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-3 animate-fade-in">
+          <i className="fa-solid fa-circle-check text-xl"></i>
+          <span className="font-medium">Added to cart!</span>
+          <button
+            onClick={() => navigate('/cart')}
+            className="underline hover:no-underline"
+          >
+            View Cart
+          </button>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto">
         {/* Back Button */}
         <button
@@ -136,7 +162,7 @@ const ProductDetail: React.FC = () => {
               </div>
 
               {/* Stock Status */}
-              <div className="mb-6">
+              <div className="mb-6 space-y-2">
                 {isOutOfStock ? (
                   <div className="flex items-center gap-2 text-red-600 font-semibold">
                     <i className="fa-solid fa-circle-xmark"></i>
@@ -151,6 +177,12 @@ const ProductDetail: React.FC = () => {
                   <div className="flex items-center gap-2 text-green-600 font-semibold">
                     <i className="fa-solid fa-circle-check"></i>
                     In Stock ({product.stockQuantity} available)
+                  </div>
+                )}
+                {cartQuantity > 0 && (
+                  <div className="flex items-center gap-2 text-[#46A2B9] text-sm">
+                    <i className="fa-solid fa-shopping-cart"></i>
+                    {cartQuantity} in your cart
                   </div>
                 )}
               </div>
@@ -217,21 +249,21 @@ const ProductDetail: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-3 mt-auto">
                 <button
                   onClick={handleAddToCart}
-                  disabled={isOutOfStock}
+                  disabled={isOutOfStock || isAdding}
                   className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
-                    isOutOfStock
+                    isOutOfStock || isAdding
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       : 'bg-white border-2 border-[#46A2B9] text-[#46A2B9] hover:bg-[#46A2B9] hover:text-white'
                   }`}
                 >
                   <i className="fa-solid fa-cart-plus"></i>
-                  Add to Cart
+                  {isAdding ? 'Adding...' : 'Add to Cart'}
                 </button>
                 <button
                   onClick={handleBuyNow}
-                  disabled={isOutOfStock}
+                  disabled={isOutOfStock || isAdding}
                   className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
-                    isOutOfStock
+                    isOutOfStock || isAdding
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       : 'bg-[#46A2B9] text-white hover:bg-[#5bc0de] shadow-lg hover:shadow-xl'
                   }`}
@@ -240,14 +272,6 @@ const ProductDetail: React.FC = () => {
                   Buy Now
                 </button>
               </div>
-
-              {/* Coming Soon Notice */}
-              {!isOutOfStock && (
-                <p className="mt-4 text-sm text-gray-500 text-center">
-                  <i className="fa-solid fa-info-circle mr-1"></i>
-                  Full checkout functionality coming soon
-                </p>
-              )}
             </div>
           </div>
         </div>

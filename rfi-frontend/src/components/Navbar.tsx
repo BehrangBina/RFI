@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 
 const links = [
   { label: 'Home', href: '/' },
@@ -14,6 +15,7 @@ const links = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { cart } = useCart();
 
   return (
     <nav className="bg-[#46A2B9]/95 fixed inset-x-0 top-0 z-50 shadow-md backdrop-blur">
@@ -61,6 +63,22 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          {/* Cart Icon with Badge */}
+          <li className="relative group">
+            <Link
+              to="/cart"
+              className="relative transition-all duration-300 hover:text-slate-100 hover:scale-125 inline-block"
+              onClick={() => setOpen(false)}
+              title="Shopping Cart"
+            >
+              <i className="fa-solid fa-shopping-cart fa-xl" />
+              {cart.totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                  {cart.totalItems > 9 ? '9+' : cart.totalItems}
+                </span>
+              )}
+            </Link>
+          </li>
           <li className="relative group">
             <a
               href="https://www.instagram.com/rise_for_iran/?igsh=OWgybzdpenl6OTUx&utm_source=qr#"

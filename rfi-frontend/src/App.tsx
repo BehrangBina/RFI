@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -15,6 +16,7 @@ import TrainingCategory from './pages/TrainingCategory';
 import TrainingDetail from './pages/TrainingDetail';
 import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import AdminPage from './pages/Admin';
 import LoginPage from './pages/Login';
@@ -50,6 +52,7 @@ function AppContent() {
           <Route path="/training/view/:slug" element={<TrainingDetail />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/product/:slug" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<LoginPage />} />
           <Route 
@@ -69,9 +72,11 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </CartProvider>
     </AuthProvider>
   );
 }
