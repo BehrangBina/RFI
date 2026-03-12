@@ -19,7 +19,7 @@ const Checkout: React.FC = () => {
     address: '',
     city: '',
     postalCode: '',
-    country: 'Iran',
+    country: 'Australia',
   });
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>('credit_card');
@@ -44,12 +44,6 @@ const Checkout: React.FC = () => {
       name: 'Bank Transfer',
       description: 'Direct bank transfer (manual verification)',
       icon: 'fa-building-columns',
-    },
-    {
-      id: 'cash_on_delivery',
-      name: 'Cash on Delivery',
-      description: 'Pay when you receive your order',
-      icon: 'fa-money-bill-wave',
     },
   ];
 
@@ -264,7 +258,7 @@ const Checkout: React.FC = () => {
                           value={shippingInfo.city}
                           onChange={handleInputChange}
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
-                          placeholder="Tehran"
+                          placeholder="Sydney"
                         />
                       </div>
 
@@ -278,7 +272,7 @@ const Checkout: React.FC = () => {
                           value={shippingInfo.postalCode}
                           onChange={handleInputChange}
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
-                          placeholder="12345"
+                          placeholder="2000"
                         />
                       </div>
 
@@ -292,7 +286,7 @@ const Checkout: React.FC = () => {
                           value={shippingInfo.country}
                           onChange={handleInputChange}
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
-                          placeholder="Iran"
+                          placeholder="Australia"
                         />
                       </div>
                     </div>

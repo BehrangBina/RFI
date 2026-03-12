@@ -50,22 +50,13 @@ const OrderConfirmation: React.FC = () => {
             'Please include your order number in the transfer description',
           ],
         };
-      case 'cash_on_delivery':
-        return {
-          title: 'Cash on Delivery',
-          instructions: [
-            'Please have the exact amount ready when your order arrives.',
-            'Our delivery partner will collect the payment upon delivery.',
-            'Estimated delivery: 3-5 business days',
-          ],
-        };
       case 'credit_card':
       case 'paypal':
         return {
           title: 'Payment Processing',
           instructions: [
             'Online payment integration coming soon!',
-            'For now, please use Bank Transfer or Cash on Delivery.',
+            'For now, please use Bank Transfer.',
             'We\'ll notify you once online payments are available.',
           ],
         };
