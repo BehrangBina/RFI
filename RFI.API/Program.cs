@@ -24,7 +24,9 @@ builder.Services.AddCors(options =>
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = jwtSettings["SecretKey"] ?? "YourSuperSecretKeyThatIsAtLeast32CharactersLong!";
+var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") 
+    ?? jwtSettings["SecretKey"] 
+    ?? throw new InvalidOperationException("JWT SecretKey is not configured! Set JWT_SECRET_KEY environment variable or configure in appsettings.Development.json");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -135,7 +137,8 @@ using (var scope = app.Services.CreateScope())
     adminDbContext.Database.EnsureCreated();
 }
 
-// app.UseHttpsRedirection(); // Commented out for development - only using HTTP
+ 
+app.UseHttpsRedirection(); 
 
 app.UseAuthentication();
 app.UseAuthorization();

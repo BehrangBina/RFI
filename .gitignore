@@ -2,3 +2,9 @@ RFI.API/bin/
 RFI.API/obj/
 /.vs/
 bck/
+
+# Ignore appsettings files with secrets
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.Production.json
+**/appsettings.*.local.json
