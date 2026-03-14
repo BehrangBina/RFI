@@ -3,7 +3,7 @@ import { Poster } from '../types/Poster';
 import { posterService } from '../services/posterService';
 import './PosterList.css';
 
-export const PosterList: React.FC<{ refresh: number }> = ({ refresh }) => {
+export const PosterList: React.FC<{ refresh?: number }> = ({ refresh }) => {
   const [posters, setPosters] = useState<Poster[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -24,18 +24,6 @@ export const PosterList: React.FC<{ refresh: number }> = ({ refresh }) => {
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this poster?')) return;
-
-    try {
-      await posterService.deletePoster(id);
-      loadPosters();
-    } catch (err) {
-      alert('Failed to delete poster');
-      console.error(err);
     }
   };
 

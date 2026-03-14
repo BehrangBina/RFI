@@ -43,8 +43,6 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
 
   if (slides.length === 0) return null;
 
-  const currentSlide = slides[currentIndex];
-
   return (
     <div className="relative w-full h-[650px] md:h-[750px] lg:h-[850px] overflow-hidden bg-gray-900">
       {/* Slides */}

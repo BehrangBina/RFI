@@ -133,7 +133,6 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [showAddedToast, setShowAddedToast] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
