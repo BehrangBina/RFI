@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { API_BASE_URL } from '../config/api';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const Cart: React.FC = () => {
                 <div className="w-full sm:w-32 h-32 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                   {item.product.imageUrl ? (
                     <img
-                      src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${item.product.imageUrl}`}
+                      src={`${API_BASE_URL}${item.product.imageUrl}`}
                       alt={item.product.name}
                       className="w-full h-full object-cover"
                     />

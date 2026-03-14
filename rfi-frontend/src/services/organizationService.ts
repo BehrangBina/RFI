@@ -1,6 +1,7 @@
 import { OrganizationMember } from '../types/OrganizationMember';
+import { API_URL } from '../config/api';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = API_URL;
 
 export const organizationService = {
   async getAllMembers(): Promise<OrganizationMember[]> {

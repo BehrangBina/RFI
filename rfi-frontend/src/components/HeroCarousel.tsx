@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
 
 interface HeroSlide {
   id: number;
@@ -56,7 +57,7 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
           >
             {/* Background Image */}
             <img
-              src={`http://localhost:5000${slide.imageUrl}`}
+              src={`${API_BASE_URL}${slide.imageUrl}`}
               alt={slide.title}
               className="w-full h-full object-cover"
             />

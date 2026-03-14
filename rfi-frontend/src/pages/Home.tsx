@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import HeroCarousel from '../components/HeroCarousel';
+import { API_URL } from '../config/api';
 
 interface HeroSlide {
   id: number;
@@ -17,7 +18,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/carousel')
+    fetch(`${API_URL}/carousel`)
       .then(res => res.json())
       .then(data => {
         setSlides(data);

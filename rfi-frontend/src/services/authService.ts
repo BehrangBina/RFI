@@ -1,6 +1,7 @@
 import { LoginRequest, LoginResponse } from '../types/auth';
+import { API_URL } from '../config/api';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = API_URL;
 
 export const authService = {
   async login(credentials: LoginRequest): Promise<LoginResponse> {

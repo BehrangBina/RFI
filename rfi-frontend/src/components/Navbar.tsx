@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { API_BASE_URL } from '../config/api';
 
 const links = [
   { label: 'Home', href: '/' },
@@ -26,7 +27,7 @@ const Navbar = () => {
           aria-label="Home"
         >
           <img 
-            src="http://localhost:5000/images/favicon.svg" 
+            src={`${API_BASE_URL}/images/favicon.svg`}
             alt="Rise For Iran logo" 
             className="h-10 w-10 transition-transform hover:rotate-12" 
           />

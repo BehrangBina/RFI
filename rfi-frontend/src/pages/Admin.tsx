@@ -8,6 +8,7 @@ import { NewsArticle } from '../types/News';
 import { newsService } from '../services/newsService';
 import { NewsAdminForm } from '../components/admin/NewsAdminForm';
 import { NewsAdminList } from '../components/admin/NewsAdminList';
+import { API_URL } from '../config/api';
 import { Poster } from '../types/Poster';
 import { posterService } from '../services/posterService';
 import { PosterAdminForm } from '../components/admin/PosterAdminForm';
@@ -136,7 +137,7 @@ export default function AdminPage() {
 
   const fetchPhotos = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/carousel');
+      const response = await fetch('${API_URL}/carousel');
       const data = await response.json();
       setPhotos(data);
     } catch (error) {
@@ -155,7 +156,7 @@ export default function AdminPage() {
     formData.append('order', order.toString());
 
     try {
-      const response = await fetch('http://localhost:5000/api/carousel', {
+      const response = await fetch('${API_URL}/carousel', {
         method: 'POST',
         headers: authService.getAuthHeader(),
         body: formData,
@@ -188,7 +189,7 @@ export default function AdminPage() {
     if (!window.confirm('Are you sure you want to delete this photo?')) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/carousel/${id}`, {
+      const response = await fetch(`${API_URL}/carousel/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -210,7 +211,7 @@ export default function AdminPage() {
 
   const toggleActive = async (photo: CarouselPhoto) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/carousel/${photo.id}`, {
+      const response = await fetch(`${API_URL}/carousel/${photo.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -292,8 +293,8 @@ export default function AdminPage() {
 
       const response = await fetch(
         editingNews
-          ? `http://localhost:5000/api/news/${editingNews.id}`
-          : 'http://localhost:5000/api/news',
+          ? `${API_URL}/news/${editingNews.id}`
+          : '${API_URL}/news',
         {
           method: editingNews ? 'PUT' : 'POST',
           headers: {
@@ -330,7 +331,7 @@ export default function AdminPage() {
 
   const handleDeleteNews = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/news/${id}`, {
+      const response = await fetch(`${API_URL}/news/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -388,8 +389,8 @@ export default function AdminPage() {
     try {
       const response = await fetch(
         editingEvent
-          ? `http://localhost:5000/api/events/${editingEvent.id}`
-          : 'http://localhost:5000/api/events',
+          ? `${API_URL}/events/${editingEvent.id}`
+          : '${API_URL}/events',
         {
           method: editingEvent ? 'PUT' : 'POST',
           headers: {
@@ -432,7 +433,7 @@ export default function AdminPage() {
 
   const handleDeleteEvent = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/events/${id}`, {
+      const response = await fetch(`${API_URL}/events/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -491,8 +492,8 @@ export default function AdminPage() {
     try {
       const response = await fetch(
         editingCategory
-          ? `http://localhost:5000/api/training/categories/${editingCategory.id}`
-          : 'http://localhost:5000/api/training/categories',
+          ? `${API_URL}/training/categories/${editingCategory.id}`
+          : '${API_URL}/training/categories',
         {
           method: editingCategory ? 'PUT' : 'POST',
           headers: {
@@ -535,7 +536,7 @@ export default function AdminPage() {
 
   const handleDeleteCategory = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/training/categories/${id}`, {
+      const response = await fetch(`${API_URL}/training/categories/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -592,8 +593,8 @@ export default function AdminPage() {
     try {
       const response = await fetch(
         editingTraining
-          ? `http://localhost:5000/api/training/${editingTraining.id}`
-          : 'http://localhost:5000/api/training',
+          ? `${API_URL}/training/${editingTraining.id}`
+          : '${API_URL}/training',
         {
           method: editingTraining ? 'PUT' : 'POST',
           headers: {
@@ -636,7 +637,7 @@ export default function AdminPage() {
 
   const handleDeleteTraining = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/training/${id}`, {
+      const response = await fetch(`${API_URL}/training/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -770,8 +771,8 @@ export default function AdminPage() {
     try {
       const response = await fetch(
         editingOrgMember
-          ? `http://localhost:5000/api/organizationmembers/${editingOrgMember.id}`
-          : 'http://localhost:5000/api/organizationmembers',
+          ? `${API_URL}/organizationmembers/${editingOrgMember.id}`
+          : '${API_URL}/organizationmembers',
         {
           method: editingOrgMember ? 'PUT' : 'POST',
           headers: {
@@ -814,7 +815,7 @@ export default function AdminPage() {
 
   const handleDeleteOrgMember = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/organizationmembers/${id}`, {
+      const response = await fetch(`${API_URL}/organizationmembers/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -863,7 +864,7 @@ export default function AdminPage() {
 
   const handleSubmitPoster = async (formData: FormData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/posters/upload', {
+      const response = await fetch('${API_URL}/posters/upload', {
         method: 'POST',
         headers: authService.getAuthHeader(),
         body: formData,
@@ -892,7 +893,7 @@ export default function AdminPage() {
 
   const handleDeletePoster = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/posters/${id}`, {
+      const response = await fetch(`${API_URL}/posters/${id}`, {
         method: 'DELETE',
         headers: authService.getAuthHeader(),
       });
@@ -919,7 +920,7 @@ export default function AdminPage() {
   const handleDownloadPoster = async (poster: Poster) => {
     try {
       // Increment download count
-      await fetch(`http://localhost:5000/api/posters/${poster.id}/download`, {
+      await fetch(`${API_URL}/posters/${poster.id}/download`, {
         method: 'POST',
         headers: authService.getAuthHeader(),
       });
@@ -942,7 +943,7 @@ export default function AdminPage() {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/posters/${id}`, {
+      const response = await fetch(`${API_URL}/posters/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

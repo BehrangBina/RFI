@@ -1,6 +1,7 @@
 import { Product, CreateProductDto, UpdateProductDto } from '../types/Product';
+import { API_URL } from '../config/api';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = API_URL;
 
 export const productService = {
   // Get all products

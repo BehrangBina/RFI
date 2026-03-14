@@ -1,6 +1,7 @@
 import { Poster, CreatePosterRequest } from '../types/Poster';
+import { API_URL as BASE_API_URL, API_BASE_URL } from '../config/api';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = BASE_API_URL;
 
 export const posterService = {
   async getAllPosters(): Promise<Poster[]> {
@@ -48,6 +49,6 @@ export const posterService = {
   },
 
   getImageUrl(fileUrl: string): string {
-    return `http://localhost:5000${fileUrl}`;
+    return `${API_BASE_URL}${fileUrl}`;
   },
 };
