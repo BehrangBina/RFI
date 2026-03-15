@@ -62,7 +62,10 @@ namespace RFI.API.Controllers
         private string GenerateJwtToken(User user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["SecretKey"] ?? "YourSuperSecretKeyThatIsAtLeast32CharactersLong!";
+            // Read directly from environment variable JWT_SECRET_KEY
+            var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") 
+                ?? jwtSettings["SecretKey"] 
+                ?? "YourSuperSecretKeyThatIsAtLeast32CharactersLong!";
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
