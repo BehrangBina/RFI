@@ -3,6 +3,7 @@ import { Product } from '../types/Product';
 import { productService } from '../services/productService';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { API_BASE_URL } from '../config/api';
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
