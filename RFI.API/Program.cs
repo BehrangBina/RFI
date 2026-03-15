@@ -134,10 +134,13 @@ app.UseSwaggerUI(c =>
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
-    
     var adminDbContext = scope.ServiceProvider.GetRequiredService<AdminDbContext>();
-    adminDbContext.Database.Migrate();
+    
+    // ApplicationDbContext - tables already exist, just ensure they're created
+    dbContext.Database.EnsureCreated();
+    
+    // AdminDbContext - tables already exist, just ensure they're created
+    adminDbContext.Database.EnsureCreated();
 }
 
  
