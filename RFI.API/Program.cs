@@ -136,11 +136,47 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var adminDbContext = scope.ServiceProvider.GetRequiredService<AdminDbContext>();
     
-    // ApplicationDbContext - tables already exist, just ensure they're created
+    // ApplicationDbContext - ensure tables are created
     dbContext.Database.EnsureCreated();
     
-    // AdminDbContext - tables already exist, just ensure they're created
+    // AdminDbContext - ensure tables are created
     adminDbContext.Database.EnsureCreated();
+    
+    // Manually create Users table if it doesn't exist (workaround for EnsureCreated() issue)
+    try
+    {
+        adminDbContext.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS ""Users"" (
+                ""Id"" SERIAL PRIMARY KEY,
+                ""Username"" VARCHAR(255) NOT NULL UNIQUE,
+                ""Email"" VARCHAR(255) NOT NULL UNIQUE,
+                ""PasswordHash"" TEXT NOT NULL,
+                ""FullName"" VARCHAR(255),
+                ""Phone"" VARCHAR(50),
+                ""Role"" VARCHAR(50) NOT NULL DEFAULT 'User',
+                ""CreatedAt"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+            CREATE UNIQUE INDEX IF NOT EXISTS ""IX_Users_Username"" ON ""Users"" (""Username"");
+            CREATE UNIQUE INDEX IF NOT EXISTS ""IX_Users_Email"" ON ""Users"" (""Email"");
+        ");
+        
+        // Ensure CarouselPhotos table exists
+        adminDbContext.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS ""CarouselPhotos"" (
+                ""Id"" SERIAL PRIMARY KEY,
+                ""Title"" VARCHAR(500),
+                ""ImageUrl"" TEXT NOT NULL,
+                ""OrderIndex"" INTEGER NOT NULL DEFAULT 0,
+                ""IsActive"" BOOLEAN NOT NULL DEFAULT true,
+                ""CreatedAt"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                ""UpdatedAt"" TIMESTAMP
+            );
+        ");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error creating tables: {ex.Message}");
+    }
 }
 
  
