@@ -1,4 +1,5 @@
 import { Training } from '../../types/Training';
+import { API_BASE_URL } from '../../config/api';
 
 interface TrainingAdminListProps {
   trainings: Training[];
@@ -66,7 +67,7 @@ export const TrainingAdminList: React.FC<TrainingAdminListProps> = ({
                           className="h-12 w-12 rounded object-cover"
                           src={training.imageUrl.startsWith('http') 
                             ? training.imageUrl 
-                            : `http://localhost:5000${training.imageUrl}`}
+                            : `${API_BASE_URL}${training.imageUrl}`}
                           alt={training.title}
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';

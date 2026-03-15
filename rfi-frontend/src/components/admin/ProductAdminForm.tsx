@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../../config/api';
 import { Product } from '../../types/Product';
 import { authService } from '../../services/authService';
 
@@ -79,7 +80,7 @@ export const ProductAdminForm: React.FC<ProductAdminFormProps> = ({
     uploadFormData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:5000/api/shop/upload-image', {
+      const response = await fetch(`${API_URL}/shop/upload-image`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${authService.getToken()}` },
         body: uploadFormData,
@@ -262,7 +263,7 @@ export const ProductAdminForm: React.FC<ProductAdminFormProps> = ({
             {formData.imageUrl && (
               <div className="mb-3">
                 <img
-                  src={formData.imageUrl.startsWith('http') ? formData.imageUrl : `http://localhost:5000${formData.imageUrl}`}
+                  src={formData.imageUrl.startsWith('http') ? formData.imageUrl : `${API_BASE_URL}${formData.imageUrl}`}
                   alt="Product preview"
                   className="h-32 w-auto object-cover rounded border border-gray-300"
                 />

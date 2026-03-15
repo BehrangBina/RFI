@@ -1,4 +1,5 @@
 import { SubjectCategory } from '../../types/Training';
+import { API_BASE_URL } from '../../config/api';
 
 interface SubjectCategoryAdminListProps {
   categories: SubjectCategory[];
@@ -63,7 +64,7 @@ export const SubjectCategoryAdminList: React.FC<SubjectCategoryAdminListProps> =
                           className="h-12 w-12 rounded object-cover"
                           src={category.imageUrl.startsWith('http') 
                             ? category.imageUrl 
-                            : `http://localhost:5000${category.imageUrl}`}
+                            : `${API_BASE_URL}${category.imageUrl}`}
                           alt={category.name}
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';

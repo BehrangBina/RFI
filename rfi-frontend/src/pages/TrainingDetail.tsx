@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Training } from '../types/Training';
 import { trainingService } from '../services/trainingService';
 import { motion, useScroll } from 'framer-motion';
+import { API_BASE_URL } from '../config/api';
 
 const TrainingDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -106,7 +107,7 @@ const TrainingDetail = () => {
             <img
               src={training.imageUrl.startsWith('http') 
                 ? training.imageUrl 
-                : `http://localhost:5000${training.imageUrl}`}
+                : `${API_BASE_URL}${training.imageUrl}`}
               alt={training.title}
               className="w-full h-full object-cover"
               onError={(e) => {

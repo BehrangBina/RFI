@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { SubjectCategory } from '../types/Training';
 import { trainingService } from '../services/trainingService';
 import { FadeIn } from '../components/animations/FadeIn';
+import { API_BASE_URL } from '../config/api';
 import { motion } from 'framer-motion';
 
 const Training = () => {
@@ -94,14 +95,14 @@ const Training = () => {
                   src={category.imageUrl?.startsWith('http') 
                     ? category.imageUrl 
                     : category.imageUrl 
-                      ? `http://localhost:5000${category.imageUrl}`
-                      : 'http://localhost:5000/images/training/constitutional-monarchy-intro.jpg'}
+                      ? `${API_BASE_URL}${category.imageUrl}`
+                      : `${API_BASE_URL}/images/training/constitutional-monarchy-intro.jpg`}
                   alt={category.name}
                   className="w-full h-full object-cover"
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.6 }}
                   onError={(e) => {
-                    e.currentTarget.src = 'http://localhost:5000/images/training/constitutional-monarchy-intro.jpg';
+                    e.currentTarget.src = `${API_BASE_URL}/images/training/constitutional-monarchy-intro.jpg`;
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#182134] via-[#182134]/60 to-transparent" />

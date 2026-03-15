@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL, API_URL } from '../../config/api';
 import { Event } from '../../services/eventService';
 import { authService } from '../../services/authService';
 
@@ -97,7 +98,7 @@ export const EventAdminForm: React.FC<EventAdminFormProps> = ({
     uploadFormData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:5000/api/events/upload-image', {
+      const response = await fetch(`${API_URL}/events/upload-image`, {
         method: 'POST',
         headers: authService.getAuthHeader(),
         body: uploadFormData,
@@ -385,7 +386,7 @@ export const EventAdminForm: React.FC<EventAdminFormProps> = ({
               {formData.images.map((image, index) => (
                 <div key={index} className="border border-gray-300 rounded-md p-3 flex items-start gap-3">
                   <img
-                    src={`http://localhost:5000${image.imageUrl}`}
+                    src={`${API_BASE_URL}${image.imageUrl}`}
                     alt={`Preview ${index + 1}`}
                     className="w-20 h-20 object-cover rounded"
                   />

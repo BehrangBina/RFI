@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Product } from '../types/Product';
 import { productService } from '../services/productService';
 import { useCart } from '../contexts/CartContext';
+import { API_BASE_URL } from '../config/api';
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -135,7 +136,7 @@ const ProductDetail: React.FC = () => {
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               {product.imageUrl ? (
                 <img
-                  src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`}
+                  src={product.imageUrl.startsWith('http') ? product.imageUrl : `${API_BASE_URL}${product.imageUrl}`}
                   alt={product.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {

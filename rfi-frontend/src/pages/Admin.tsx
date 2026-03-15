@@ -926,7 +926,7 @@ export default function AdminPage() {
       });
 
       // Download the file
-      window.open(`http://localhost:5000${poster.fileUrl}`, '_blank');
+      window.open(`${API_BASE_URL}${poster.fileUrl}`, '_blank');
       
       // Refresh the list to update download count
       fetchPosters();
@@ -1124,7 +1124,7 @@ export default function AdminPage() {
               {photos.map((photo) => (
                 <div key={photo.id} className="border rounded-lg p-4">
                   <img
-                    src={`http://localhost:5000${photo.imageUrl}`}
+                    src={`${API_BASE_URL}${photo.imageUrl}`}
                     alt={photo.title || 'Carousel photo'}
                     className="w-full h-48 object-cover rounded mb-2"
                   />

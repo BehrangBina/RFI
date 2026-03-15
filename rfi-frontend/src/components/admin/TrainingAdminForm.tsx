@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../../config/api';
 import { Training, SubjectCategory } from '../../types/Training';
 import { authService } from '../../services/authService';
 
@@ -75,7 +76,7 @@ export const TrainingAdminForm: React.FC<TrainingAdminFormProps> = ({
     uploadFormData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:5000/api/training/upload-image', {
+      const response = await fetch(`${API_URL}/training/upload-image`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${authService.getToken()}` },
         body: uploadFormData,

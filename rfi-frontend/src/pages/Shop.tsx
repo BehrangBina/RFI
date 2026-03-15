@@ -176,7 +176,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="relative aspect-square bg-gray-100 overflow-hidden">
           {product.imageUrl ? (
             <img
-              src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`}
+              src={product.imageUrl.startsWith('http') ? product.imageUrl : `${API_BASE_URL}${product.imageUrl}`}
               alt={product.name}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
               onError={(e) => {

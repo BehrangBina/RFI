@@ -1,4 +1,5 @@
 import { Event } from '../../services/eventService';
+import { API_BASE_URL } from '../../config/api';
 
 interface EventAdminListProps {
   events: Event[];
@@ -81,7 +82,7 @@ export const EventAdminList: React.FC<EventAdminListProps> = ({
                       <div className="flex-shrink-0 h-12 w-12 mr-3">
                         <img
                           className="h-12 w-12 rounded object-cover"
-                          src={`http://localhost:5000${event.images[0].imageUrl}`}
+                          src={`${API_BASE_URL}${event.images[0].imageUrl}`}
                           alt={event.title}
                         />
                       </div>

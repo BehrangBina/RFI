@@ -1,4 +1,5 @@
 import { Product } from '../../types/Product';
+import { API_BASE_URL } from '../../config/api';
 
 interface ProductAdminListProps {
   products: Product[];
@@ -66,7 +67,7 @@ export const ProductAdminList: React.FC<ProductAdminListProps> = ({
                 <div className="flex items-center">
                   {product.imageUrl && (
                     <img
-                      src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`}
+                      src={product.imageUrl.startsWith('http') ? product.imageUrl : `${API_BASE_URL}${product.imageUrl}`}
                       alt={product.name}
                       className="h-10 w-10 rounded object-cover mr-3"
                       onError={(e) => {
