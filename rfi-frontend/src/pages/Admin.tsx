@@ -137,7 +137,7 @@ export default function AdminPage() {
 
   const fetchPhotos = async () => {
     try {
-      const response = await fetch('${API_URL}/carousel');
+      const response = await fetch(`${API_URL}/carousel`);
       const data = await response.json();
       setPhotos(data);
     } catch (error) {
@@ -156,7 +156,7 @@ export default function AdminPage() {
     formData.append('order', order.toString());
 
     try {
-      const response = await fetch('${API_URL}/carousel', {
+      const response = await fetch(`${API_URL}/carousel`, {
         method: 'POST',
         headers: authService.getAuthHeader(),
         body: formData,
@@ -294,7 +294,7 @@ export default function AdminPage() {
       const response = await fetch(
         editingNews
           ? `${API_URL}/news/${editingNews.id}`
-          : '${API_URL}/news',
+          : `${API_URL}/news`,
         {
           method: editingNews ? 'PUT' : 'POST',
           headers: {
@@ -390,7 +390,7 @@ export default function AdminPage() {
       const response = await fetch(
         editingEvent
           ? `${API_URL}/events/${editingEvent.id}`
-          : '${API_URL}/events',
+          : `${API_URL}/events`,
         {
           method: editingEvent ? 'PUT' : 'POST',
           headers: {
@@ -493,7 +493,7 @@ export default function AdminPage() {
       const response = await fetch(
         editingCategory
           ? `${API_URL}/training/categories/${editingCategory.id}`
-          : '${API_URL}/training/categories',
+          : `${API_URL}/training/categories`,
         {
           method: editingCategory ? 'PUT' : 'POST',
           headers: {
@@ -594,7 +594,7 @@ export default function AdminPage() {
       const response = await fetch(
         editingTraining
           ? `${API_URL}/training/${editingTraining.id}`
-          : '${API_URL}/training',
+          : `${API_URL}/training`,
         {
           method: editingTraining ? 'PUT' : 'POST',
           headers: {
@@ -772,7 +772,7 @@ export default function AdminPage() {
       const response = await fetch(
         editingOrgMember
           ? `${API_URL}/organizationmembers/${editingOrgMember.id}`
-          : '${API_URL}/organizationmembers',
+          : `${API_URL}/organizationmembers`,
         {
           method: editingOrgMember ? 'PUT' : 'POST',
           headers: {
@@ -864,7 +864,7 @@ export default function AdminPage() {
 
   const handleSubmitPoster = async (formData: FormData) => {
     try {
-      const response = await fetch('${API_URL}/posters/upload', {
+      const response = await fetch(`${API_URL}/posters/upload`, {
         method: 'POST',
         headers: authService.getAuthHeader(),
         body: formData,
