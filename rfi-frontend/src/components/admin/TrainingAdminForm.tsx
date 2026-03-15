@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { API_BASE_URL, API_URL } from '../../config/api';
+import { API_URL } from '../../config/api';
 import { Training, SubjectCategory } from '../../types/Training';
 import { authService } from '../../services/authService';
 
