@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RFI.API.Data;
+using RFI.API.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -160,10 +161,28 @@ using (var scope = app.Services.CreateScope())
         adminDbContext.Database.EnsureCreated();
         Console.WriteLine("AdminDbContext tables ensured");
         
-        // Verify Users table exists
-        var usersTableExists = adminDbContext.Database.ExecuteSqlRaw(
-            "SELECT 1 FROM information_schema.tables WHERE table_name = 'Users'") >= 0;
-        Console.WriteLine($"Users table exists: {usersTableExists}");
+        // Manually seed admin user (HasData doesn't work with EnsureCreated)
+        if (!adminDbContext.Users.Any())
+        {
+            Console.WriteLine("Seeding default admin user...");
+            var adminPassword = Environment.GetEnvironmentVariable("ADMIN_PASSWORD") ?? "admin123";
+            var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<User>();
+            var adminUser = new User
+            {
+                Username = "admin",
+                Email = "admin@rfi.org",
+                PasswordHash = hasher.HashPassword(null!, adminPassword),
+                Role = "Admin",
+                CreatedAt = DateTime.UtcNow
+            };
+            adminDbContext.Users.Add(adminUser);
+            adminDbContext.SaveChanges();
+            Console.WriteLine($"Admin user created successfully with username: admin");
+        }
+        else
+        {
+            Console.WriteLine($"Users already exist. Count: {adminDbContext.Users.Count()}");
+        }
     }
     catch (Exception ex)
     {
