@@ -8,7 +8,7 @@ import { NewsArticle } from '../types/News';
 import { newsService } from '../services/newsService';
 import { NewsAdminForm } from '../components/admin/NewsAdminForm';
 import { NewsAdminList } from '../components/admin/NewsAdminList';
-import { API_URL } from '../config/api';
+import { API_URL, API_BASE_URL } from '../config/api';
 import { Poster } from '../types/Poster';
 import { posterService } from '../services/posterService';
 import { PosterAdminForm } from '../components/admin/PosterAdminForm';
