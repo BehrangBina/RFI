@@ -1,3 +1,5 @@
+import { API_URL } from '../config/api';
+
 // Event types
 export interface EventImage {
   id: number;
@@ -30,7 +32,6 @@ export interface Event {
   createdAt: string;
 }
 
-import { API_URL } from '../config/api';
 const API_BASE_URL = API_URL;
 
 export const eventService = {
