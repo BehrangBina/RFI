@@ -136,46 +136,40 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var adminDbContext = scope.ServiceProvider.GetRequiredService<AdminDbContext>();
     
-    // ApplicationDbContext - ensure tables are created
-    dbContext.Database.EnsureCreated();
-    
-    // AdminDbContext - ensure tables are created
-    adminDbContext.Database.EnsureCreated();
-    
-    // Manually create Users table if it doesn't exist (workaround for EnsureCreated() issue)
     try
     {
-        adminDbContext.Database.ExecuteSqlRaw(@"
-            CREATE TABLE IF NOT EXISTS ""Users"" (
-                ""Id"" SERIAL PRIMARY KEY,
-                ""Username"" VARCHAR(255) NOT NULL UNIQUE,
-                ""Email"" VARCHAR(255) NOT NULL UNIQUE,
-                ""PasswordHash"" TEXT NOT NULL,
-                ""FullName"" VARCHAR(255),
-                ""Phone"" VARCHAR(50),
-                ""Role"" VARCHAR(50) NOT NULL DEFAULT 'User',
-                ""CreatedAt"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-            );
-            CREATE UNIQUE INDEX IF NOT EXISTS ""IX_Users_Username"" ON ""Users"" (""Username"");
-            CREATE UNIQUE INDEX IF NOT EXISTS ""IX_Users_Email"" ON ""Users"" (""Email"");
-        ");
+        // Drop __EFMigrationsHistory tables to allow EnsureCreated to work
+        Console.WriteLine("Dropping __EFMigrationsHistory tables...");
+        try
+        {
+            dbContext.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS \"__EFMigrationsHistory\"");
+            adminDbContext.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS \"__EFMigrationsHistory\"");
+            Console.WriteLine("Dropped __EFMigrationsHistory tables successfully");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error dropping __EFMigrationsHistory: {ex.Message}");
+        }
         
-        // Ensure CarouselPhotos table exists
-        adminDbContext.Database.ExecuteSqlRaw(@"
-            CREATE TABLE IF NOT EXISTS ""CarouselPhotos"" (
-                ""Id"" SERIAL PRIMARY KEY,
-                ""Title"" VARCHAR(500),
-                ""ImageUrl"" TEXT NOT NULL,
-                ""OrderIndex"" INTEGER NOT NULL DEFAULT 0,
-                ""IsActive"" BOOLEAN NOT NULL DEFAULT true,
-                ""CreatedAt"" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                ""UpdatedAt"" TIMESTAMP
-            );
-        ");
+        // Now EnsureCreated should work
+        Console.WriteLine("Running EnsureCreated for ApplicationDbContext...");
+        dbContext.Database.EnsureCreated();
+        Console.WriteLine("ApplicationDbContext tables ensured");
+        
+        Console.WriteLine("Running EnsureCreated for AdminDbContext...");
+        adminDbContext.Database.EnsureCreated();
+        Console.WriteLine("AdminDbContext tables ensured");
+        
+        // Verify Users table exists
+        var usersTableExists = adminDbContext.Database.ExecuteSqlRaw(
+            "SELECT 1 FROM information_schema.tables WHERE table_name = 'Users'") >= 0;
+        Console.WriteLine($"Users table exists: {usersTableExists}");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Error creating tables: {ex.Message}");
+        Console.WriteLine($"CRITICAL ERROR in database setup: {ex.Message}");
+        Console.WriteLine($"Stack trace: {ex.StackTrace}");
+        throw;
     }
 }
 
