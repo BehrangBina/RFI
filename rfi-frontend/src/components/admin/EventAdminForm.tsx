@@ -3,6 +3,11 @@ import { API_BASE_URL, API_URL } from '../../config/api';
 import { Event } from '../../services/eventService';
 import { authService } from '../../services/authService';
 
+// Helper function to handle both relative and absolute URLs
+const getImageUrl = (url: string) => {
+  return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+};
+
 interface EventImage {
   imageUrl: string;
   caption: string;

@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Event } from '../services/eventService';
 import { API_BASE_URL } from '../config/api';
 
+// Helper function to handle both relative and absolute URLs
+const getImageUrl = (url: string) => {
+  return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+};
+
 interface EventDetailModalProps {
   event: Event;
   onClose: () => void;
