@@ -64,7 +64,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, isLeft, onViewDetails }) =
         {event.images.length > 0 && (
           <div className="h-48 overflow-hidden">
             <img
-              src={`${API_BASE_URL}${event.images[0].imageUrl}`}
+              src={getImageUrl(event.images[0].imageUrl)}
               alt={event.images[0].caption}
               className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
             />

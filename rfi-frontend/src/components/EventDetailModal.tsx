@@ -79,7 +79,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
                 <div className="space-y-4">
                   <div className="rounded-xl overflow-hidden bg-gray-800">
                     <img
-                      src={`${API_BASE_URL}${event.images[selectedImageIndex].imageUrl}`}
+                      src={getImageUrl(event.images[selectedImageIndex].imageUrl)}
                       alt={event.images[selectedImageIndex].caption}
                       className="w-full h-auto object-contain max-h-[500px]"
                     />
@@ -104,7 +104,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
                           }`}
                         >
                           <img
-                            src={`${API_BASE_URL}${image.imageUrl}`}
+                            src={getImageUrl(image.imageUrl)}
                             alt={image.caption}
                             className="w-full h-full object-cover"
                           />

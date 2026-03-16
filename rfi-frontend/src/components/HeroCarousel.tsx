@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../config/api';
 
+// Helper function to handle both relative and absolute URLs
+const getImageUrl = (url: string) => {
+  return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+};
+
 interface HeroSlide {
   id: number;
   title: string;
@@ -57,7 +62,7 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
           >
             {/* Background Image */}
             <img
-              src={`${API_BASE_URL}${slide.imageUrl}`}
+              src={getImageUrl(slide.imageUrl)}
               alt={slide.title}
               className="w-full h-full object-cover"
             />

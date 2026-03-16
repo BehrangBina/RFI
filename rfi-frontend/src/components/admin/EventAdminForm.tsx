@@ -386,7 +386,7 @@ export const EventAdminForm: React.FC<EventAdminFormProps> = ({
               {formData.images.map((image, index) => (
                 <div key={index} className="border border-gray-300 rounded-md p-3 flex items-start gap-3">
                   <img
-                    src={`${API_BASE_URL}${image.imageUrl}`}
+                    src={getImageUrl(image.imageUrl)}
                     alt={`Preview ${index + 1}`}
                     className="w-20 h-20 object-cover rounded"
                   />
