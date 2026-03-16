@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
 using RFI.API.DTOs;
 using RFI.API.Models;
+using RFI.API.Services;
 
 namespace RFI.API.Controllers
 {
@@ -13,11 +14,16 @@ namespace RFI.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _environment;
+        private readonly ICloudinaryService _cloudinaryService;
 
-        public HeroSlidesController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public HeroSlidesController(
+            ApplicationDbContext context, 
+            IWebHostEnvironment environment,
+            ICloudinaryService cloudinaryService)
         {
             _context = context;
             _environment = environment;
+            _cloudinaryService = cloudinaryService;
         }
 
         // GET: api/heroslides
@@ -50,21 +56,13 @@ namespace RFI.API.Controllers
             if (photo == null || photo.Length == 0)
                 return BadRequest("Photo is required");
 
-            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "carousel");
-            Directory.CreateDirectory(uploadsFolder);
-
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(photo.FileName)}";
-            var filePath = Path.Combine(uploadsFolder, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await photo.CopyToAsync(stream);
-            }
+            // Upload to Cloudinary
+            var imageUrl = await _cloudinaryService.UploadImageAsync(photo, "carousel");
 
             var slide = new HeroSlide
             {
                 Title = title ?? "",
-                ImageUrl = $"/uploads/carousel/{fileName}",
+                ImageUrl = imageUrl,
                 OrderIndex = order,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
