@@ -73,6 +73,7 @@ export default function AdminPage() {
   const [title, setTitle] = useState('');
   const [order, setOrder] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [editingCarousel, setEditingCarousel] = useState<CarouselPhoto | null>(null);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -236,6 +237,59 @@ export default function AdminPage() {
       }
     } catch (error) {
       console.error('Error updating photo:', error);
+    }
+  };
+
+  const handleEditCarousel = (photo: CarouselPhoto) => {
+    setEditingCarousel(photo);
+    setTitle(photo.title);
+    setOrder(photo.orderIndex);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCarousel(null);
+    setTitle('');
+    setOrder(0);
+    setFile(null);
+  };
+
+  const handleUpdateCarousel = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCarousel) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/carousel/${editingCarousel.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...authService.getAuthHeader(),
+        },
+        body: JSON.stringify({
+          title: title,
+          order: order,
+          isActive: editingCarousel.isActive,
+        }),
+      });
+
+      if (response.status === 401) {
+        alert('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        handleCancelEdit();
+        fetchPhotos();
+      } else {
+        alert('Update failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating carousel:', error);
+      alert('Update failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1073,10 +1127,12 @@ export default function AdminPage() {
       {/* Carousel Section */}
       {activeSection === 'carousel' && (
         <>
-          {/* Upload Form */}
+          {/* Upload/Edit Form */}
           <div className="bg-white rounded-lg shadow p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">Add New Carousel Photo</h2>
-            <form onSubmit={handleUpload} className="space-y-4">
+            <h2 className="text-xl font-semibold mb-4">
+              {editingCarousel ? 'Edit Carousel Photo' : 'Add New Carousel Photo'}
+            </h2>
+            <form onSubmit={editingCarousel ? handleUpdateCarousel : handleUpload} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Title</label>
                 <input
@@ -1097,23 +1153,36 @@ export default function AdminPage() {
                   min="0"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Photo</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setFile(e.target.files?.[0] || null)}
-                  className="w-full"
-                  required
-                />
+              {!editingCarousel && (
+                <div>
+                  <label className="block text-sm font-medium mb-2">Photo</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                    className="w-full"
+                    required
+                  />
+                </div>
+              )}
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={loading || (!editingCarousel && !file)}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {loading ? (editingCarousel ? 'Updating...' : 'Uploading...') : (editingCarousel ? 'Update Photo' : 'Upload Photo')}
+                </button>
+                {editingCarousel && (
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400"
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
-              <button
-                type="submit"
-                disabled={loading || !file}
-                className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
-              >
-                {loading ? 'Uploading...' : 'Upload Photo'}
-              </button>
             </form>
           </div>
 
@@ -1124,7 +1193,7 @@ export default function AdminPage() {
               {photos.map((photo) => (
                 <div key={photo.id} className="border rounded-lg p-4">
                   <img
-                    src={`${API_BASE_URL}${photo.imageUrl}`}
+                    src={photo.imageUrl.startsWith('http') ? photo.imageUrl : `${API_BASE_URL}${photo.imageUrl}`}
                     alt={photo.title || 'Carousel photo'}
                     className="w-full h-48 object-cover rounded mb-2"
                   />
@@ -1140,6 +1209,12 @@ export default function AdminPage() {
                       }`}
                     >
                       {photo.isActive ? 'Active' : 'Inactive'}
+                    </button>
+                    <button
+                      onClick={() => handleEditCarousel(photo)}
+                      className="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200"
+                    >
+                      Edit
                     </button>
                     <button
                       onClick={() => handleDelete(photo.id)}
