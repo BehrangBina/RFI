@@ -130,12 +130,9 @@ public class PostersController : ControllerBase
         if (poster == null)
             return NotFound();
 
-        // Delete physical file
-        var filePath = Path.Combine(_environment.WebRootPath, poster.FileUrl.TrimStart('/'));
-        if (System.IO.File.Exists(filePath))
-        {
-            System.IO.File.Delete(filePath);
-        }
+        // Note: Files are now stored in Cloudinary
+        // To delete from Cloudinary, extract publicId from FileUrl and call:
+        // await _cloudinaryService.DeleteImageAsync(publicId);
 
         _context.Posters.Remove(poster);
         await _context.SaveChangesAsync();

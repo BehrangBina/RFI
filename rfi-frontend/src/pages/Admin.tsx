@@ -244,6 +244,8 @@ export default function AdminPage() {
     setEditingCarousel(photo);
     setTitle(photo.title);
     setOrder(photo.orderIndex);
+    // Scroll to the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCancelEdit = () => {
@@ -1128,10 +1130,15 @@ export default function AdminPage() {
       {activeSection === 'carousel' && (
         <>
           {/* Upload/Edit Form */}
-          <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <div className={`rounded-lg shadow p-6 mb-8 ${editingCarousel ? 'bg-blue-50 border-2 border-blue-500' : 'bg-white'}`}>
             <h2 className="text-xl font-semibold mb-4">
-              {editingCarousel ? 'Edit Carousel Photo' : 'Add New Carousel Photo'}
+              {editingCarousel ? '✏️ Edit Carousel Photo' : 'Add New Carousel Photo'}
             </h2>
+            {editingCarousel && (
+              <div className="mb-4 p-3 bg-blue-100 border border-blue-300 rounded-md text-blue-800">
+                <strong>Editing:</strong> {editingCarousel.title || 'Untitled Photo'} (ID: {editingCarousel.id})
+              </div>
+            )}
             <form onSubmit={editingCarousel ? handleUpdateCarousel : handleUpload} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Title</label>
@@ -1153,6 +1160,17 @@ export default function AdminPage() {
                   min="0"
                 />
               </div>
+              {editingCarousel && (
+                <div>
+                  <label className="block text-sm font-medium mb-2">Current Photo</label>
+                  <img
+                    src={editingCarousel.imageUrl.startsWith('http') ? editingCarousel.imageUrl : `${API_BASE_URL}${editingCarousel.imageUrl}`}
+                    alt={editingCarousel.title || 'Carousel photo'}
+                    className="w-full max-w-md h-48 object-cover rounded border-2 border-gray-300"
+                  />
+                  <p className="text-sm text-gray-600 mt-2">Note: Cannot change photo when editing. Delete and create new if needed.</p>
+                </div>
+              )}
               {!editingCarousel && (
                 <div>
                   <label className="block text-sm font-medium mb-2">Photo</label>

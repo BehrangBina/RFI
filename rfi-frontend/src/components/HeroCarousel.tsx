@@ -50,7 +50,7 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
   if (slides.length === 0) return null;
 
   return (
-    <div className="relative w-full h-[650px] md:h-[750px] lg:h-[850px] overflow-hidden bg-gray-900">
+    <div className="relative w-full h-screen overflow-hidden bg-gray-900">
       {/* Slides */}
       <div className="relative w-full h-full">
         {slides.map((slide, index) => (
@@ -64,7 +64,7 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
             <img
               src={getImageUrl(slide.imageUrl)}
               alt={slide.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
             
             {/* Overlay */}
