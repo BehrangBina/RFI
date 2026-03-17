@@ -125,18 +125,15 @@ namespace RFI.API.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
 
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "highlights");
-            Directory.CreateDirectory(uploadsFolder);
-
-            var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                var imageUrl = await _cloudinaryService.UploadImageAsync(file, "carousel");
+                return Ok(imageUrl);
             }
-
-            return Ok($"/highlights/{uniqueFileName}");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Image upload failed: {ex.Message}");
+            }
         }
 
         private bool HeroSlideExists(int id)

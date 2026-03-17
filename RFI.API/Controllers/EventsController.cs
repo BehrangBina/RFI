@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
 using RFI.API.Models;
+using RFI.API.Services;
 
 namespace RFI.API.Controllers
 {
@@ -12,10 +13,12 @@ namespace RFI.API.Controllers
     public class EventsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICloudinaryService _cloudinaryService;
 
-        public EventsController(ApplicationDbContext context)
+        public EventsController(ApplicationDbContext context, ICloudinaryService cloudinaryService)
         {
             _context = context;
+            _cloudinaryService = cloudinaryService;
         }
 
         // GET: api/events
@@ -213,18 +216,15 @@ namespace RFI.API.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
 
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "events");
-            Directory.CreateDirectory(uploadsFolder);
-
-            var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                var imageUrl = await _cloudinaryService.UploadImageAsync(file, "events");
+                return Ok(imageUrl);
             }
-
-            return Ok($"/uploads/events/{uniqueFileName}");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Image upload failed: {ex.Message}");
+            }
         }
         private static EventDto MapToDto(Event eventEntity)
         {

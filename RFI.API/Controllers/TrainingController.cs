@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
 using RFI.API.DTOs;
 using RFI.API.Models;
+using RFI.API.Services;
 
 namespace RFI.API.Controllers
 {
@@ -12,10 +13,12 @@ namespace RFI.API.Controllers
     public class TrainingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICloudinaryService _cloudinaryService;
 
-        public TrainingController(ApplicationDbContext context)
+        public TrainingController(ApplicationDbContext context, ICloudinaryService cloudinaryService)
         {
             _context = context;
+            _cloudinaryService = cloudinaryService;
         }
 
         // ==================== SUBJECT CATEGORIES ====================
@@ -425,18 +428,15 @@ namespace RFI.API.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
 
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "training");
-            Directory.CreateDirectory(uploadsFolder);
-
-            var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                var imageUrl = await _cloudinaryService.UploadImageAsync(file, "training");
+                return Ok(imageUrl);
             }
-
-            return Ok($"/uploads/training/{uniqueFileName}");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Image upload failed: {ex.Message}");
+            }
         }
 
         // ==================== HELPER METHODS ====================

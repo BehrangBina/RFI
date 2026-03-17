@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
 using RFI.API.DTOs;
 using RFI.API.Models;
+using RFI.API.Services;
 
 namespace RFI.API.Controllers;
 
@@ -12,10 +13,12 @@ namespace RFI.API.Controllers;
 public class ShopController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly ICloudinaryService _cloudinaryService;
 
-    public ShopController(ApplicationDbContext context)
+    public ShopController(ApplicationDbContext context, ICloudinaryService cloudinaryService)
     {
         _context = context;
+        _cloudinaryService = cloudinaryService;
     }
 
     // ==================== PRODUCTS ====================
@@ -164,18 +167,15 @@ public class ShopController : ControllerBase
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");
 
-        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
-        Directory.CreateDirectory(uploadsFolder);
-
-        var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await file.CopyToAsync(stream);
+            var imageUrl = await _cloudinaryService.UploadImageAsync(file, "products");
+            return Ok(imageUrl);
         }
-
-        return Ok($"/uploads/products/{uniqueFileName}");
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Image upload failed: {ex.Message}");
+        }
     }
 
     // ==================== ORDERS ====================

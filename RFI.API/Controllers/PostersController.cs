@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RFI.API.Data;
 using RFI.API.Models;
+using RFI.API.Services;
 
 namespace RFI.API.Controllers;
 
@@ -11,18 +12,12 @@ namespace RFI.API.Controllers;
 public class PostersController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
-    private readonly IWebHostEnvironment _environment;
-    private readonly string _uploadsFolder;
+    private readonly ICloudinaryService _cloudinaryService;
 
-    public PostersController(ApplicationDbContext context, IWebHostEnvironment environment)
+    public PostersController(ApplicationDbContext context, ICloudinaryService cloudinaryService)
     {
         _context = context;
-        _environment = environment;
-        _uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "posters");
-        
-        // Ensure upload directory exists
-        if (!Directory.Exists(_uploadsFolder))
-            Directory.CreateDirectory(_uploadsFolder);
+        _cloudinaryService = cloudinaryService;
     }
 
     // GET: api/posters
@@ -62,52 +57,44 @@ public class PostersController : ControllerBase
         if (!allowedExtensions.Contains(extension))
             return BadRequest("Invalid file type. Allowed: jpg, jpeg, png, gif, pdf");
 
-        // Generate unique filename for main file
-        var fileName = $"{Guid.NewGuid()}{extension}";
-        var filePath = Path.Combine(_uploadsFolder, fileName);
-
-        // Save main file
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await dto.File.CopyToAsync(stream);
-        }
+            // Upload main file to Cloudinary
+            var fileUrl = await _cloudinaryService.UploadImageAsync(dto.File, "posters");
 
-        // Handle thumbnail if provided
-        string? thumbnailUrl = null;
-        if (dto.Thumbnail != null && dto.Thumbnail.Length > 0)
-        {
-            var thumbExtension = Path.GetExtension(dto.Thumbnail.FileName).ToLowerInvariant();
-            var allowedThumbExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-            
-            if (allowedThumbExtensions.Contains(thumbExtension))
+            // Handle thumbnail if provided
+            string? thumbnailUrl = null;
+            if (dto.Thumbnail != null && dto.Thumbnail.Length > 0)
             {
-                var thumbFileName = $"{Guid.NewGuid()}_thumb{thumbExtension}";
-                var thumbPath = Path.Combine(_uploadsFolder, thumbFileName);
+                var thumbExtension = Path.GetExtension(dto.Thumbnail.FileName).ToLowerInvariant();
+                var allowedThumbExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
                 
-                using (var stream = new FileStream(thumbPath, FileMode.Create))
+                if (allowedThumbExtensions.Contains(thumbExtension))
                 {
-                    await dto.Thumbnail.CopyToAsync(stream);
+                    thumbnailUrl = await _cloudinaryService.UploadImageAsync(dto.Thumbnail, "posters/thumbnails");
                 }
-                
-                thumbnailUrl = $"/uploads/posters/{thumbFileName}";
             }
+
+            // Create poster record
+            var poster = new Poster
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                FileUrl = fileUrl,
+                ThumbnailUrl = thumbnailUrl,
+                FileSize = dto.File.Length,
+                UploadedAt = DateTime.UtcNow
+            };
+
+            _context.Posters.Add(poster);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetPoster), new { id = poster.Id }, poster);
         }
-
-        // Create poster record
-        var poster = new Poster
+        catch (Exception ex)
         {
-            Title = dto.Title,
-            Description = dto.Description,
-            FileUrl = $"/uploads/posters/{fileName}",
-            ThumbnailUrl = thumbnailUrl,
-            FileSize = dto.File.Length,
-            UploadedAt = DateTime.UtcNow
-        };
-
-        _context.Posters.Add(poster);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetPoster), new { id = poster.Id }, poster);
+            return StatusCode(500, $"Upload failed: {ex.Message}");
+        }
     }
 
     // PUT: api/posters/5
