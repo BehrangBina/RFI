@@ -49,6 +49,11 @@ export const posterService = {
   },
 
   getImageUrl(fileUrl: string): string {
+    // If URL is already absolute (from Cloudinary), return as-is
+    if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
+      return fileUrl;
+    }
+    // Otherwise, prepend API_BASE_URL for local files
     return `${API_BASE_URL}${fileUrl}`;
   },
 };

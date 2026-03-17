@@ -30,6 +30,7 @@ export const PosterList: React.FC<{ refresh?: number }> = ({ refresh }) => {
   const handleDownload = async (poster: Poster) => {
     try {
       await posterService.incrementDownloadCount(poster.id);
+      // Always download the actual file (not thumbnail)
       window.open(posterService.getImageUrl(poster.fileUrl), '_blank');
       loadPosters();
     } catch (err) {
@@ -61,12 +62,12 @@ export const PosterList: React.FC<{ refresh?: number }> = ({ refresh }) => {
                 <div 
                   className="poster-image" 
                   onClick={() => {
-                    const imageUrl = poster.thumbnailUrl || poster.fileUrl;
-                    if (!imageUrl.toLowerCase().endsWith('.pdf')) {
-                      openImageModal(imageUrl);
+                    // Always show full-size image in modal, not thumbnail
+                    if (!poster.fileUrl.toLowerCase().endsWith('.pdf')) {
+                      openImageModal(poster.fileUrl);
                     }
                   }}
-                  style={{ cursor: poster.thumbnailUrl || !poster.fileUrl.toLowerCase().endsWith('.pdf') ? 'pointer' : 'default' }}
+                  style={{ cursor: !poster.fileUrl.toLowerCase().endsWith('.pdf') ? 'pointer' : 'default' }}
                 >
                   {poster.thumbnailUrl ? (
                     <img

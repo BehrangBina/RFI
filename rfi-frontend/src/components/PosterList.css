@@ -42,8 +42,7 @@
 
 .poster-image {
   width: 100%;
-  height: auto; /* Changed from 200px */
-  min-height: 200px; /* Add minimum height */
+  height: 250px;
   background: #f5f5f5;
   display: flex;
   align-items: center;
@@ -53,8 +52,8 @@
 
 .poster-image img {
   width: 100%;
-  height: auto; /* Changed from 100% */
-  object-fit: contain; /* Changed from cover */
+  height: 100%;
+  object-fit: cover;
 }
 
 .pdf-placeholder {
