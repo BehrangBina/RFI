@@ -133,12 +133,12 @@ const ProductDetail: React.FC = () => {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
             {/* Product Image */}
-            <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+            <div className="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
               {product.imageUrl ? (
                 <img
                   src={product.imageUrl.startsWith('http') ? product.imageUrl : `${API_BASE_URL}${product.imageUrl}`}
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto object-contain"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://via.placeholder.com/600x600?text=No+Image';
                   }}
