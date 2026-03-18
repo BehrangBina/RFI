@@ -20,6 +20,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
 import Contact from './pages/Contact';
+import Membership from './pages/Membership';
 import AdminPage from './pages/Admin';
 import LoginPage from './pages/Login';
 import './App.css';
@@ -58,6 +59,7 @@ function AppContent() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation/:orderNumber" element={<OrderConfirmation />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/membership" element={<Membership />} />
           <Route path="/login" element={<LoginPage />} />
           <Route 
             path="/admin" 

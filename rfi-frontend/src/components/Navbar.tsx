@@ -10,6 +10,7 @@ const links = [
   { label: 'Events', href: '/events' },
   { label: 'News', href: '/news' },
   { label: 'Training', href: '/training' },
+  { label: 'Membership', href: '/membership' },
   { label: 'Shop', href: '/shop' },
   { label: 'Contact', href: '/contact' }
 ];
