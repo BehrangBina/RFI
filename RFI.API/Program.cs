@@ -20,7 +20,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                   "http://localhost:3000",
-                  "https://rfi-no49.vercel.app")
+                  "https://rfi-no49.vercel.app",
+                  "https://rfi-lime.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
