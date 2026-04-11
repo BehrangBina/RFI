@@ -55,7 +55,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
               </button>
               
               <div className="pr-12">
-                <span className="inline-block px-3 py-1 bg-[#46A2B9]/20 text-[#46A2B9] rounded-full text-sm font-medium mb-3 capitalize">
+                <span className="inline-block px-3 py-1 bg-[#00AEB2]/20 text-[#00AEB2] rounded-full text-sm font-medium mb-3 capitalize">
                   {event.category}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -104,7 +104,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
                           onClick={() => setSelectedImageIndex(index)}
                           className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
                             selectedImageIndex === index
-                              ? 'border-[#46A2B9] ring-2 ring-[#46A2B9]/50'
+                              ? 'border-[#00AEB2] ring-2 ring-[#00AEB2]/50'
                               : 'border-gray-700 hover:border-gray-600'
                           }`}
                         >
@@ -157,7 +157,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
                         key={section.id}
                         className="bg-gray-800/50 rounded-xl p-6 border border-gray-700"
                       >
-                        <h4 className="text-lg font-bold text-[#46A2B9] mb-3">
+                        <h4 className="text-lg font-bold text-[#00AEB2] mb-3">
                           {section.title}
                         </h4>
                         <div className="text-gray-300 leading-relaxed whitespace-pre-line">
@@ -173,7 +173,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({ event, onClose }) =
             <div className="p-6 border-t border-gray-700 bg-gray-900/50">
               <button
                 onClick={onClose}
-                className="w-full py-3 bg-[#46A2B9] hover:bg-[#5bc0de] text-white font-semibold rounded-lg transition-colors"
+                className="w-full py-3 bg-[#00AEB2] hover:bg-[#5bc0de] text-white font-semibold rounded-lg transition-colors"
               >
                 Close
               </button>

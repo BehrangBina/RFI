@@ -52,7 +52,7 @@ const Membership = () => {
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#46A2B9] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#00AEB2] mb-4">
             Join Our Community
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -66,7 +66,7 @@ const Membership = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Membership Benefits</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-[#46A2B9] rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-[#00AEB2] rounded-full flex items-center justify-center">
                 <i className="fas fa-users text-white text-xl"></i>
               </div>
               <div>
@@ -78,7 +78,7 @@ const Membership = () => {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-[#46A2B9] rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-[#00AEB2] rounded-full flex items-center justify-center">
                 <i className="fas fa-calendar-alt text-white text-xl"></i>
               </div>
               <div>
@@ -90,7 +90,7 @@ const Membership = () => {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-[#46A2B9] rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-[#00AEB2] rounded-full flex items-center justify-center">
                 <i className="fas fa-graduation-cap text-white text-xl"></i>
               </div>
               <div>
@@ -102,7 +102,7 @@ const Membership = () => {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-[#46A2B9] rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-[#00AEB2] rounded-full flex items-center justify-center">
                 <i className="fas fa-newspaper text-white text-xl"></i>
               </div>
               <div>
@@ -144,7 +144,7 @@ const Membership = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent transition-all"
                 placeholder="Enter your full name"
               />
             </div>
@@ -160,7 +160,7 @@ const Membership = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent transition-all"
                 placeholder="your.email@example.com"
               />
             </div>
@@ -175,7 +175,7 @@ const Membership = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent transition-all"
                 placeholder="+61 4XX XXX XXX"
               />
             </div>
@@ -183,7 +183,7 @@ const Membership = () => {
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full bg-[#46A2B9] text-white py-3 px-6 rounded-lg font-semibold hover:bg-[#3a8ea3] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full bg-[#00AEB2] text-white py-3 px-6 rounded-lg font-semibold hover:bg-[#3a8ea3] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
             >
               {status === 'loading' ? (
                 <>

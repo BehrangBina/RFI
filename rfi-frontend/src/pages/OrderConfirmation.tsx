@@ -72,7 +72,7 @@ const OrderConfirmation: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#46A2B9] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00AEB2] mx-auto mb-4"></div>
           <p className="text-white">Loading order details...</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ const OrderConfirmation: React.FC = () => {
             </p>
             <button
               onClick={() => navigate('/shop')}
-              className="px-6 py-3 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
+              className="px-6 py-3 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
             >
               Continue Shopping
             </button>
@@ -117,7 +117,7 @@ const OrderConfirmation: React.FC = () => {
           </p>
           <div className="inline-block bg-gray-100 px-6 py-3 rounded-lg">
             <p className="text-sm text-gray-600 mb-1">Order Number</p>
-            <p className="text-2xl font-bold text-[#46A2B9]">{order.orderNumber}</p>
+            <p className="text-2xl font-bold text-[#00AEB2]">{order.orderNumber}</p>
           </div>
         </div>
 
@@ -243,14 +243,14 @@ const OrderConfirmation: React.FC = () => {
         <div className="flex flex-col sm:flex-row gap-4 print:hidden">
           <button
             onClick={handlePrint}
-            className="flex-1 px-6 py-3 bg-white border-2 border-[#46A2B9] text-[#46A2B9] rounded-lg hover:bg-[#46A2B9] hover:text-white transition-colors font-medium flex items-center justify-center gap-2"
+            className="flex-1 px-6 py-3 bg-white border-2 border-[#00AEB2] text-[#00AEB2] rounded-lg hover:bg-[#00AEB2] hover:text-white transition-colors font-medium flex items-center justify-center gap-2"
           >
             <i className="fa-solid fa-print"></i>
             Print Receipt
           </button>
           <button
             onClick={() => navigate('/shop')}
-            className="flex-1 px-6 py-3 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
+            className="flex-1 px-6 py-3 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
           >
             Continue Shopping
           </button>

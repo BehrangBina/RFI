@@ -60,7 +60,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, isLeft, onViewDetails }) =
       <motion.div
         whileHover={{ scale: 1.02, y: -5 }}
         transition={{ duration: 0.3 }}
-        className={`w-full md:w-5/12 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl overflow-hidden border border-gray-700 hover:border-[#46A2B9] transition-all cursor-pointer ${
+        className={`w-full md:w-5/12 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl overflow-hidden border border-gray-700 hover:border-[#00AEB2] transition-all cursor-pointer ${
           isLeft ? 'md:text-right' : 'md:text-left'
         }`}
         onClick={() => onViewDetails(event)}
@@ -107,7 +107,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, isLeft, onViewDetails }) =
           {/* Read More Button */}
           <motion.button
             whileHover={{ x: isLeft ? -5 : 5 }}
-            className="text-[#46A2B9] font-semibold hover:text-[#5bc0de] transition-colors inline-flex items-center gap-2"
+            className="text-[#00AEB2] font-semibold hover:text-[#5bc0de] transition-colors inline-flex items-center gap-2"
           >
             Read More
             <span>{isLeft ? '←' : '→'}</span>
@@ -122,7 +122,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, isLeft, onViewDetails }) =
           whileInView={{ scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-6 h-6 rounded-full bg-[#46A2B9] shadow-lg shadow-[#46A2B9]/50 ring-4 ring-gray-800"
+          className="w-6 h-6 rounded-full bg-[#00AEB2] shadow-lg shadow-[#00AEB2]/50 ring-4 ring-gray-800"
         />
       </div>
 

@@ -28,7 +28,7 @@ const Cart: React.FC = () => {
             <p className="text-gray-500 mb-6">Add some products to get started!</p>
             <button
               onClick={() => navigate('/shop')}
-              className="px-6 py-3 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
+              className="px-6 py-3 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
             >
               Continue Shopping
             </button>
@@ -45,7 +45,7 @@ const Cart: React.FC = () => {
           <h1 className="text-4xl font-bold text-white">Shopping Cart</h1>
           <button
             onClick={() => navigate('/shop')}
-            className="text-[#46A2B9] hover:text-[#5bc0de] font-medium flex items-center gap-2 transition-colors"
+            className="text-[#00AEB2] hover:text-[#5bc0de] font-medium flex items-center gap-2 transition-colors"
           >
             <i className="fa-solid fa-arrow-left"></i>
             Continue Shopping
@@ -136,7 +136,7 @@ const Cart: React.FC = () => {
                       <div className="text-sm text-gray-500">
                         ${item.product.price.toFixed(2)} each
                       </div>
-                      <div className="text-xl font-bold text-[#46A2B9]">
+                      <div className="text-xl font-bold text-[#00AEB2]">
                         ${(item.product.price * item.quantity).toFixed(2)}
                       </div>
                     </div>
@@ -177,13 +177,13 @@ const Cart: React.FC = () => {
 
                 <div className="border-t pt-3 flex justify-between text-lg font-bold">
                   <span>Total:</span>
-                  <span className="text-[#46A2B9]">${cart.totalPrice.toFixed(2)}</span>
+                  <span className="text-[#00AEB2]">${cart.totalPrice.toFixed(2)}</span>
                 </div>
               </div>
 
               <button
                 onClick={handleCheckout}
-                className="w-full py-3 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium mb-3"
+                className="w-full py-3 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium mb-3"
               >
                 <i className="fa-solid fa-lock mr-2"></i>
                 Proceed to Checkout
@@ -191,7 +191,7 @@ const Cart: React.FC = () => {
 
               <button
                 onClick={() => navigate('/shop')}
-                className="w-full py-3 border-2 border-[#46A2B9] text-[#46A2B9] rounded-lg hover:bg-[#46A2B9] hover:text-white transition-colors font-medium"
+                className="w-full py-3 border-2 border-[#00AEB2] text-[#00AEB2] rounded-lg hover:bg-[#00AEB2] hover:text-white transition-colors font-medium"
               >
                 Continue Shopping
               </button>

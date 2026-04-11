@@ -90,7 +90,7 @@ const Contact = () => {
       >
         <motion.a
           href="https://www.instagram.com/rise_for_iran/?igsh=OWgybzdpenl6OTUx&utm_source=qr#"
-          className="text-[#46A2B9] hover:text-[#5bc0de] transition-colors"
+          className="text-[#00AEB2] hover:text-[#5bc0de] transition-colors"
           title="Instagram"
           variants={socialVariants}
           whileHover={{ scale: 1.2, rotate: 5 }}
@@ -100,7 +100,7 @@ const Contact = () => {
         </motion.a>
         <motion.a
           href="https://t.me/riseforiran"
-          className="text-[#46A2B9] hover:text-[#5bc0de] transition-colors"
+          className="text-[#00AEB2] hover:text-[#5bc0de] transition-colors"
           title="Telegram"
           variants={socialVariants}
           whileHover={{ scale: 1.2, rotate: -5 }}

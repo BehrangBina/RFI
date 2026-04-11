@@ -43,7 +43,7 @@ const Shop: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#46A2B9] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00AEB2] mx-auto mb-4"></div>
           <p className="text-gray-400">Loading products...</p>
         </div>
       </div>
@@ -57,7 +57,7 @@ const Shop: React.FC = () => {
           <p className="text-red-400 mb-4">{error}</p>
           <button
             onClick={loadProducts}
-            className="px-6 py-2 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors"
+            className="px-6 py-2 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors"
           >
             Try Again
           </button>
@@ -72,7 +72,7 @@ const Shop: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            <i className="fa-solid fa-store mr-3 text-[#46A2B9]"></i>
+            <i className="fa-solid fa-store mr-3 text-[#00AEB2]"></i>
             Shop
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -88,7 +88,7 @@ const Shop: React.FC = () => {
                 onClick={() => setSelectedCategory('all')}
                 className={`px-6 py-2 rounded-full font-medium transition-all ${
                   selectedCategory === 'all'
-                    ? 'bg-[#46A2B9] text-white shadow-lg scale-105'
+                    ? 'bg-[#00AEB2] text-white shadow-lg scale-105'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -100,7 +100,7 @@ const Shop: React.FC = () => {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-6 py-2 rounded-full font-medium transition-all ${
                     selectedCategory === category
-                      ? 'bg-[#46A2B9] text-white shadow-lg scale-105'
+                      ? 'bg-[#00AEB2] text-white shadow-lg scale-105'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
@@ -203,14 +203,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
           
           {/* Category Badge */}
-          <div className="absolute top-2 left-2 bg-[#46A2B9] text-white px-3 py-1 rounded-full text-xs font-semibold">
+          <div className="absolute top-2 left-2 bg-[#00AEB2] text-white px-3 py-1 rounded-full text-xs font-semibold">
             {product.category}
           </div>
         </div>
 
         {/* Product Info */}
         <div className="p-4">
-          <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-[#46A2B9] transition-colors">
+          <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-[#00AEB2] transition-colors">
             {product.name}
           </h3>
           
@@ -243,13 +243,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               className={`flex-1 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
                 isOutOfStock || isAdding
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-white border-2 border-[#46A2B9] text-[#46A2B9] hover:bg-[#46A2B9] hover:text-white'
+                  : 'bg-white border-2 border-[#00AEB2] text-[#00AEB2] hover:bg-[#00AEB2] hover:text-white'
               }`}
             >
               <i className="fa-solid fa-cart-plus"></i>
               {isAdding ? 'Adding...' : 'Add'}
             </button>
-            <div className="flex-1 py-2 rounded-lg font-medium bg-[#46A2B9] text-white hover:bg-[#5bc0de] transition-all shadow-md hover:shadow-lg flex items-center justify-center cursor-pointer">
+            <div className="flex-1 py-2 rounded-lg font-medium bg-[#00AEB2] text-white hover:bg-[#5bc0de] transition-all shadow-md hover:shadow-lg flex items-center justify-center cursor-pointer">
               View
             </div>
           </div>

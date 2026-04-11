@@ -76,7 +76,7 @@ const ProductDetail: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#46A2B9] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00AEB2] mx-auto mb-4"></div>
           <p className="text-gray-400">Loading product...</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ const ProductDetail: React.FC = () => {
           <p className="text-red-400 mb-4 text-xl">{error || 'Product not found'}</p>
           <button
             onClick={() => navigate('/shop')}
-            className="px-6 py-2 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors"
+            className="px-6 py-2 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors"
           >
             Back to Shop
           </button>
@@ -124,7 +124,7 @@ const ProductDetail: React.FC = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate('/shop')}
-          className="mb-6 text-[#46A2B9] hover:text-[#5bc0de] font-medium flex items-center gap-2 transition-colors"
+          className="mb-6 text-[#00AEB2] hover:text-[#5bc0de] font-medium flex items-center gap-2 transition-colors"
         >
           <i className="fa-solid fa-arrow-left"></i>
           Back to Shop
@@ -154,7 +154,7 @@ const ProductDetail: React.FC = () => {
             <div className="flex flex-col">
               {/* Category Badge */}
               <div className="mb-4">
-                <span className="inline-block bg-[#46A2B9] text-white px-4 py-1 rounded-full text-sm font-semibold">
+                <span className="inline-block bg-[#00AEB2] text-white px-4 py-1 rounded-full text-sm font-semibold">
                   {product.category}
                 </span>
               </div>
@@ -190,7 +190,7 @@ const ProductDetail: React.FC = () => {
                   </div>
                 )}
                 {cartQuantity > 0 && (
-                  <div className="flex items-center gap-2 text-[#46A2B9] text-sm">
+                  <div className="flex items-center gap-2 text-[#00AEB2] text-sm">
                     <i className="fa-solid fa-shopping-cart"></i>
                     {cartQuantity} in your cart
                   </div>
@@ -239,7 +239,7 @@ const ProductDetail: React.FC = () => {
                       }}
                       min="1"
                       max={product.stockQuantity}
-                      className="w-20 text-center px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#46A2B9]"
+                      className="w-20 text-center px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00AEB2]"
                       aria-label="Quantity"
                       title="Product quantity"
                     />
@@ -263,7 +263,7 @@ const ProductDetail: React.FC = () => {
                   className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
                     isOutOfStock || isAdding
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-white border-2 border-[#46A2B9] text-[#46A2B9] hover:bg-[#46A2B9] hover:text-white'
+                      : 'bg-white border-2 border-[#00AEB2] text-[#00AEB2] hover:bg-[#00AEB2] hover:text-white'
                   }`}
                 >
                   <i className="fa-solid fa-cart-plus"></i>
@@ -275,7 +275,7 @@ const ProductDetail: React.FC = () => {
                   className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
                     isOutOfStock || isAdding
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-[#46A2B9] text-white hover:bg-[#5bc0de] shadow-lg hover:shadow-xl'
+                      : 'bg-[#00AEB2] text-white hover:bg-[#5bc0de] shadow-lg hover:shadow-xl'
                   }`}
                 >
                   <i className="fa-solid fa-bolt"></i>

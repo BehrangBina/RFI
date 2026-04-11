@@ -73,7 +73,7 @@ const Events: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#46A2B9] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00AEB2] mx-auto mb-4"></div>
           <p className="text-gray-400">Loading events...</p>
         </div>
       </div>
@@ -87,7 +87,7 @@ const Events: React.FC = () => {
           <p className="text-red-400 mb-4">{error}</p>
           <button
             onClick={loadEvents}
-            className="px-6 py-2 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors"
+            className="px-6 py-2 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors"
           >
             Try Again
           </button>
@@ -115,7 +115,7 @@ const Events: React.FC = () => {
             onClick={() => filterEvents('all')}
             className={`px-6 py-2 rounded-full font-medium transition-all ${
               selectedCategory === 'all'
-                ? 'bg-[#46A2B9] text-white shadow-lg shadow-[#46A2B9]/50'
+                ? 'bg-[#00AEB2] text-white shadow-lg shadow-[#00AEB2]/50'
                 : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
             }`}
           >
@@ -127,7 +127,7 @@ const Events: React.FC = () => {
               onClick={() => filterEvents(category)}
               className={`px-6 py-2 rounded-full font-medium transition-all capitalize ${
                 selectedCategory === category
-                  ? 'bg-[#46A2B9] text-white shadow-lg shadow-[#46A2B9]/50'
+                  ? 'bg-[#00AEB2] text-white shadow-lg shadow-[#00AEB2]/50'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
@@ -145,7 +145,7 @@ const Events: React.FC = () => {
       ) : (
         <div className="max-w-6xl mx-auto relative">
           {/* Center Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-[#46A2B9] via-[#46A2B9]/50 to-transparent hidden md:block"></div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-[#00AEB2] via-[#00AEB2]/50 to-transparent hidden md:block"></div>
 
           {/* Events */}
           <div className="space-y-12">

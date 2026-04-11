@@ -44,7 +44,7 @@ const About = () => {
       {/* Header */}
       <FadeIn direction="down" className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">About Rise For Iran</h1>
-        <div className="h-1 w-24 bg-[#46A2B9] mx-auto rounded-full"></div>
+        <div className="h-1 w-24 bg-[#00AEB2] mx-auto rounded-full"></div>
       </FadeIn>
 
       {/* Core Activities Section */}
@@ -83,7 +83,7 @@ const About = () => {
 
       {/* Vision Statement */}
       <FadeIn direction="up" delay={0.4}>
-        <div className="bg-[#46A2B9]/20 border-2 border-[#46A2B9] rounded-lg p-8 mb-16">
+        <div className="bg-[#00AEB2]/20 border-2 border-[#00AEB2] rounded-lg p-8 mb-16">
           <p className="text-xl md:text-2xl text-center text-white font-bold italic">
             We rise for liberty, dignity, safety, and hope for Iran, for Australia, and for the world.
           </p>
@@ -110,7 +110,7 @@ const About = () => {
         </StaggerContainer>
 
         <FadeIn delay={1.3}>
-          <p className="text-gray-200 text-lg italic border-l-4 border-[#46A2B9] pl-4">
+          <p className="text-gray-200 text-lg italic border-l-4 border-[#00AEB2] pl-4">
             Supporting the Iranian people is not charity nor unwarranted interference. Global stability depends on the removal of this brutal regime.
           </p>
         </FadeIn>
@@ -120,7 +120,7 @@ const About = () => {
       <section className="mb-16">
         <FadeIn delay={1.4}>
           <h2 className="text-3xl font-bold text-white mb-6 text-center">Our Team</h2>
-          <div className="h-1 w-24 bg-[#46A2B9] mx-auto rounded-full mb-8"></div>
+          <div className="h-1 w-24 bg-[#00AEB2] mx-auto rounded-full mb-8"></div>
         </FadeIn>
 
         <FadeIn delay={1.5}>

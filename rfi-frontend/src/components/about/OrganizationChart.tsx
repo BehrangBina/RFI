@@ -21,7 +21,7 @@ const MemberCard = ({ member, isLeader = false, delay = 0 }: MemberCardProps) =>
     >
       <motion.div
         className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer border border-gray-700 ${
-          isLeader ? 'border-[#46A2B9] border-2' : 'hover:border-[#46A2B9]'
+          isLeader ? 'border-[#00AEB2] border-2' : 'hover:border-[#00AEB2]'
         }`}
         whileHover={{ scale: 1.03, y: -5 }}
         whileTap={{ scale: 0.98 }}
@@ -34,10 +34,10 @@ const MemberCard = ({ member, isLeader = false, delay = 0 }: MemberCardProps) =>
               <img
                 src={member.imageUrl}
                 alt={member.name}
-                className="w-full h-full rounded-full object-cover border-4 border-[#46A2B9] shadow-lg"
+                className="w-full h-full rounded-full object-cover border-4 border-[#00AEB2] shadow-lg"
               />
             ) : (
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-[#46A2B9] to-[#5bc0de] flex items-center justify-center shadow-lg">
+              <div className="w-full h-full rounded-full bg-gradient-to-br from-[#00AEB2] to-[#5bc0de] flex items-center justify-center shadow-lg">
                 <span className={`text-white font-bold ${isLeader ? 'text-4xl md:text-5xl' : 'text-3xl'}`}>
                   {member.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
                 </span>
@@ -60,7 +60,7 @@ const MemberCard = ({ member, isLeader = false, delay = 0 }: MemberCardProps) =>
                 {member.email && (
                   <a
                     href={`mailto:${member.email}`}
-                    className="text-gray-400 hover:text-[#46A2B9] transition-colors text-sm"
+                    className="text-gray-400 hover:text-[#00AEB2] transition-colors text-sm"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <i className="fa-solid fa-envelope mr-1"></i>
@@ -70,7 +70,7 @@ const MemberCard = ({ member, isLeader = false, delay = 0 }: MemberCardProps) =>
                 {member.phone && (
                   <a
                     href={`tel:${member.phone}`}
-                    className="text-gray-400 hover:text-[#46A2B9] transition-colors text-sm"
+                    className="text-gray-400 hover:text-[#00AEB2] transition-colors text-sm"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <i className="fa-solid fa-phone mr-1"></i>
@@ -84,7 +84,7 @@ const MemberCard = ({ member, isLeader = false, delay = 0 }: MemberCardProps) =>
           {/* Expand Icon */}
           {member.bio && (
             <div className="absolute top-4 right-4">
-              <i className={`fa-solid fa-chevron-${showDetails ? 'up' : 'down'} text-gray-400 group-hover:text-[#46A2B9] transition-colors`}></i>
+              <i className={`fa-solid fa-chevron-${showDetails ? 'up' : 'down'} text-gray-400 group-hover:text-[#00AEB2] transition-colors`}></i>
             </div>
           )}
         </div>
@@ -144,7 +144,7 @@ export const OrganizationChart = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#46A2B9]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00AEB2]"></div>
       </div>
     );
   }

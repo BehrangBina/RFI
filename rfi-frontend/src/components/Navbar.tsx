@@ -20,7 +20,7 @@ const Navbar = () => {
   const { cart } = useCart();
 
   return (
-    <nav className="bg-[#46A2B9]/95 fixed inset-x-0 top-0 z-50 shadow-md backdrop-blur">
+    <nav className="bg-[#00AEB2]/95 fixed inset-x-0 top-0 z-50 shadow-md backdrop-blur">
       <div className="mx-auto max-w-6xl px-4 py-3">
         <div className="flex items-center justify-between">
           <Link 
@@ -93,7 +93,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <ul
           className={[
-            'lg:hidden flex flex-col gap-3 font-semibold text-white bg-[#46A2B9] rounded-lg mt-4 p-4 shadow-lg',
+            'lg:hidden flex flex-col gap-3 font-semibold text-white bg-[#00AEB2] rounded-lg mt-4 p-4 shadow-lg',
             open ? 'block' : 'hidden'
           ].join(' ')}
         >

@@ -139,7 +139,7 @@ const Checkout: React.FC = () => {
         <div className="mb-8">
           <button
             onClick={() => navigate('/cart')}
-            className="text-[#46A2B9] hover:text-[#5bc0de] font-medium flex items-center gap-2 mb-4 transition-colors"
+            className="text-[#00AEB2] hover:text-[#5bc0de] font-medium flex items-center gap-2 mb-4 transition-colors"
           >
             <i className="fa-solid fa-arrow-left"></i>
             Back to Cart
@@ -154,7 +154,7 @@ const Checkout: React.FC = () => {
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${
                       s <= step
-                        ? 'bg-[#46A2B9] text-white'
+                        ? 'bg-[#00AEB2] text-white'
                         : 'bg-gray-600 text-gray-300'
                     }`}
                   >
@@ -198,7 +198,7 @@ const Checkout: React.FC = () => {
                         name="fullName"
                         value={shippingInfo.fullName}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent"
                         placeholder="John Doe"
                       />
                     </div>
@@ -213,7 +213,7 @@ const Checkout: React.FC = () => {
                           name="email"
                           value={shippingInfo.email}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent"
                           placeholder="john@example.com"
                         />
                       </div>
@@ -227,7 +227,7 @@ const Checkout: React.FC = () => {
                           name="phone"
                           value={shippingInfo.phone}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent"
                           placeholder="+1 (555) 123-4567"
                         />
                       </div>
@@ -242,7 +242,7 @@ const Checkout: React.FC = () => {
                         name="address"
                         value={shippingInfo.address}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent"
                         placeholder="123 Main Street, Apt 4B"
                       />
                     </div>
@@ -257,7 +257,7 @@ const Checkout: React.FC = () => {
                           name="city"
                           value={shippingInfo.city}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent"
                           placeholder="Sydney"
                         />
                       </div>
@@ -271,7 +271,7 @@ const Checkout: React.FC = () => {
                           name="postalCode"
                           value={shippingInfo.postalCode}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent"
                           placeholder="2000"
                         />
                       </div>
@@ -285,7 +285,7 @@ const Checkout: React.FC = () => {
                           name="country"
                           value={shippingInfo.country}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#46A2B9] focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00AEB2] focus:border-transparent"
                           placeholder="Australia"
                         />
                       </div>
@@ -294,7 +294,7 @@ const Checkout: React.FC = () => {
 
                   <button
                     onClick={handleNextStep}
-                    className="w-full mt-6 px-6 py-3 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
+                    className="w-full mt-6 px-6 py-3 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
                   >
                     Continue to Payment
                   </button>
@@ -312,7 +312,7 @@ const Checkout: React.FC = () => {
                         onClick={() => setPaymentMethod(method.id)}
                         className={`relative border-2 rounded-lg p-4 cursor-pointer transition-all ${
                           paymentMethod === method.id
-                            ? 'border-[#46A2B9] bg-[#46A2B9]/5'
+                            ? 'border-[#00AEB2] bg-[#00AEB2]/5'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
@@ -323,10 +323,10 @@ const Checkout: React.FC = () => {
                         )}
                         <div className="flex items-center gap-4">
                           <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                            paymentMethod === method.id ? 'border-[#46A2B9]' : 'border-gray-300'
+                            paymentMethod === method.id ? 'border-[#00AEB2]' : 'border-gray-300'
                           }`}>
                             {paymentMethod === method.id && (
-                              <div className="w-3 h-3 rounded-full bg-[#46A2B9]"></div>
+                              <div className="w-3 h-3 rounded-full bg-[#00AEB2]"></div>
                             )}
                           </div>
                           <i className={`fa-solid ${method.icon} text-2xl text-gray-700`}></i>
@@ -348,7 +348,7 @@ const Checkout: React.FC = () => {
                     </button>
                     <button
                       onClick={handleNextStep}
-                      className="flex-1 px-6 py-3 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
+                      className="flex-1 px-6 py-3 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium"
                     >
                       Review Order
                     </button>
@@ -411,7 +411,7 @@ const Checkout: React.FC = () => {
                     <button
                       onClick={handlePlaceOrder}
                       disabled={loading}
-                      className="flex-1 px-6 py-3 bg-[#46A2B9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="flex-1 px-6 py-3 bg-[#00AEB2] text-white rounded-lg hover:bg-[#5bc0de] transition-colors font-medium disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                       {loading ? (
                         <>

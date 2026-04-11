@@ -74,7 +74,7 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="max-w-4xl mx-auto px-4 text-center text-white">
                 {slide.subtitle && (
-                  <p className="text-lg md:text-xl mb-2 font-semibold text-[#46A2B9]">
+                  <p className="text-lg md:text-xl mb-2 font-semibold text-[#00AEB2]">
                     {slide.subtitle}
                   </p>
                 )}
@@ -89,7 +89,7 @@ const HeroCarousel = ({ slides }: HeroCarouselProps) => {
                 {slide.buttonText && slide.buttonLink && (
                   <a
                     href={slide.buttonLink}
-                    className="inline-block bg-[#46A2B9] hover:bg-[#3a8a9e] text-white font-semibold px-8 py-3 rounded-lg transition"
+                    className="inline-block bg-[#00AEB2] hover:bg-[#3a8a9e] text-white font-semibold px-8 py-3 rounded-lg transition"
                   >
                     {slide.buttonText}
                   </a>
